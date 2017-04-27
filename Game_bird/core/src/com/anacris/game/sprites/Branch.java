@@ -27,7 +27,9 @@ public class Branch {
         rightBranch = new Texture("rightBranch.png");
         rand = new Random();
         posLeftBranch = new Vector2(rand.nextInt(X_FLUCTUATION) + GAP_BRANCH + LOWEST_OPENING, y);
+      // posRightBranch = new Vector2(posLeftBranch.x - GAP_BRANCH - rightBranch.getWidth() ,y);
         posRightBranch = new Vector2(posLeftBranch.x - GAP_BRANCH - rightBranch.getWidth() ,y);
+
 
     }
 
