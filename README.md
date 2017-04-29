@@ -28,12 +28,21 @@ Project 2 for LPOO class
 * **Test Design:**
   * Listing of the expected final test cases
       testMoveBird() - Bird moves on user input;
+      
       testScore() - Score change when bird moves;
+      
       testCollisionStone() - Collision with a stone object;
+      
       testCollisionBranch() - Collision with a branch object;
+      
       testWaterRising() - Tests if water is rising;
+      
       testGetStar() - Bird get a star: the score changes (+ 100 pts);
+      
       testGetApple() - Bird get a apple: the score changes (+ 50 pts);
+      
       testPassLevel() - Pass for next level (case the score is more than a defined value);
+      
       testWinGame() - Tests if the user win the game;
-      testLoseGame() - Tests if the user lose the game;;
+      
+      testLoseGame() - Tests if the user lose the game;
