@@ -36,27 +36,27 @@ Project 2 for LPOO class
    <p align="center"> <img src="prj_images/mainMenu.png"> </p>
  
  * Design of play menu:
-    
-   <p align="center"> <img src="prj_images/gameMenu.png"> </p>
+ 
+<p align="center"> <img src="prj_images/gameMenu.png"> </p>
    
-    * Design of Game (level 1):
-    
-    <p align="center"> <img src="prj_images/game.png"> </p>
+ * Design of Game (level 1):
+ 
+<p align="center"> <img src="prj_images/game.png"> </p>
   
   
  * Design of the instructions:
-    
-    <p align="center"> <img src="prj_images/instructions.png"> </p>
+ 
+<p align="center"> <img src="prj_images/instructions.png"> </p>
   
   
  * Design of the scores:
-    
- <p align="center"> <img src="prj_images/scores.png"> </p>
+ 
+<p align="center"> <img src="prj_images/scores.png"> </p>
   
   
  * Design of the options:
     
- <p align="center"> <img src="prj_images/options.png"> </p>
+    <p align="center"> <img src="prj_images/options.png"> </p>
   
 
 * **Test Design:**
