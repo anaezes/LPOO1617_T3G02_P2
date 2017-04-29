@@ -23,7 +23,8 @@ Project 2 for LPOO class
   
   * GUI mock-up
   ![](https://github.com/anaezes/LPOO1617_T3G02_P2/blob/master/prj_images/final.png)
-
+  
+    ![](https://github.com/anaezes/LPOO1617_T3G02_P2/blob/master/prj_images/game1.png)
 
 * **Test Design:**
   * Listing of the expected final test cases
