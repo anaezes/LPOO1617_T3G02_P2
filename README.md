@@ -24,41 +24,40 @@ Project 2 for LPOO class
   * GUI mock-up
   
     * Mock-up general:
-    
+ 
   ![](https://github.com/anaezes/LPOO1617_T3G02_P2/blob/master/prj_images/final.png)
   
   
     * Design of main screen:
     
-  ![](https://github.com/anaezes/LPOO1617_T3G02_P2/blob/master/prj_images/init.png)
+    <p align="center"> <img src="prj_images/init.png"> </p>
   
     * Design of main menu:
     
-  ![](https://github.com/anaezes/LPOO1617_T3G02_P2/blob/master/prj_images/mainMenu.png)
-  
-  
+  <p align="center"> <img src="prj_images/mainMenu.png"> </p>
+ 
     * Design of play menu:
     
-  ![](https://github.com/anaezes/LPOO1617_T3G02_P2/blob/master/prj_images/gameMenu.png)
-   
+   <p align="center"> <img src="prj_images/gameMenu.png"> </p>
    
     * Design of Game (level 1):
     
-  ![](https://github.com/anaezes/LPOO1617_T3G02_P2/blob/master/prj_images/game.png)
+  <p align="center"> <img src="prj_images/game.png"> </p>
   
   
     * Design of the instructions:
     
-  ![](https://github.com/anaezes/LPOO1617_T3G02_P2/blob/master/prj_images/instructions.png)
+  <p align="center"> <img src="prj_images/instructions.png"> </p>
   
   
     * Design of the scores:
     
-  ![](https://github.com/anaezes/LPOO1617_T3G02_P2/blob/master/prj_images/scores.png)
+ <p align="center"> <img src="prj_images/scores.png"> </p>
   
   
     * Design of the options:
-  ![](https://github.com/anaezes/LPOO1617_T3G02_P2/blob/master/prj_images/options.png)
+    
+ <p align="center"> <img src="prj_images/options.png"> </p>
   
 
 * **Test Design:**
