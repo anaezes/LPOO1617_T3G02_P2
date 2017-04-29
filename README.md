@@ -8,7 +8,8 @@ Project 2 for LPOO class
       * up201305188 (up201305188@fe.up.pt)
       
       
-# Final Project Intermediate Check-Point: 
+Final Project Intermediate Check-Point:
+
 * ** Architecture Design:**
   * Package and class diagram (UML), documenting (describing) each class' responsibility
   
