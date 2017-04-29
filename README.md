@@ -21,7 +21,8 @@ Project 2 for LPOO class
 * **GUI Design:**
   * Identification/Listing of the main functionalities, present on the GUI
   
-  * GUI mock-ups
+  * GUI mock-up
+  ![](https://github.com/anaezes/LPOO1617_T3G02_P2/blob/master/prj_images/final.png)
 
 
 * **Test Design:**
