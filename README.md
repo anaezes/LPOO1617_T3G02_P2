@@ -27,6 +27,7 @@ Project 2 for LPOO class
 
 * **Test Design:**
   * Listing of the expected final test cases
+  
       testMoveBird() - Bird moves on user input;
       
       testScore() - Score change when bird moves;
