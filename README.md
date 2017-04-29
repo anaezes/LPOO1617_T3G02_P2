@@ -24,17 +24,16 @@ Project 2 for LPOO class
   * GUI mock-up
   
     * Mock-up general:
- 
-  ![](https://github.com/anaezes/LPOO1617_T3G02_P2/blob/master/prj_images/final.png)
-  
-  
+    
+    <p align="center"> <img src="prj_images/final.png"> </p>
+
     * Design of main screen:
     
     <p align="center"> <img src="prj_images/init.png"> </p>
   
     * Design of main menu:
     
-  <p align="center"> <img src="prj_images/mainMenu.png"> </p>
+   <p align="center"> <img src="prj_images/mainMenu.png"> </p>
  
     * Design of play menu:
     
@@ -42,12 +41,12 @@ Project 2 for LPOO class
    
     * Design of Game (level 1):
     
-  <p align="center"> <img src="prj_images/game.png"> </p>
+    <p align="center"> <img src="prj_images/game.png"> </p>
   
   
     * Design of the instructions:
     
-  <p align="center"> <img src="prj_images/instructions.png"> </p>
+    <p align="center"> <img src="prj_images/instructions.png"> </p>
   
   
     * Design of the scores:
@@ -61,7 +60,8 @@ Project 2 for LPOO class
   
 
 * **Test Design:**
-  * Listing of the expected final test cases
+
+   * Listing of the expected final test cases
   
       testMoveBird() - Bird moves on user input;
       
