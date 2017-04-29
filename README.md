@@ -22,26 +22,40 @@ Project 2 for LPOO class
   * Identification/Listing of the main functionalities, present on the GUI
   
   * GUI mock-up
+  
     * Mock-up general:
+    
   ![](https://github.com/anaezes/LPOO1617_T3G02_P2/blob/master/prj_images/final.png)
   
+  
     * Design of main screen:
+    
   ![](https://github.com/anaezes/LPOO1617_T3G02_P2/blob/master/prj_images/init.png)
   
     * Design of main menu:
+    
   ![](https://github.com/anaezes/LPOO1617_T3G02_P2/blob/master/prj_images/mainMenu.png)
   
+  
     * Design of play menu:
+    
   ![](https://github.com/anaezes/LPOO1617_T3G02_P2/blob/master/prj_images/gameMenu.png)
    
+   
     * Design of Game (level 1):
+    
   ![](https://github.com/anaezes/LPOO1617_T3G02_P2/blob/master/prj_images/game.png)
   
+  
     * Design of the instructions:
+    
   ![](https://github.com/anaezes/LPOO1617_T3G02_P2/blob/master/prj_images/instructions.png)
   
+  
     * Design of the scores:
+    
   ![](https://github.com/anaezes/LPOO1617_T3G02_P2/blob/master/prj_images/scores.png)
+  
   
     * Design of the options:
   ![](https://github.com/anaezes/LPOO1617_T3G02_P2/blob/master/prj_images/options.png)
