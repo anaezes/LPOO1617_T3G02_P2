@@ -10,7 +10,7 @@ Project 2 for LPOO class
       
 Final Project Intermediate Check-Point:
 
-* ** Architecture Design:**
+* **Architecture Design:**
   * Package and class diagram (UML), documenting (describing) each class' responsibility
   
   * Design of behavioural aspects (that you might consider relevant) of your application, depicted using dynamic UML diagrams (sequence, activity or state).
@@ -18,11 +18,11 @@ Final Project Intermediate Check-Point:
   * Expected (if any) Design Patterns to use on your application
 
 
-* ** GUI Design:**
+* **GUI Design:**
   * Identification/Listing of the main functionalities, present on the GUI
   
   * GUI mock-ups
 
 
-* ** Test Design:**
+* **Test Design:**
   * Listing of the expected final test cases
