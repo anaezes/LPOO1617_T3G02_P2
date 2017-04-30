@@ -42,6 +42,14 @@ Project 2 for LPOO class
 
 * **GUI Design:**
   * Identification/Listing of the main functionalities, present on the GUI
+    * Choose menu.
+    * Play the game:
+      - touching the screen to make the chicken fly.
+      - rotating the screen to make the chicken to avoid obstacles or catch awards. 
+    * Display game state.
+    * Change game options.
+    * Customize the chicken:
+      - choose another colors and items. 
   
   * GUI mock-up
   
