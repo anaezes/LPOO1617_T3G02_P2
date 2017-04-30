@@ -87,6 +87,10 @@ Project 2 for LPOO class
     * Design of the options:
     
     <p align="center"> <img src="prj_images/options.png"> </p> 
+    
+    * Design of the customize:
+    
+    <p align="center"> <img src="prj_images/customize.png"> </p> 
  
   
 * **Test Design:**
