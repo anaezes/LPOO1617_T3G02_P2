@@ -41,15 +41,18 @@ Project 2 for LPOO class
 
 
 * **GUI Design:**
-  * Identification/Listing of the main functionalities, present on the GUI
+  * Listing of the main functionalities, present on the GUI, and game description. 
     * Choose menu.
+    * Choose the level
+      - Each level has a different theme and to play them, with the exception of the first, you need to unlock them.
+      - The weight of the chicken increases with the passing of the levels (Physics).
     * Play the game:
-      - touching the screen to make the chicken fly.
-      - rotating the screen to make the chicken to avoid obstacles or catch awards. 
+      - Touching the screen to make the chicken fly.
+      - Rotating the screen to make the chicken to avoid obstacles or catch awards. 
     * Display game state.
     * Change game options.
     * Customize the chicken:
-      - choose another colors and items. 
+      - Choose another colors and items. 
   
   * GUI mock-up
   
