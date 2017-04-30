@@ -1,11 +1,11 @@
-package com.anacris.game.states;
+package GameView;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Stack;
 
 /**
- * Created by cristiana on 23-04-2017.
+ * Created by cristiana on 30-04-2017.
  */
 
 public class GameStateManager {

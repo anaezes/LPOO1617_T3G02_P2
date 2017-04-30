@@ -1,11 +1,11 @@
-package com.anacris.game.states;
+package GameView;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
 /**
- * Created by cristiana on 23-04-2017.
+ * Created by cristiana on 30-04-2017.
  */
 
 public abstract class State {
@@ -24,5 +24,4 @@ public abstract class State {
     public abstract void update (float dt);
     public abstract void render (SpriteBatch sb);
     public abstract void dispose();
-
 }
