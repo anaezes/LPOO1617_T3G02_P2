@@ -11,9 +11,26 @@ Project 2 for LPOO class
 # Final Project Intermediate Check-Point:
 
 * **Architecture Design:**
-  * Package and class diagram (UML), documenting (describing) each class' responsibility
+  * UML
+
+  <p align="center"> <img src="prj_images/uml.png"> </p>
   
-  * Design of behavioural aspects (that you might consider relevant) of your application, depicted using dynamic UML diagrams (sequence, activity or state).
+  * Sequences and state machines
+      * Interaction sheme
+      
+       <p align="center"> <img src="prj_images/InteractionScheme.png"> </p>
+       
+       * Menu state
+      
+       <p align="center"> <img src="prj_images/MenuState.png"> </p>
+       
+       * Game state
+       
+       <p align="center"> <img src="prj_images/GameState.png"> </p>
+       
+       * Level state
+       
+       <p align="center"> <img src="prj_images/LevelState.png"> </p>
   
   * Expected (if any) Design Patterns to use on your application
 
