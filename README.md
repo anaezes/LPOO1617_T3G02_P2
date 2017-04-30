@@ -33,10 +33,10 @@ Project 2 for LPOO class
        <p align="center"> <img src="prj_images/LevelState.png"> </p>
   
   * Expected Design Patterns:
-    * Model-View-Controller (MVC)
-    * Singleton
-    * Factory
-    * Fluent Builder
+    * Model-View-Controller (MVC).
+    * Singleton: Guarantee the existence of only one instance of the game.
+    * Factory : Delegate the creation of game objects (awards/obstaculs).
+    * Fluent Builder : Facilitate the setting of class parameters. 
     * ...
 
 
