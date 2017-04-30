@@ -32,7 +32,12 @@ Project 2 for LPOO class
        
        <p align="center"> <img src="prj_images/LevelState.png"> </p>
   
-  * Expected (if any) Design Patterns to use on your application
+  * Expected Design Patterns:
+    * Model-View-Controller (MVC)
+    * Singleton
+    * Factory
+    * Fluent Builder
+    * ...
 
 
 * **GUI Design:**
