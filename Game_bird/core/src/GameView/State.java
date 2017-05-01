@@ -13,6 +13,7 @@ public abstract class State {
     protected Vector3 mouse;
     protected GameStateManager gsm;
 
+
     public State(GameStateManager gsm){
         this.gsm = gsm;
         cam = new OrthographicCamera();

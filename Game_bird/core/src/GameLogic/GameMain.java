@@ -14,9 +14,17 @@ public class GameMain {
     private Bird bird;
     private Array<Branch> branches;
     private EnumGameLevel level;
+    private static GameMain instance = null;
 
     public GameMain() {
         level = EnumGameLevel.LevelOne;
+    }
+
+    public static GameMain GetInstance() {
+        if(instance == null) {
+            instance = new GameMain();
+        }
+        return instance;
     }
 
     public void createBird() {
