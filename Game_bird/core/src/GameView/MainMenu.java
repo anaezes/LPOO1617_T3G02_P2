@@ -113,18 +113,17 @@ public class MainMenu implements Screen {
 
         stage.addActor(table);*/
         stage.setDebugParentUnderMouse(true);
-        firstbtn.setPosition(Gdx.graphics.getWidth()/2-(firstbtn.getWidth()/2),Gdx.graphics.getHeight()-firstbtn.getHeight()-playButton.getHeight()-Gdx.graphics.getHeight()*0.2f);
-        //firstbtn.setPosition(91,450);
+        firstbtn.setPosition(91,450);
         instr.setPosition(91, 360);
         options.setPosition(91, 180);
         exit.setPosition(91, 90);
         scores.setPosition(91,270);
         stage.addActor(firstbtn);
-     /*   stage.addActor(instr);
+        stage.addActor(instr);
         stage.addActor(scores);
         stage.addActor(options);
         stage.addActor(exit);
-*/
+
 
 
         instr.addListener(new EventListener() {
@@ -176,7 +175,8 @@ public class MainMenu implements Screen {
 
     public void onClickOptions() {
         if(Gdx.input.isTouched()) {
-            System.out.println("Options");}
+            System.out.println("Options");
+        }
     }
 
     public void onClickOInstructions() {
