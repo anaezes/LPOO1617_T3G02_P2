@@ -14,11 +14,13 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
@@ -41,9 +43,10 @@ public class MainMenu implements Screen {
     private Viewport gamePort;
     private Stage stage;
     private Texture backGround;
-    private ImageButton playBtn;
+    private ImageButton firstbtn, instr, scores, options, exit;
     private FlyChicken game;
     private Texture btnTexture;
+
 
     private static MainMenu instance = null;
 
@@ -60,30 +63,77 @@ public class MainMenu implements Screen {
         stage = new Stage(gamePort, game.batch);
         Gdx.input.setInputProcessor(stage);
         backGround = new Texture(Gdx.files.internal("backg.png"));
-        btnTexture = new Texture(Gdx.files.internal("bir.png"));
+        btnTexture = new Texture(Gdx.files.internal("btn.png"));
 
-        TextureRegion regionBckg = new TextureRegion(backGround, 0 ,0);
-        Image bckg = new Image(regionBckg);
-
-        stage.addActor(bckg);
-
-        Texture playButton = new Texture(Gdx.files.internal("playbtn.png"));
-        TextureRegion playBtnRegion = new TextureRegion(playButton, 150, 150);
+        Texture playButton = new Texture(Gdx.files.internal("firstbtn.png"));
+        TextureRegion playBtnRegion = new TextureRegion(playButton);
         TextureRegionDrawable playBtnDraw = new TextureRegionDrawable(playBtnRegion);
-        playBtn = new ImageButton(playBtnDraw);
 
-        playBtn.addListener(new EventListener() {
+
+
+
+
+        TextureRegion btnRegion = new TextureRegion(btnTexture);
+        TextureRegionDrawable btnDrawOptn = new TextureRegionDrawable(btnRegion);
+        options = new ImageButton(btnDrawOptn);
+        firstbtn = new ImageButton(btnDrawOptn);
+        instr=new ImageButton(btnDrawOptn);
+        scores=new ImageButton(btnDrawOptn);
+        exit=new ImageButton(btnDrawOptn);
+
+
+
+        Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+
+/*
+        Table table = new Table();
+        table.setFillParent(true);
+        table.setDebug(true);
+        table.center();
+*/
+
+
+
+
+     //   table.setOrigin(FlyChicken.WIDTH/2, FlyChicken.HEIGHT/2);
+     //   table.setPosition(FlyChicken.WIDTH/2 - table.getWidth()/2, FlyChicken.HEIGHT/2-table.getHeight()/2);
+
+
+
+    //    table.setBounds(0,0,FlyChicken.WIDTH,FlyChicken.HEIGHT);
+
+     //   table.setTouchable(Touchable.enabled);
+
+
+
+    /*    table.add(playBtn).fill();
+
+        table.row();
+        table.add(options).setActorHeight(88);
+
+        stage.addActor(table);*/
+        stage.setDebugParentUnderMouse(true);
+        firstbtn.setPosition(Gdx.graphics.getWidth()/2-(firstbtn.getWidth()/2),Gdx.graphics.getHeight()-firstbtn.getHeight()-playButton.getHeight()-Gdx.graphics.getHeight()*0.2f);
+        //firstbtn.setPosition(91,450);
+        instr.setPosition(91, 360);
+        options.setPosition(91, 180);
+        exit.setPosition(91, 90);
+        scores.setPosition(91,270);
+        stage.addActor(firstbtn);
+     /*   stage.addActor(instr);
+        stage.addActor(scores);
+        stage.addActor(options);
+        stage.addActor(exit);
+*/
+
+
+        instr.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                onClickPlay();
+                onClickOInstructions();
                 return true;
             }
         });
-
-        TextureRegion btnRegion = new TextureRegion(btnTexture, 298, 88);
-        TextureRegionDrawable btnDrawOptn = new TextureRegionDrawable(btnRegion);
-        ImageButton options = new ImageButton(btnDrawOptn);
-
 
         options.addListener(new EventListener() {
             @Override
@@ -93,30 +143,56 @@ public class MainMenu implements Screen {
             }
         });
 
+        scores.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                onClickScores();
+                return true;
+            }
+        });
+        exit.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                onClickExit();
+                return true;
+            }
+        });
 
-        Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
-
-        Table table = new Table();
-        //table.top();
-        table.center();
-        table.setFillParent(true);
-        Label play = new Label("Play", font);
-        table.add(playBtn).expandX();
-        table.row();
-        table.add(options).expandX().setActorHeight(150);
-
-        stage.addActor(table);
+        firstbtn.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                onClickPlay();
+                return true;
+            }
+        });
     }
 
     public void onClickPlay() {
         if(Gdx.input.isTouched()) {
             game.setScreen(PlayState.GetInstance());
+            System.out.println("Play");
         }
     }
 
     public void onClickOptions() {
         if(Gdx.input.isTouched()) {
-            System.out.println("Options");
+            System.out.println("Options");}
+    }
+
+    public void onClickOInstructions() {
+        if(Gdx.input.isTouched()) {
+            System.out.println("Instr");
+        }
+    }
+    public void onClickScores() {
+        if(Gdx.input.isTouched()) {
+            System.out.println("Scores");
+        }
+    }
+    public void onClickExit() {
+        if(Gdx.input.isTouched()) {
+            System.out.println("Sair");
+            System.exit(0);
         }
     }
 
@@ -129,9 +205,9 @@ public class MainMenu implements Screen {
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
-        stage.getBatch().draw(backGround, 0,0, FlyChicken.WIDTH, FlyChicken.HEIGHT);
+     //   stage.getBatch().draw(backGround, 0,0, FlyChicken.WIDTH, FlyChicken.HEIGHT);
         stage.getBatch().end();
-
+        stage.act(delta);
         stage.draw();
 
     }
