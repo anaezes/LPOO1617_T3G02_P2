@@ -1,37 +1,19 @@
 package GameView;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import javax.xml.soap.Text;
-
-import sun.applet.Main;
 
 /**
  * Created by cristiana on 30-04-2017.
@@ -70,9 +52,6 @@ public class MainMenu implements Screen {
         TextureRegionDrawable playBtnDraw = new TextureRegionDrawable(playBtnRegion);
 
 
-
-
-
         TextureRegion btnRegion = new TextureRegion(btnTexture);
         TextureRegionDrawable btnDrawOptn = new TextureRegionDrawable(btnRegion);
         options = new ImageButton(btnDrawOptn);
@@ -82,36 +61,6 @@ public class MainMenu implements Screen {
         exit=new ImageButton(btnDrawOptn);
 
 
-
-        Label.LabelStyle font = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
-
-/*
-        Table table = new Table();
-        table.setFillParent(true);
-        table.setDebug(true);
-        table.center();
-*/
-
-
-
-
-     //   table.setOrigin(FlyChicken.WIDTH/2, FlyChicken.HEIGHT/2);
-     //   table.setPosition(FlyChicken.WIDTH/2 - table.getWidth()/2, FlyChicken.HEIGHT/2-table.getHeight()/2);
-
-
-
-    //    table.setBounds(0,0,FlyChicken.WIDTH,FlyChicken.HEIGHT);
-
-     //   table.setTouchable(Touchable.enabled);
-
-
-
-    /*    table.add(playBtn).fill();
-
-        table.row();
-        table.add(options).setActorHeight(88);
-
-        stage.addActor(table);*/
         stage.setDebugParentUnderMouse(true);
         firstbtn.setPosition(91,450);
         instr.setPosition(91, 360);
@@ -238,44 +187,3 @@ public class MainMenu implements Screen {
         stage.dispose();
     }
 }
-
-/*
-    @Override
-    public void handleinput() {
-
-        mouse = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-        cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.unproject(mouse);
-
-        if(Gdx.input.isTouched()){
-            //   System.out.println(playbtn.getHeight());
-            //   System.out.println(playbtn.getWidth());
-
-            //   System.out.println(Gdx.input.getX());
-            //   System.out.println(Gdx.input.getY());
-
-
-            if (mouse.x>= 175 && mouse.x <=(175+playbtn.getWidth()) &&
-                    mouse.y>=150 && mouse.y <=(150 + playbtn.getHeight())){
-                System.out.println("carrega");
-                gsm.set(PlayState.GetInstance(gsm));
-                dispose();
-            }
-        }
-    }
-
-    @Override
-    public void update(float dt) {
-        handleinput();
-    }
-
-    @Override
-    public void render(SpriteBatch sb) {
-        sb.begin();
-        sb.draw(background, 0,0, ViewMain.WIDTH, ViewMain.HEIGHT);
-        sb.draw(playbtn, 175, 150);
-        sb.end();
-
-    }*/
-
