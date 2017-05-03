@@ -137,6 +137,7 @@ public class MainMenu implements Screen {
     }
 
     public void onClickOptions() {
+        game.setScreen(OptionsMenu.GetInstance());
             System.out.println("Options");
     }
 
@@ -145,6 +146,7 @@ public class MainMenu implements Screen {
             System.out.println("Instr");
     }
     public void onClickScores() {
+            game.setScreen(ScoresMenu.GetInstance());
             System.out.println("Scores");
     }
     public void onClickExit() {
