@@ -21,7 +21,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class MainMenu implements Screen {
 
-
     private Viewport gamePort;
     private Stage stage;
     private Texture backGround;
@@ -43,7 +42,8 @@ public class MainMenu implements Screen {
         this.game = game;
         gamePort = new FitViewport(FlyChicken.WIDTH, FlyChicken.HEIGHT, new OrthographicCamera());
         stage = new Stage(gamePort, game.batch);
-        Gdx.input.setInputProcessor(stage);
+        System.out.println("construtor");
+
         backGround = new Texture(Gdx.files.internal("backg.png"));
         btnTexture = new Texture(Gdx.files.internal("btn.png"));
 
@@ -78,15 +78,21 @@ public class MainMenu implements Screen {
         instr.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                onClickOInstructions();
-                return true;
+                if(instr.isPressed()){
+                    onClickOInstructions();
+                }
+
+                return false;
             }
         });
 
         options.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                onClickOptions();
+                if(options.isPressed()){
+                    onClickOptions();
+                }
+
                 return true;
             }
         });
@@ -94,14 +100,20 @@ public class MainMenu implements Screen {
         scores.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                onClickScores();
+                if(scores.isPressed()){
+                    onClickScores();
+                }
+
                 return true;
             }
         });
         exit.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                onClickExit();
+                if(exit.isPressed()){
+                    onClickExit();
+                }
+
                 return true;
             }
         });
@@ -109,46 +121,40 @@ public class MainMenu implements Screen {
         firstbtn.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                onClickPlay();
+                if(firstbtn.isPressed()){
+                    onClickPlay();
+                }
+
                 return true;
             }
         });
     }
 
     public void onClickPlay() {
-        if(Gdx.input.isTouched()) {
+            this.dispose();
             game.setScreen(PlayState.GetInstance());
             System.out.println("Play");
-        }
     }
 
     public void onClickOptions() {
-        if(Gdx.input.isTouched()) {
             System.out.println("Options");
-        }
     }
 
     public void onClickOInstructions() {
-        if(Gdx.input.isTouched()) {
             game.setScreen(InstructionMenu.GetInstance());
             System.out.println("Instr");
-        }
     }
     public void onClickScores() {
-        if(Gdx.input.isTouched()) {
             System.out.println("Scores");
-        }
     }
     public void onClickExit() {
-        if(Gdx.input.isTouched()) {
             System.out.println("Sair");
             System.exit(0);
-        }
     }
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(this.stage);
     }
 
     @Override
@@ -159,6 +165,7 @@ public class MainMenu implements Screen {
         stage.getBatch().end();
         stage.act(delta);
         stage.draw();
+
 
     }
 
@@ -179,7 +186,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void hide() {
-
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override

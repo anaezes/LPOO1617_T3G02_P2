@@ -37,8 +37,8 @@ public class InstructionMenu implements Screen {
     public InstructionMenu(FlyChicken game) {
         this.game=game;
         gamePort = new FitViewport(FlyChicken.WIDTH, FlyChicken.HEIGHT, new OrthographicCamera());
-        stage = new Stage(gamePort);
-        Gdx.input.setInputProcessor(stage);
+        stage = new Stage(gamePort, game.batch);
+
 
         backGround = new Texture(Gdx.files.internal("backg.png"));
         btnreturn = new Texture(Gdx.files.internal("returnbtn.png"));
@@ -54,25 +54,27 @@ public class InstructionMenu implements Screen {
         goBack.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                onClickBack();
+                if(goBack.isPressed()){
+                    onClickBack();
+                }
                 return true;
             }
         });
     }
 
         public void onClickBack() {
-            if(Gdx.input.isTouched()) {
+                System.out.println("GoBack");
                 game.setScreen(MainMenu.GetInstance());
 
-                System.out.println("GoBack");
-            }
+                System.out.println("GoBack to main menu");
+
         }
 
 
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -103,6 +105,7 @@ public class InstructionMenu implements Screen {
 
     @Override
     public void hide() {
+        Gdx.input.setInputProcessor(null);
 
     }
 
