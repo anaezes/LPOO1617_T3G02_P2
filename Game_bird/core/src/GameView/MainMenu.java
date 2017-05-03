@@ -130,6 +130,7 @@ public class MainMenu implements Screen {
 
     public void onClickOInstructions() {
         if(Gdx.input.isTouched()) {
+            game.setScreen(InstructionMenu.GetInstance());
             System.out.println("Instr");
         }
     }
