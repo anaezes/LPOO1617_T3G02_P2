@@ -24,10 +24,8 @@ public class MainMenu implements Screen {
     private Viewport gamePort;
     private Stage stage;
     private Texture backGround;
-    private ImageButton firstbtn, instr, scores, options, exit;
+    private ImageButton playBtn, instructionsBtn, scoresBtn, optionsBtn, exitBtn;
     private FlyChicken game;
-    private Texture btnTexture;
-
 
     private static MainMenu instance = null;
 
@@ -43,42 +41,57 @@ public class MainMenu implements Screen {
         gamePort = new FitViewport(FlyChicken.WIDTH, FlyChicken.HEIGHT, new OrthographicCamera());
         stage = new Stage(gamePort, game.batch);
         System.out.println("construtor");
+        backGround = new Texture(Gdx.files.internal("bg.png"));
 
-        backGround = new Texture(Gdx.files.internal("backg.png"));
-        btnTexture = new Texture(Gdx.files.internal("btn.png"));
+        Texture tmp = new Texture(Gdx.files.internal("playBtn.png"));
+        TextureRegion btnRegion = new TextureRegion(tmp);
+        TextureRegionDrawable btnDraw = new TextureRegionDrawable(btnRegion);
+        playBtn = new ImageButton(btnDraw);
 
-        Texture playButton = new Texture(Gdx.files.internal("firstbtn.png"));
-        TextureRegion playBtnRegion = new TextureRegion(playButton);
-        TextureRegionDrawable playBtnDraw = new TextureRegionDrawable(playBtnRegion);
+        tmp = new Texture(Gdx.files.internal("instructionsBtn.png"));
+        btnRegion = new TextureRegion(tmp);
+        btnDraw = new TextureRegionDrawable(btnRegion);
+        instructionsBtn = new ImageButton(btnDraw);
 
+        tmp = new Texture(Gdx.files.internal("scoresBtn.png"));
+        btnRegion = new TextureRegion(tmp);
+        btnDraw = new TextureRegionDrawable(btnRegion);
+        scoresBtn = new ImageButton(btnDraw);
 
-        TextureRegion btnRegion = new TextureRegion(btnTexture);
-        TextureRegionDrawable btnDrawOptn = new TextureRegionDrawable(btnRegion);
-        options = new ImageButton(btnDrawOptn);
-        firstbtn = new ImageButton(btnDrawOptn);
-        instr=new ImageButton(btnDrawOptn);
-        scores=new ImageButton(btnDrawOptn);
-        exit=new ImageButton(btnDrawOptn);
+        tmp = new Texture(Gdx.files.internal("optionsBtn.png"));
+        btnRegion = new TextureRegion(tmp);
+        btnDraw = new TextureRegionDrawable(btnRegion);
+        optionsBtn = new ImageButton(btnDraw);
+
+        tmp = new Texture(Gdx.files.internal("exitBtn.png"));
+        btnRegion = new TextureRegion(tmp);
+        btnDraw = new TextureRegionDrawable(btnRegion);
+        exitBtn = new ImageButton(btnDraw);
 
 
         stage.setDebugParentUnderMouse(true);
-        firstbtn.setPosition(91,450);
-        instr.setPosition(91, 360);
-        options.setPosition(91, 180);
-        exit.setPosition(91, 90);
-        scores.setPosition(91,270);
-        stage.addActor(firstbtn);
-        stage.addActor(instr);
-        stage.addActor(scores);
-        stage.addActor(options);
-        stage.addActor(exit);
 
+        playBtn.setPosition(FlyChicken.WIDTH/2-playBtn.getWidth()/2,
+                FlyChicken.HEIGHT-playBtn.getHeight());
+        instructionsBtn.setPosition(FlyChicken.WIDTH/2-playBtn.getWidth()/2,
+                FlyChicken.HEIGHT-playBtn.getHeight()*2);
+        scoresBtn.setPosition(FlyChicken.WIDTH/2-playBtn.getWidth()/2,
+                FlyChicken.HEIGHT-playBtn.getHeight()*3);
+        optionsBtn.setPosition(FlyChicken.WIDTH/2-playBtn.getWidth()/2,
+                FlyChicken.HEIGHT-playBtn.getHeight()*4);
+        exitBtn.setPosition(FlyChicken.WIDTH/2-playBtn.getWidth()/2,
+                FlyChicken.HEIGHT-playBtn.getHeight()*5);
 
+        stage.addActor(playBtn);
+        stage.addActor(instructionsBtn);
+        stage.addActor(scoresBtn);
+        stage.addActor(optionsBtn);
+        stage.addActor(exitBtn);
 
-        instr.addListener(new EventListener() {
+        instructionsBtn.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                if(instr.isPressed()){
+                if(instructionsBtn.isPressed()){
                     onClickOInstructions();
                 }
 
@@ -86,10 +99,10 @@ public class MainMenu implements Screen {
             }
         });
 
-        options.addListener(new EventListener() {
+        optionsBtn.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                if(options.isPressed()){
+                if(optionsBtn.isPressed()){
                     onClickOptions();
                 }
 
@@ -97,20 +110,21 @@ public class MainMenu implements Screen {
             }
         });
 
-        scores.addListener(new EventListener() {
+        scoresBtn.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                if(scores.isPressed()){
+                if(scoresBtn.isPressed()){
                     onClickScores();
                 }
 
                 return true;
             }
         });
-        exit.addListener(new EventListener() {
+
+        exitBtn.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                if(exit.isPressed()){
+                if(exitBtn.isPressed()){
                     onClickExit();
                 }
 
@@ -118,10 +132,10 @@ public class MainMenu implements Screen {
             }
         });
 
-        firstbtn.addListener(new EventListener() {
+        playBtn.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                if(firstbtn.isPressed()){
+                if(playBtn.isPressed()){
                     onClickPlay();
                 }
 
@@ -163,7 +177,7 @@ public class MainMenu implements Screen {
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
-     //   stage.getBatch().draw(backGround, 0,0, FlyChicken.WIDTH, FlyChicken.HEIGHT);
+        stage.getBatch().draw(backGround, 0, 0, FlyChicken.WIDTH, FlyChicken.HEIGHT);
         stage.getBatch().end();
         stage.act(delta);
         stage.draw();

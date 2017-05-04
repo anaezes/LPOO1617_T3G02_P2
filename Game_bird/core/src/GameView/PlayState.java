@@ -6,13 +6,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
-import GameLogic.Bird;
 import GameLogic.Branch;
 import GameLogic.GameMain;
 
@@ -21,9 +17,14 @@ import GameLogic.GameMain;
  */
 
 public class PlayState implements Screen {
+
+    private static final int WALL_X_OFFSET = -40;
     private static final int BRANCH_SPACING = 125;
     private static final int BRANCH_COUNT = 10;
     private Texture background;
+
+    private Texture rightWall, leftWall;
+    private Vector2 rightWallPos1, rightWallPos2, leftWallPos1, leftWallPos2;
 
     private static PlayState instance = null;
 
@@ -41,7 +42,7 @@ public class PlayState implements Screen {
         gamePort = new FitViewport(FlyChicken.WIDTH, FlyChicken.HEIGHT, cam);
 
         cam.setToOrtho(false, FlyChicken.WIDTH / 2, FlyChicken.HEIGHT / 2);
-        background = new Texture("stars.png");
+        background = new Texture("simple_bg.png");
 
         backPos1 = new Vector2(0, cam.position.y - (cam.viewportHeight));
         backPos2 = new Vector2(0, cam.position.y - (cam.viewportHeight) + background.getHeight());
@@ -50,6 +51,24 @@ public class PlayState implements Screen {
         game.createBird();
         game.createBranchs(BRANCH_COUNT, BRANCH_SPACING);
 
+        rightWall = new Texture("wallRight.png");
+        rightWallPos1 = new Vector2(WALL_X_OFFSET, cam.position.y - cam.viewportHeight/2);
+        rightWallPos2 = new Vector2(WALL_X_OFFSET, (cam.position.x - cam.viewportWidth/2) + rightWall.getHeight());
+
+        leftWall = new Texture("wallLeft.png");
+
+        /*
+        System.out.print("x1: ");
+        System.out.println(FlyChicken.WIDTH - (leftWall.getWidth()+WALL_X_OFFSET));
+        System.out.print("y1: ");
+        System.out.println(cam.position.y - cam.viewportHeight/2);
+        System.out.print("x2: ");
+        System.out.println(FlyChicken.WIDTH - (leftWall.getWidth()+WALL_X_OFFSET));
+        System.out.print("y2: ");
+        System.out.println((cam.position.x - cam.viewportWidth/2) + leftWall.getHeight());*/
+
+        leftWallPos1 = new Vector2(FlyChicken.WIDTH - (leftWall.getWidth()+WALL_X_OFFSET), cam.position.y - cam.viewportHeight/2);
+        leftWallPos2 = new Vector2(FlyChicken.WIDTH - (leftWall.getWidth()+WALL_X_OFFSET), (cam.position.x - cam.viewportWidth/2) + leftWall.getHeight());
     }
 
     public static PlayState GetInstance() {
@@ -74,6 +93,7 @@ public class PlayState implements Screen {
 
         handleinput();
         updateBackground();
+        updateWalls();
 
         game.GetGameBird().update(delta);
         cam.position.y= game.GetGameBird().getPosition().y +80;
@@ -90,6 +110,12 @@ public class PlayState implements Screen {
             gameMain.batch.draw(branch.getLeftBranch(), branch.getPosLeftBranch().x, branch.getPosLeftBranch().y);
             gameMain.batch.draw(branch.getRightBranch(), branch.getPosRightBranch().x, branch.getPosRightBranch().y);
         }
+
+        gameMain.batch.draw(rightWall, rightWallPos1.x, rightWallPos1.y);
+        gameMain.batch.draw(rightWall, rightWallPos2.x, rightWallPos2.y);
+
+        gameMain.batch.draw(leftWall, leftWallPos1.x, leftWallPos1.y);
+        gameMain.batch.draw(leftWall, leftWallPos2.x, leftWallPos2.y);
 
         cam.update();
 
@@ -118,6 +144,22 @@ public class PlayState implements Screen {
             backPos2.add(0, background.getHeight()*2);
 
     }
+
+    public void updateWalls() {
+        if(cam.position.y - (cam.viewportHeight / 2) > rightWallPos1.y + rightWall.getHeight())
+            rightWallPos1.add(0, rightWall.getHeight()*2);
+
+        if(cam.position.y - (cam.viewportHeight / 2) > rightWallPos2.y + rightWall.getHeight())
+            rightWallPos2.add(0, rightWall.getHeight()*2);
+
+        if(cam.position.y + (cam.viewportHeight / 2) > leftWallPos1.y - leftWall.getHeight())
+            leftWallPos1.add(0, leftWall.getHeight()*2);
+
+        if(cam.position.y + (cam.viewportHeight / 2) > leftWallPos2.y - leftWall.getHeight())
+            leftWallPos2.add(0, leftWall.getHeight()*2);
+    }
+
+
 
     @Override
     public void resize(int width, int height) {

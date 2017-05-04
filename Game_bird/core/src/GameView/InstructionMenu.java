@@ -40,7 +40,7 @@ public class InstructionMenu implements Screen {
         stage = new Stage(gamePort, game.batch);
 
 
-        backGround = new Texture(Gdx.files.internal("backg.png"));
+        backGround = new Texture(Gdx.files.internal("bg.png"));
         btnreturn = new Texture(Gdx.files.internal("returnbtn.png"));
         TextureRegion returnBtnRegion = new TextureRegion(btnreturn);
         TextureRegionDrawable returnBtnDraw = new TextureRegionDrawable(returnBtnRegion);
@@ -49,7 +49,6 @@ public class InstructionMenu implements Screen {
         stage.setDebugParentUnderMouse(true);
         goBack.setPosition(50,50);
         stage.addActor(goBack);
-
 
         goBack.addListener(new EventListener() {
             @Override
@@ -67,7 +66,6 @@ public class InstructionMenu implements Screen {
                 game.setScreen(MainMenu.GetInstance());
 
                 System.out.println("GoBack to main menu");
-
         }
 
 
