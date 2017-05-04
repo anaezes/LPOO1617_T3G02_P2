@@ -1,5 +1,6 @@
 package GameLogic;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector3;
 
@@ -10,7 +11,8 @@ import com.badlogic.gdx.math.Vector3;
 public class Bird extends GameObject {
 
     private double weight;
-    private static final int GRAVITY = -5;
+    private static final int GRAVITY_X = -5;
+    private static final int GRAVITY_Y = -7;
     private Vector3 position;
     private Vector3 velocity;
     private Texture birdTexture;
@@ -29,9 +31,9 @@ public class Bird extends GameObject {
 
     public void update(float dt){
         if(position.y > 0)
-            velocity.add(0,GRAVITY,0);
+            velocity.add(GRAVITY_X, GRAVITY_Y,0);
         velocity.scl(dt);
-        position.add(0,velocity.y,0);
+        position.add(-Gdx.input.getAccelerometerX(),velocity.y,0);
 
         if(position.y <=0)
             position.y=0;
@@ -47,7 +49,7 @@ public class Bird extends GameObject {
     }
 
     public void jump(){
-        velocity.y = 200;
+        velocity.y = 300;
         velocity.x = 300;
     }
 

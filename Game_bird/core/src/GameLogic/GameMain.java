@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class GameMain {
     private Bird bird;
     private Array<Branch> branches;
+    private Water water;
     private EnumGameLevel level;
     private static GameMain instance = null;
 
@@ -29,6 +30,10 @@ public class GameMain {
 
     public void createBird() {
         bird = new Bird(50,300,100);
+    }
+
+    public void createWater() {
+        water = new Water(0,0);
     }
 
     public void createBranchs(int numOfBranchs, int branchSpacing) {
@@ -49,6 +54,10 @@ public class GameMain {
 
     public Bird GetGameBird() {
         return bird;
+    }
+
+    public Water GetWater() {
+        return water;
     }
 
     public Array<Branch> GetGameBranches() {

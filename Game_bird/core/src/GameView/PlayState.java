@@ -12,11 +12,12 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import GameLogic.Branch;
 import GameLogic.GameMain;
 
+
 /**
  * Created by cristiana on 30-04-2017.
  */
 
-public class PlayState implements Screen {
+public class PlayState implements Screen  {
 
     private static final int WALL_X_OFFSET = -40;
     private static final int BRANCH_SPACING = 125;
@@ -49,6 +50,7 @@ public class PlayState implements Screen {
 
         game = GameMain.GetInstance();
         game.createBird();
+        game.createWater();
         game.createBranchs(BRANCH_COUNT, BRANCH_SPACING);
 
         leftWall = new Texture("wallLeft.png");
@@ -58,6 +60,7 @@ public class PlayState implements Screen {
         rightWall = new Texture("wallRight.png");
         rightWallPos1 = new Vector2(FlyChicken.WIDTH/2 - (rightWall.getWidth() + WALL_X_OFFSET), cam.position.y - cam.viewportHeight/2);
         rightWallPos2 = new Vector2(FlyChicken.WIDTH/2- (rightWall.getWidth() + WALL_X_OFFSET), (cam.position.x - cam.viewportWidth/2) + rightWall.getHeight());
+
     }
 
     public static PlayState GetInstance() {
@@ -90,6 +93,8 @@ public class PlayState implements Screen {
         gameMain.batch.draw(background, backPos1.x, backPos1.y);
         gameMain.batch.draw(background, backPos2.x, backPos2.y);
 
+
+
         gameMain.batch.draw(game.GetGameBird().getBirdTexture(), game.GetGameBird().getPosition().x, game.GetGameBird().getPosition().y);
 
         for (Branch branch : game.GetGameBranches()) {
@@ -98,9 +103,6 @@ public class PlayState implements Screen {
             }
             gameMain.batch.draw(branch.getRightBranch(), branch.getPosLeftBranch().x, branch.getPosLeftBranch().y);
             gameMain.batch.draw(branch.getLeftBranch(), branch.getPosRightBranch().x, branch.getPosRightBranch().y);
-
-            System.out.print("b1: ");
-            System.out.println(branch.getPosRightBranch().x);
         }
 
         gameMain.batch.draw(leftWall, leftWallPos1.x, leftWallPos1.y);
@@ -109,6 +111,7 @@ public class PlayState implements Screen {
         gameMain.batch.draw(rightWall, rightWallPos1.x, rightWallPos1.y);
         gameMain.batch.draw(rightWall, rightWallPos2.x, rightWallPos2.y);
 
+        gameMain.batch.draw(game.GetWater().getWaterTexture(), 0, 0);
         cam.update();
 
         gameMain.batch.end();
@@ -123,6 +126,10 @@ public class PlayState implements Screen {
 
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             System.out.println(Input.Keys.LEFT);
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            return;
         }
 
     }
