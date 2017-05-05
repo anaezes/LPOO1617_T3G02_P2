@@ -22,15 +22,14 @@ public class PlayState implements Screen  {
     private static final int WALL_X_OFFSET = -40;
     private static final int BRANCH_SPACING = 125;
     private static final int BRANCH_COUNT = 10;
-    private Texture background;
 
     private Texture leftWall, rightWall;
     private Vector2 leftWallPos1, leftWallPos2, rightWallPos1, rightWallPos2;
 
     private static PlayState instance = null;
 
-    private Vector2 backPos1, backPos2;
     private GameMain game;
+    private float birdPosY;
 
     private FlyChicken gameMain;
     private OrthographicCamera cam;
@@ -44,12 +43,10 @@ public class PlayState implements Screen  {
 
         cam.setToOrtho(false, FlyChicken.WIDTH / 2, FlyChicken.HEIGHT / 2);
 
-        background = new Texture("simple_bg.png");
-        backPos1 = new Vector2(0, cam.position.y - (cam.viewportHeight));
-        backPos2 = new Vector2(0, cam.position.y - (cam.viewportHeight) + background.getHeight());
-
         game = GameMain.GetInstance();
         game.createBird();
+
+        birdPosY = game.GetGameBird().getPosition().y;
         game.createWater();
         game.createBranchs(BRANCH_COUNT, BRANCH_SPACING);
 
@@ -77,22 +74,17 @@ public class PlayState implements Screen  {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1,0,0,1);
+        Gdx.gl.glClearColor(54/255f, 204/255f, 253/255f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         gameMain.batch.setProjectionMatrix(cam.combined);
         gameMain.batch.begin();
 
         handleinput();
-        updateBackground();
-        updateWalls();
+        updateWalls(game.GetGameBird().getPosition().y);
 
         game.GetGameBird().update(delta);
         cam.position.y= game.GetGameBird().getPosition().y +80;
-
-        gameMain.batch.draw(background, backPos1.x, backPos1.y);
-        gameMain.batch.draw(background, backPos2.x, backPos2.y);
-
 
 
         gameMain.batch.draw(game.GetGameBird().getBirdTexture(), game.GetGameBird().getPosition().x, game.GetGameBird().getPosition().y);
@@ -134,30 +126,55 @@ public class PlayState implements Screen  {
 
     }
 
-    public void updateBackground(){
+    public void updateWalls(float currentBirdPosY) {
 
-        if(cam.position.y - (cam.viewportHeight/2) > backPos1.y + background.getHeight())
-            backPos1.add(0, background.getHeight()*2);
+        if(currentBirdPosY >= birdPosY)
+        {
+            if (cam.position.y - (cam.viewportHeight / 2) > leftWallPos1.y + leftWall.getHeight())
+                leftWallPos1.add(0, leftWall.getHeight() * 2);
 
-        if(cam.position.y - (cam.viewportHeight/2) > backPos2.y + background.getHeight())
-            backPos2.add(0, background.getHeight()*2);
+            if (cam.position.y - (cam.viewportHeight / 2) > leftWallPos2.y + leftWall.getHeight())
+                leftWallPos2.add(0, leftWall.getHeight() * 2);
 
-    }
+            if (cam.position.y - (cam.viewportHeight / 2) > rightWallPos1.y + rightWall.getHeight())
+                rightWallPos1.add(0, rightWall.getHeight() * 2);
 
-    public void updateWalls() {
+            if (cam.position.y - (cam.viewportHeight / 2) > rightWallPos2.y + rightWall.getHeight())
+                rightWallPos2.add(0, rightWall.getHeight() * 2);
+        }
+        else
+        {
+            System.out.println("PIM");
+            System.out.print("leftWallPos2.y: ");
+            System.out.println(leftWallPos2.y);
 
-        if(cam.position.y - (cam.viewportHeight / 2) > leftWallPos1.y + leftWall.getHeight())
-            leftWallPos1.add(0, leftWall.getHeight()*2);
+            System.out.print("cam.position.y: ");
+            System.out.println(cam.position.y);
 
-        if(cam.position.y - (cam.viewportHeight / 2) > leftWallPos2.y + leftWall.getHeight())
-            leftWallPos2.add(0, leftWall.getHeight()*2);
+            if (cam.position.y < leftWallPos1.y)
+                leftWallPos2.add(0, -(leftWallPos1.y - leftWall.getHeight()));
 
-        if(cam.position.y - (cam.viewportHeight / 2) > rightWallPos1.y + rightWall.getHeight())
-            rightWallPos1.add(0, rightWall.getHeight()*2);
 
-        if(cam.position.y - (cam.viewportHeight / 2) > rightWallPos2.y + rightWall.getHeight())
-            rightWallPos2.add(0, rightWall.getHeight()*2);
+            System.out.print("-leftWallPos1.y - leftWall.getHeight(): ");
+            System.out.println(-leftWallPos1.y);
 
+            System.out.print("leftWallPos2.y: ");
+            System.out.println(leftWallPos2.y);
+
+            if (cam.position.y < leftWallPos2.y)
+                leftWallPos1.add(0, -(leftWallPos2.y - leftWall.getHeight()));
+
+
+
+
+            if (cam.position.y - (cam.viewportHeight / 2) > rightWallPos1.y )
+                rightWallPos1.add(0, -rightWall.getHeight() * 2);
+
+            if (cam.position.y - (cam.viewportHeight / 2) > rightWallPos2.y )
+                rightWallPos2.add(0, -rightWall.getHeight() * 2);
+        }
+
+        this.birdPosY = currentBirdPosY;
     }
 
 
@@ -187,72 +204,3 @@ public class PlayState implements Screen  {
 
     }
 }
-
-/*
-    @Override
-    public void handleinput() {
-        if(Gdx.input.justTouched()){
-            game.GetGameBird().jump();
-            //game.GetGameBird().setWeight(game.GetGameBird().getWeight() + 10);
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            System.out.println(Input.Keys.LEFT);
-        }
-
-    }
-
-    @Override
-    public void update(float dt) {
-        handleinput();
-        updateBackground();
-
-        game.GetGameBird().update(dt);
-        cam.position.y= game.GetGameBird().getPosition().y +80;
-
-        for (Branch branch : game.GetGameBranches()){
-            if(cam.position.y - (cam.viewportHeight/2) > branch.getPosRightBranch().y + branch.getLeftBranch().getHeight()){
-                branch.reposition(branch.getPosRightBranch().y + ((Branch.B_HEIGHT + BRANCH_SPACING) * BRANCH_COUNT));
-            }
-        }
-
-        cam.update();
-
-    }
-
-    @Override
-    public void render(SpriteBatch sb) {
-        sb.setProjectionMatrix(cam.combined);
-        sb.begin();
-        //   sb.draw(background, cam.position.x - (cam.viewportWidth/2), 0);
-
-        sb.draw(background, backPos1.x, backPos1.y);
-        sb.draw(background, backPos2.x, backPos2.y);
-
-        sb.draw(game.GetGameBird().getBirdTexture(), game.GetGameBird().getPosition().x, game.GetGameBird().getPosition().y);
-
-        for (Branch branch : game.GetGameBranches()) {
-            sb.draw(branch.getRightBranch(), branch.getPosLeftBranch().x, branch.getPosLeftBranch().y);
-            sb.draw(branch.getLeftBranch(), branch.getPosRightBranch().x, branch.getPosRightBranch().y);
-        }
-        sb.end();
-
-    }
-
-    @Override
-    public void dispose() {
-
-    }
-
-    public void updateBackground(){
-
-        if(cam.position.y - (cam.viewportHeight/2) > backPos1.y + background.getHeight())
-            backPos1.add(0, background.getHeight()*2);
-
-        if(cam.position.y - (cam.viewportHeight/2) > backPos2.y + background.getHeight())
-            backPos2.add(0, background.getHeight()*2);
-
-    }
-
-    */
-
