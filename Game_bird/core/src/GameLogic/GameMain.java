@@ -1,14 +1,6 @@
 package GameLogic;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
-import java.util.ArrayList;
-
-/**
- * Created by cristiana on 30-04-2017.
- */
 
 public class GameMain {
     private Bird bird;
@@ -28,12 +20,12 @@ public class GameMain {
         return instance;
     }
 
-    public void createBird() {
-        bird = new Bird(50,300,100);
+    public void createBird(int width) {
+        bird = new Bird(100, width ,100);
     }
 
     public void createWater() {
-        water = new Water(0,0);
+        water = new Water(0, 0);
     }
 
     public void createBranchs(int numOfBranchs, int branchSpacing) {
@@ -52,7 +44,7 @@ public class GameMain {
         this.level = level;
     }
 
-    public Bird GetGameBird() {
+    public Bird getGameBird() {
         return bird;
     }
 
@@ -62,6 +54,17 @@ public class GameMain {
 
     public Array<Branch> GetGameBranches() {
         return branches;
+    }
+
+    public boolean checkCollisions() {
+
+        for (int i=1; i < branches.size; i++){
+            if(bird.getBounds().overlaps(branches.get(i).getBoundsLeftBranch()) ||
+                    bird.getBounds().overlaps(branches.get(i).getBoundsRightBranch()))
+            return true;
+        }
+
+    return false;
     }
 
 }

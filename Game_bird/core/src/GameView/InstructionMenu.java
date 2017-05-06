@@ -39,7 +39,6 @@ public class InstructionMenu implements Screen {
         gamePort = new FitViewport(FlyChicken.WIDTH, FlyChicken.HEIGHT, new OrthographicCamera());
         stage = new Stage(gamePort, game.batch);
 
-
         backGround = new Texture(Gdx.files.internal("bg.png"));
         btnreturn = new Texture(Gdx.files.internal("returnbtn.png"));
         TextureRegion returnBtnRegion = new TextureRegion(btnreturn);

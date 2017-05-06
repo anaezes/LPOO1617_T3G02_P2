@@ -1,13 +1,8 @@
 package GameView;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Stack;
-
-/**
- * Created by cristiana on 30-04-2017.
- */
 
 public class GameStateManager {
 
