@@ -1,7 +1,7 @@
 package GameLogic;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.Random;
@@ -12,13 +12,14 @@ import java.util.Random;
 
 public class Branch extends Obstacle {
 
-    public static final int B_HEIGHT = 12;           /////Depende da imagem
+    public static final int B_HEIGHT = 150;           /////Depende da imagem
 
-    private static final int X_FLUCTUATION = 50;
+    private static final int X_FLUCTUATION = 60;
     private static final int GAP_BRANCH = 110;
     private static final int LOWEST_OPENING = 30;
 
-    private Texture leftBranch, rightBranch;
+    private Texture rightBranch, leftBranch;
+    private Rectangle boundsRightBranch, boundsLeftBranch;
     private Vector3 posLeftBranch;
     private Vector3 posRightBranch;
     private Random rand;
@@ -27,20 +28,23 @@ public class Branch extends Obstacle {
     public Branch(int x, int y) {
         super(x, y);
 
-        leftBranch = new Texture("leftBranch.png");
-        rightBranch = new Texture("rightBranch.png");
+        rightBranch = new Texture("rightBranch2.png");
+        leftBranch = new Texture("leftBranch2.png");
         rand = new Random();
         posLeftBranch = new Vector3(rand.nextInt(X_FLUCTUATION) + GAP_BRANCH + LOWEST_OPENING, y, 0);
-        posRightBranch = new Vector3(posLeftBranch.x - GAP_BRANCH - rightBranch.getWidth() ,y, 0);
+        posRightBranch = new Vector3(posLeftBranch.x - GAP_BRANCH - leftBranch.getWidth(), y+rand.nextInt(X_FLUCTUATION) + GAP_BRANCH + LOWEST_OPENING, 0);
 
-    }
+        boundsLeftBranch = new Rectangle(posLeftBranch.x, posLeftBranch.y, leftBranch.getWidth(), leftBranch.getHeight());
+        boundsRightBranch = new Rectangle(posRightBranch.x, posRightBranch.y, rightBranch.getWidth(), rightBranch.getHeight());
 
-    public Texture getLeftBranch() {
-        return leftBranch;
     }
 
     public Texture getRightBranch() {
         return rightBranch;
+    }
+
+    public Texture getLeftBranch() {
+        return leftBranch;
     }
 
     public Vector3 getPosLeftBranch() {
@@ -53,6 +57,16 @@ public class Branch extends Obstacle {
 
     public void reposition(float y){
         posLeftBranch.set(rand.nextInt(X_FLUCTUATION) + GAP_BRANCH + LOWEST_OPENING, y, 0);
-        posRightBranch.set(posLeftBranch.x - GAP_BRANCH - rightBranch.getWidth() ,y, 0);
+        posRightBranch.set(posLeftBranch.x - GAP_BRANCH - leftBranch.getWidth() ,y, 0);
+
+        boundsLeftBranch.setPosition(posLeftBranch.x, posLeftBranch.y);
+        boundsRightBranch.setPosition(posRightBranch.x, posRightBranch.y);
+    }
+
+    public Rectangle getBoundsRightBranch() {
+        return boundsRightBranch;
+    }
+    public Rectangle getBoundsLeftBranch() {
+        return boundsLeftBranch;
     }
 }
