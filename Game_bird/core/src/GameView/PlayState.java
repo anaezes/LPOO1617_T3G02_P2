@@ -8,11 +8,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import java.util.Random;
+
 
 import GameLogic.Branch;
 import GameLogic.GameMain;
 
 public class PlayState implements Screen  {
+
 
     private static final int WALL_X_OFFSET = -40;
     private static final int BRANCH_SPACING = 125;
@@ -21,7 +24,7 @@ public class PlayState implements Screen  {
     private Texture leftWall, rightWall;
     private Vector2 leftWallPos1, leftWallPos2, rightWallPos1, rightWallPos2;
 
-    private static PlayState instance = null;
+    private ViewMain gameview;
 
     private GameMain game;
     private float birdPosY;
@@ -29,6 +32,7 @@ public class PlayState implements Screen  {
     private FlyChicken gameMain;
     private OrthographicCamera cam;
     private FitViewport gamePort;
+    private  Random rand;
 
     private static final String TAG = "Debug";
 
@@ -42,12 +46,17 @@ public class PlayState implements Screen  {
 
         cam.setToOrtho(false, FlyChicken.WIDTH / 2, FlyChicken.HEIGHT / 2);
 
+        gameview = new ViewMain(mainGameObj);
         game = GameMain.GetInstance();
         game.createBird(FlyChicken.WIDTH);
 
         birdPosY = game.getGameBird().getPosition().y;
         game.createWater();
         game.createBranchs(BRANCH_COUNT, BRANCH_SPACING);
+        game.createApple();
+
+        rand = new Random();
+
 
         leftWall = new Texture("wallLeft.png");
         leftWallPos1 = new Vector2(WALL_X_OFFSET, cam.position.y - cam.viewportHeight/2);
@@ -58,13 +67,6 @@ public class PlayState implements Screen  {
         rightWallPos2 = new Vector2(FlyChicken.WIDTH/2- (rightWall.getWidth() + WALL_X_OFFSET), (cam.position.x - cam.viewportWidth/2) + rightWall.getHeight());
 
         game.getGameBird().setValidPositionsX(leftWallPos1.x+leftWall.getWidth(), rightWallPos1.x, game.GetWater().getPosY()+game.GetWater().getWaterTexture().getHeight());
-    }
-
-    public static PlayState GetInstance() {
-        if(instance == null) {
-            instance = new PlayState(FlyChicken.GetInstance());
-        }
-        return instance;
     }
 
     @Override
@@ -78,12 +80,16 @@ public class PlayState implements Screen  {
         Gdx.gl.glClearColor(54/255f, 204/255f, 253/255f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        gameview.render(delta);
+
         gameMain.batch.setProjectionMatrix(cam.combined);
         gameMain.batch.begin();
 
         handleinput();
         updateWalls(game.getGameBird().getPosition().y);
         updateBranches();
+        updateWater();
+        updateApple();
 
         updateBird(delta);
 
@@ -92,15 +98,17 @@ public class PlayState implements Screen  {
         drawBird();
         drawBranches();
         drawWalls();
-
-        gameMain.batch.draw(game.GetWater().getWaterTexture(), 0, 0);
+        drawWater();
+        drawApple();
 
         cam.update();
 
         if(game.checkCollisions()) {
             this.dispose();
-            gameMain.setScreen(new PlayState(gameMain));
+            gameMain.setScreen(new GameOverMenu(gameMain));
         }
+
+        checkAppleCollision();
 
         gameMain.batch.end();
     }
@@ -121,6 +129,15 @@ public class PlayState implements Screen  {
     public void drawBird() {
         gameMain.batch.draw(game.getGameBird().getBirdTexture(), game.getGameBird().getPosition().x, game.getGameBird().getPosition().y);
     }
+
+    public void drawWater(){
+        gameMain.batch.draw(game.GetWater().getWaterTexture(), game.GetWater().getPosX(), game.GetWater().getPosY());
+    }
+
+    public void drawApple(){
+        gameMain.batch.draw(game.getApple().getAppleTexture(), game.getApple().getPosX(), game.getApple().getPosY());
+    }
+
 
     public void drawWalls() {
         gameMain.batch.draw(leftWall, leftWallPos1.x, leftWallPos1.y);
@@ -186,7 +203,32 @@ public class PlayState implements Screen  {
                 rightWallPos2.add(0, rightWall.getHeight() * 2);
     }
 
+   public void updateWater(){
+       //game.GetWater().setPosY((int)(((cam.position.y-cam.viewportHeight/2)-350)));
+        game.GetWater().setPosY(game.GetWater().getPosY() + 3);
+        game.GetWater().setWaterBoundsPosition(0, game.GetWater().getPosY());
+   }
 
+   public void updateApple() {
+       if (cam.position.y - (cam.viewportHeight / 2) > game.getApple().getPosY() + game.getApple().getAppleTexture().getHeight()) {
+           int min = leftWall.getWidth();
+           int max = FlyChicken.WIDTH-rightWall.getWidth();
+           game.getApple().setPosX(rand.nextInt((max- min)+1)+min);
+           game.getApple().setPosY((game.getApple().getPosY() + (int)cam.position.y));
+          // ((max - min)+1) + min
+           game.getApple().getAppleBounds().setPosition(game.getApple().getPosX(), game.getApple().getPosY());
+       }
+
+   }
+
+   public boolean checkAppleCollision(){
+       if(game.getApple().getAppleBounds().overlaps(game.getGameBird().getBounds())){
+          game.setEatenApples(game.getEatenApples()+1);
+           return true;
+       }
+       return false;
+
+   }
 
     @Override
     public void resize(int width, int height) {

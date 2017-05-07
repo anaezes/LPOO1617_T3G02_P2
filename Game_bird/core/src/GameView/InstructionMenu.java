@@ -62,7 +62,7 @@ public class InstructionMenu implements Screen {
 
         public void onClickBack() {
                 System.out.println("GoBack");
-                game.setScreen(MainMenu.GetInstance());
+                game.setScreen(new MainMenu(game));
 
                 System.out.println("GoBack to main menu");
         }

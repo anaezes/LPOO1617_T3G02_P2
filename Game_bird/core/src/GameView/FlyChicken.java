@@ -25,7 +25,7 @@ public class FlyChicken extends Game {
     @Override
     public void create () {
         batch = new SpriteBatch();
-        setScreen(MainMenu.GetInstance());
+        setScreen(new MainMenu(this));
     }
 
     @Override

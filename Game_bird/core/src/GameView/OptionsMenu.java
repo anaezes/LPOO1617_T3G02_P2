@@ -25,15 +25,6 @@ public class OptionsMenu implements Screen{
     private ImageButton goBack;
     private FlyChicken game;
 
-    private static OptionsMenu instance = null;
-
-    public static OptionsMenu GetInstance() {
-        if(instance == null) {
-            instance = new OptionsMenu(FlyChicken.GetInstance());
-        }
-        return instance;
-    }
-
     public OptionsMenu(FlyChicken game) {
         this.game=game;
         gamePort = new FitViewport(FlyChicken.WIDTH, FlyChicken.HEIGHT, new OrthographicCamera());
@@ -64,7 +55,7 @@ public class OptionsMenu implements Screen{
 
     public void onClickBack() {
         System.out.println("GoBack");
-        game.setScreen(MainMenu.GetInstance());
+        game.setScreen(new MainMenu(game));
 
         System.out.println("GoBack to main menu");
 

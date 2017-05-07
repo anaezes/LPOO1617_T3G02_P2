@@ -1,13 +1,9 @@
 package GameView;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -33,13 +29,6 @@ public class ViewMain implements Screen {
 
     }
 
-    public static ViewMain GetInstance(FlyChicken game) {
-        if(instance == null) {
-            instance = new ViewMain(game);
-        }
-        return instance;
-    }
-
     @Override
     public void show() {
 
@@ -47,7 +36,7 @@ public class ViewMain implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,1,1);
+        Gdx.gl.glClearColor(54/255f, 204/255f, 253/255f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 

@@ -3,14 +3,17 @@ import com.badlogic.gdx.utils.Array;
 
 
 public class GameMain {
+    private int eatenApples;
     private Bird bird;
     private Array<Branch> branches;
     private Water water;
     private EnumGameLevel level;
+    private Apple apple;
     private static GameMain instance = null;
 
     public GameMain() {
         level = EnumGameLevel.LevelOne;
+        eatenApples = 0;
     }
 
     public static GameMain GetInstance() {
@@ -26,6 +29,10 @@ public class GameMain {
 
     public void createWater() {
         water = new Water(0, 0);
+    }
+
+    public void createApple(){
+        apple = new Apple(50, 900);
     }
 
     public void createBranchs(int numOfBranchs, int branchSpacing) {
@@ -48,6 +55,10 @@ public class GameMain {
         return bird;
     }
 
+    public Apple getApple() {
+        return apple;
+    }
+
     public Water GetWater() {
         return water;
     }
@@ -64,7 +75,18 @@ public class GameMain {
             return true;
         }
 
+        if(bird.getBounds().overlaps(water.getWaterBounds())){
+            return true;
+        }
+
     return false;
     }
 
+    public int getEatenApples() {
+        return eatenApples;
+    }
+
+    public void setEatenApples(int eatenApples) {
+        this.eatenApples = eatenApples;
+    }
 }

@@ -27,20 +27,10 @@ public class MainMenu implements Screen {
     private ImageButton playBtn, instructionsBtn, scoresBtn, optionsBtn, exitBtn;
     private FlyChicken game;
 
-    private static MainMenu instance = null;
-
-    public static MainMenu GetInstance() {
-        if(instance == null) {
-            instance = new MainMenu(FlyChicken.GetInstance());
-        }
-        return instance;
-    }
-
     public MainMenu(FlyChicken game) {
         this.game = game;
         gamePort = new FitViewport(FlyChicken.WIDTH, FlyChicken.HEIGHT, new OrthographicCamera());
         stage = new Stage(gamePort, game.batch);
-        System.out.println("construtor");
         backGround = new Texture(Gdx.files.internal("bg.png"));
 
         Texture tmp = new Texture(Gdx.files.internal("playBtn.png"));
@@ -146,21 +136,21 @@ public class MainMenu implements Screen {
 
     public void onClickPlay() {
             this.dispose();
-            game.setScreen(PlayState.GetInstance());
+            game.setScreen(new PlayState(game));
             System.out.println("Play");
     }
 
     public void onClickOptions() {
-        game.setScreen(OptionsMenu.GetInstance());
+        game.setScreen(new OptionsMenu(game));
             System.out.println("Options");
     }
 
     public void onClickOInstructions() {
-            game.setScreen(InstructionMenu.GetInstance());
+            game.setScreen(new InstructionMenu(game));
             System.out.println("Instr");
     }
     public void onClickScores() {
-            game.setScreen(ScoresMenu.GetInstance());
+            game.setScreen(new ScoresMenu(game));
             System.out.println("Scores");
     }
     public void onClickExit() {
