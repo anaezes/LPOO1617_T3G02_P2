@@ -67,7 +67,7 @@ public class GameMain {
         return branches;
     }
 
-    public boolean checkCollisions() {
+    public boolean checkCollisionsBranchs() {
 
         for (int i=1; i < branches.size; i++){
             if(bird.getBounds().overlaps(branches.get(i).getBoundsLeftBranch()) ||
@@ -81,6 +81,17 @@ public class GameMain {
 
     return false;
     }
+
+    public boolean checkCollisionsWater() {
+
+        if(bird.getBounds().overlaps(water.getWaterBounds())){
+            return true;
+        }
+
+        return false;
+    }
+
+
 
     public int getEatenApples() {
         return eatenApples;

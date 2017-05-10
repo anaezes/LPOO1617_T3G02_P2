@@ -2,6 +2,7 @@ package GameLogic;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
@@ -14,6 +15,7 @@ public class Bird extends GameObject {
     private Vector3 position;
     private Vector3 velocity;
     private Texture birdTexture;
+    private Animation birdAnimation;
     private Rectangle bounds;
 
     private float birdPosMinX;
@@ -23,11 +25,14 @@ public class Bird extends GameObject {
     public Bird(int x, int y, double w) {
         super(x, y);
         weight = w;
-        birdTexture = new Texture("bird.png");
+
         position = new Vector3(x, y, 0);
         velocity = new Vector3(0,0,0);
 
-        bounds = new Rectangle(x, y, birdTexture.getWidth(), birdTexture.getHeight());
+        birdTexture = new Texture("birdanimation2.png");
+        birdAnimation = new Animation(new TextureRegion(birdTexture), 3, 0.5f);
+
+        bounds = new Rectangle(x, y, birdTexture.getWidth()/3, birdTexture.getHeight());
 
     }
 
@@ -36,16 +41,19 @@ public class Bird extends GameObject {
     }
 
     public void update(float dt) {
+
+        birdAnimation.update(dt);
+
         if (position.y > 15)
             velocity.add(GRAVITY_X, GRAVITY_Y, 0);
 
         velocity.scl(dt);
 
         if(position.x + (-Gdx.input.getAccelerometerX()) < birdPosMinX ||
-                (position.x + birdTexture.getWidth() + (-Gdx.input.getAccelerometerX()) > birdPosMaxX))
+                (position.x + birdAnimation.getFrame().getRegionWidth() + (-Gdx.input.getAccelerometerX()) > birdPosMaxX))
             position.add(0, velocity.y, 0);
         else
-            position.add(-Gdx.input.getAccelerometerX(), velocity.y, 0);
+            position.add(-Gdx.input.getAccelerometerX()/2, velocity.y, 0);
 
         if (position.y <= birdPosMinY)
             position.y = birdPosMinY;
@@ -60,8 +68,8 @@ public class Bird extends GameObject {
         return position;
     }
 
-    public Texture getBirdTexture() {
-        return birdTexture;
+    public TextureRegion getBirdTexture() {
+        return birdAnimation.getFrame();
     }
 
     public void jump(){

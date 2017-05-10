@@ -16,7 +16,7 @@ import GameLogic.GameMain;
 
 public class PlayState implements Screen  {
 
-
+    private static final int WATER_INCREMENT = 2;
     private static final int WALL_X_OFFSET = -40;
     private static final int BRANCH_SPACING = 125;
     private static final int BRANCH_COUNT = 10;
@@ -93,22 +93,17 @@ public class PlayState implements Screen  {
 
         updateBird(delta);
 
-        cam.position.y = game.getGameBird().getPosition().y + game.getGameBird().getBirdTexture().getHeight()/2;
+        cam.position.y = game.getGameBird().getPosition().y + game.getGameBird().getBirdTexture().getRegionHeight()/2;
 
         drawBird();
         drawBranches();
-        drawWalls();
         drawWater();
+        drawWalls();
         drawApple();
 
         cam.update();
 
-        if(game.checkCollisions()) {
-            this.dispose();
-            gameMain.setScreen(new GameOverMenu(gameMain));
-        }
-
-        checkAppleCollision();
+        checkCollisions();
 
         gameMain.batch.end();
     }
@@ -203,9 +198,23 @@ public class PlayState implements Screen  {
                 rightWallPos2.add(0, rightWall.getHeight() * 2);
     }
 
+    public void checkCollisions()  {
+        if(game.checkCollisionsBranchs()) {
+            this.dispose();
+            gameMain.setScreen(new GameOverMenu(gameMain));
+        }
+
+        if(game.checkCollisionsWater()) {
+            this.dispose();
+            gameMain.setScreen(new GameOverMenu(gameMain));
+        }
+
+        checkAppleCollision();
+    }
+
+
    public void updateWater(){
-       //game.GetWater().setPosY((int)(((cam.position.y-cam.viewportHeight/2)-350)));
-        game.GetWater().setPosY(game.GetWater().getPosY() + 3);
+        game.GetWater().setPosY(game.GetWater().getPosY() + WATER_INCREMENT);
         game.GetWater().setWaterBoundsPosition(0, game.GetWater().getPosY());
    }
 
