@@ -25,7 +25,7 @@ public class GameView implements Screen  {
     private OrthographicCamera cam;
     private FitViewport gamePort;
     private Hud hud;
-    private  Random rand;
+    private Random rand;
 
     public GameView(FlyChicken mainGameObj) {
 
@@ -66,19 +66,16 @@ public class GameView implements Screen  {
         gameMain.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
         //gameview.render(delta);
-
         gameMain.batch.setProjectionMatrix(cam.combined);
 
         gameMain.batch.begin();
 
-
         handleinput();
+        updateBird(delta);
         updateWalls(game.getGameBird().getPosition().y);
         game.updateBranches(cam);
-        updateWater();
         game.updateApple(cam);
-
-        updateBird(delta);
+        updateWater();
 
         cam.position.y = game.getGameBird().getPosition().y + game.getGameBird().getBirdTexture().getRegionHeight()/2;
 
@@ -91,13 +88,17 @@ public class GameView implements Screen  {
         cam.update();
 
         checkCollisions();
+        updateHud();
 
         gameMain.batch.end();
     }
 
+    public void updateHud() {
+        hud.updateHud(game.getLives(), game.getCurrTime(), game.getScore());
+    }
 
     public void updateBird(float delta) {
-            game.getGameBird().update(delta);
+        game.getGameBird().update(delta);
     }
 
 

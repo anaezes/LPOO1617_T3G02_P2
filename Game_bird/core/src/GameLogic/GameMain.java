@@ -27,10 +27,18 @@ public class GameMain {
     private Texture leftWall, rightWall;
     private Vector2 leftWallPos1, leftWallPos2, rightWallPos1, rightWallPos2;
 
+    private int lives;
+    private float timeCount;
+    private int score;
+
     public GameMain() {
         level = EnumGameLevel.LevelOne;
         eatenApples = 0;
         rand = new Random();
+
+        lives = 3;
+        timeCount = 0;
+        score = 0;
     }
 
     public static GameMain GetInstance() {
@@ -39,6 +47,31 @@ public class GameMain {
         }
         return instance;
     }
+
+    public void updateTime(float dt) {
+        timeCount+=dt;
+    }
+
+    public void updateLives(int value) {
+        lives+=value;
+    }
+
+    public void updateScore(int sc) {
+        score+=sc;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public float getCurrTime() {
+        return timeCount;
+    }
+
 
     public void createBird(int width) {
         bird = new Bird(100, width ,100);
@@ -98,12 +131,10 @@ public class GameMain {
 
         for (int i=1; i < branches.size; i++){
             if(bird.getBounds().overlaps(branches.get(i).getBoundsLeftBranch()) ||
-                    bird.getBounds().overlaps(branches.get(i).getBoundsRightBranch()))
-            return true;
-        }
-
-        if(bird.getBounds().overlaps(water.getWaterBounds())){
-            return true;
+                    bird.getBounds().overlaps(branches.get(i).getBoundsRightBranch())) {
+                updateLives(-1);
+                return true;
+            }
         }
 
     return false;
@@ -112,6 +143,7 @@ public class GameMain {
     public boolean checkCollisionsWater() {
 
         if(bird.getBounds().overlaps(water.getWaterBounds())){
+            updateLives(-1);
             return true;
         }
 
@@ -128,6 +160,7 @@ public class GameMain {
 
     public boolean checkAppleCollision(){
         if(apple.getAppleBounds().overlaps(bird.getBounds())){
+            updateScore(50);
             setEatenApples(getEatenApples()+1);
             return true;
         }
