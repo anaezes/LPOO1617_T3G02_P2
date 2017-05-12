@@ -132,7 +132,7 @@ public class MainMenu implements Screen {
 
     public void onClickPlay() {
             this.dispose();
-            game.setScreen(new PlayState(game));
+            game.setScreen(new GameView(game));
             System.out.println("Play");
     }
 

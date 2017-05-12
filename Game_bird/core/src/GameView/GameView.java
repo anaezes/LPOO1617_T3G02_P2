@@ -12,7 +12,7 @@ import java.util.Random;
 import GameLogic.Branch;
 import GameLogic.GameMain;
 
-public class PlayState implements Screen  {
+public class GameView implements Screen  {
 
     private static final int WATER_INCREMENT = 2;
 
@@ -26,9 +26,7 @@ public class PlayState implements Screen  {
     private FitViewport gamePort;
     private  Random rand;
 
-    private static final String TAG = "Debug";
-
-    public PlayState(FlyChicken mainGameObj) {
+    public GameView(FlyChicken mainGameObj) {
 
         Gdx.input.setCatchBackKey(true);
 
