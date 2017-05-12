@@ -16,7 +16,7 @@ public class GameView implements Screen  {
 
     private static final int WATER_INCREMENT = 2;
 
-    private ViewMain gameview;
+    //private ViewMain gameview;
 
     private GameMain game;
     private float birdPosY;
@@ -24,6 +24,7 @@ public class GameView implements Screen  {
     private FlyChicken gameMain;
     private OrthographicCamera cam;
     private FitViewport gamePort;
+    private Hud hud;
     private  Random rand;
 
     public GameView(FlyChicken mainGameObj) {
@@ -31,12 +32,13 @@ public class GameView implements Screen  {
         Gdx.input.setCatchBackKey(true);
 
         this.gameMain = mainGameObj;
+
         cam = new OrthographicCamera();
-        gamePort = new FitViewport(FlyChicken.WIDTH, FlyChicken.HEIGHT, cam);
-
         cam.setToOrtho(false, FlyChicken.WIDTH / 2, FlyChicken.HEIGHT / 2);
+        hud = new Hud(gameMain.batch);
 
-        gameview = new ViewMain(mainGameObj);
+        //gameview = new ViewMain(mainGameObj);
+        gamePort = new FitViewport(FlyChicken.WIDTH/2, FlyChicken.HEIGHT/2, cam);
         game = GameMain.GetInstance();
         game.createBird(FlyChicken.WIDTH);
 
@@ -61,11 +63,14 @@ public class GameView implements Screen  {
 
         Gdx.gl.glClearColor(54/255f, 204/255f, 253/255f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        gameview.render(delta);
+        gameMain.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        hud.stage.draw();
+        //gameview.render(delta);
 
         gameMain.batch.setProjectionMatrix(cam.combined);
+
         gameMain.batch.begin();
+
 
         handleinput();
         updateWalls(game.getGameBird().getPosition().y);
@@ -196,7 +201,7 @@ public class GameView implements Screen  {
 
     @Override
     public void resize(int width, int height) {
-
+        gamePort.update(width, height);
     }
 
     @Override
