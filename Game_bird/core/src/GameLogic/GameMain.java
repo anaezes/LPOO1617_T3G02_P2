@@ -1,8 +1,20 @@
 package GameLogic;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+
+import java.util.Random;
+
+import GameView.FlyChicken;
 
 
 public class GameMain {
+
+    private static final int WALL_X_OFFSET = -40;
+    private static final int BRANCH_SPACING = 125;
+    private static final int BRANCH_COUNT = 10;
+
     private int eatenApples;
     private Bird bird;
     private Array<Branch> branches;
@@ -10,10 +22,15 @@ public class GameMain {
     private EnumGameLevel level;
     private Apple apple;
     private static GameMain instance = null;
+    private  Random rand;
+
+    private Texture leftWall, rightWall;
+    private Vector2 leftWallPos1, leftWallPos2, rightWallPos1, rightWallPos2;
 
     public GameMain() {
         level = EnumGameLevel.LevelOne;
         eatenApples = 0;
+        rand = new Random();
     }
 
     public static GameMain GetInstance() {
@@ -35,12 +52,22 @@ public class GameMain {
         apple = new Apple(50, 900);
     }
 
-    public void createBranchs(int numOfBranchs, int branchSpacing) {
+    public void createBranchs() {
         branches = new Array<Branch>();
-
-        for (int i=1; i<numOfBranchs; i++){
-            branches.add(new Branch(0,i* (branchSpacing + Branch.B_HEIGHT)));
+        for (int i=1; i<BRANCH_COUNT; i++){
+            branches.add(new Branch(0,i* (BRANCH_SPACING + Branch.B_HEIGHT)));
         }
+    }
+
+    public void createWalls(OrthographicCamera cam) {
+        leftWall = new Texture("wallLeft.png");
+        leftWallPos1 = new Vector2(WALL_X_OFFSET, cam.position.y - cam.viewportHeight/2);
+        leftWallPos2 = new Vector2(WALL_X_OFFSET, (cam.position.x - cam.viewportWidth/2) + leftWall.getHeight());
+
+        rightWall = new Texture("wallRight.png");
+        rightWallPos1 = new Vector2(FlyChicken.WIDTH/2 - (rightWall.getWidth() + WALL_X_OFFSET), cam.position.y - cam.viewportHeight/2);
+        rightWallPos2 = new Vector2(FlyChicken.WIDTH/2- (rightWall.getWidth() + WALL_X_OFFSET), (cam.position.x - cam.viewportWidth/2) + rightWall.getHeight());
+
     }
 
     public EnumGameLevel GetCurrentGameLevel() {
@@ -91,13 +118,59 @@ public class GameMain {
         return false;
     }
 
-
-
     public int getEatenApples() {
         return eatenApples;
     }
 
     public void setEatenApples(int eatenApples) {
         this.eatenApples = eatenApples;
+    }
+
+    public boolean checkAppleCollision(){
+        if(apple.getAppleBounds().overlaps(bird.getBounds())){
+            setEatenApples(getEatenApples()+1);
+            return true;
+        }
+        return false;
+    }
+
+    public void updateApple(OrthographicCamera cam) {
+        if (cam.position.y - (cam.viewportHeight / 2) > apple.getPosY() + apple.getAppleTexture().getHeight()) {
+            int min = leftWall.getWidth();
+            int max = FlyChicken.WIDTH-rightWall.getWidth();
+            apple.setPosX(rand.nextInt((max- min)+1)+min);
+            apple.setPosY((apple.getPosY() + (int)cam.position.y));
+            apple.getAppleBounds().setPosition(apple.getPosX(), apple.getPosY());
+        }
+    }
+
+    public void updateBranches(OrthographicCamera cam) {
+        for (Branch branch : branches)
+            if(cam.position.y - (cam.viewportHeight/2) > branch.getPosRightBranch().y + branch.getLeftBranch().getHeight())
+                branch.reposition(branch.getPosRightBranch().y + ((Branch.B_HEIGHT + BRANCH_SPACING) * BRANCH_COUNT));
+    }
+
+    public Texture getLeftWall(){
+        return leftWall;
+    }
+
+    public Texture getRightWall(){
+        return rightWall;
+    }
+
+    public Vector2 getLeftWallPos1() {
+        return leftWallPos1;
+    }
+
+    public Vector2 getLeftWallPos2() {
+        return leftWallPos2;
+    }
+
+    public Vector2 getRightWallPos1() {
+        return rightWallPos1;
+    }
+
+    public Vector2 getRightWallPos2() {
+        return rightWallPos2;
     }
 }

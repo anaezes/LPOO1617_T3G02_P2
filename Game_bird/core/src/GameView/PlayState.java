@@ -5,11 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import java.util.Random;
 
+import java.util.Random;
 
 import GameLogic.Branch;
 import GameLogic.GameMain;
@@ -17,12 +15,6 @@ import GameLogic.GameMain;
 public class PlayState implements Screen  {
 
     private static final int WATER_INCREMENT = 2;
-    private static final int WALL_X_OFFSET = -40;
-    private static final int BRANCH_SPACING = 125;
-    private static final int BRANCH_COUNT = 10;
-
-    private Texture leftWall, rightWall;
-    private Vector2 leftWallPos1, leftWallPos2, rightWallPos1, rightWallPos2;
 
     private ViewMain gameview;
 
@@ -52,21 +44,13 @@ public class PlayState implements Screen  {
 
         birdPosY = game.getGameBird().getPosition().y;
         game.createWater();
-        game.createBranchs(BRANCH_COUNT, BRANCH_SPACING);
+        game.createBranchs();
         game.createApple();
-
+        game.createWalls(cam);
         rand = new Random();
 
-
-        leftWall = new Texture("wallLeft.png");
-        leftWallPos1 = new Vector2(WALL_X_OFFSET, cam.position.y - cam.viewportHeight/2);
-        leftWallPos2 = new Vector2(WALL_X_OFFSET, (cam.position.x - cam.viewportWidth/2) + leftWall.getHeight());
-
-        rightWall = new Texture("wallRight.png");
-        rightWallPos1 = new Vector2(FlyChicken.WIDTH/2 - (rightWall.getWidth() + WALL_X_OFFSET), cam.position.y - cam.viewportHeight/2);
-        rightWallPos2 = new Vector2(FlyChicken.WIDTH/2- (rightWall.getWidth() + WALL_X_OFFSET), (cam.position.x - cam.viewportWidth/2) + rightWall.getHeight());
-
-        game.getGameBird().setValidPositionsX(leftWallPos1.x+leftWall.getWidth(), rightWallPos1.x, game.GetWater().getPosY()+game.GetWater().getWaterTexture().getHeight());
+        game.getGameBird().setValidPositionsX(game.getLeftWallPos1().x+game.getLeftWall().getWidth(), game.getRightWallPos1().x,
+                game.GetWater().getPosY()+game.GetWater().getWaterTexture().getHeight());
     }
 
     @Override
@@ -87,9 +71,9 @@ public class PlayState implements Screen  {
 
         handleinput();
         updateWalls(game.getGameBird().getPosition().y);
-        updateBranches();
+        game.updateBranches(cam);
         updateWater();
-        updateApple();
+        game.updateApple(cam);
 
         updateBird(delta);
 
@@ -114,13 +98,6 @@ public class PlayState implements Screen  {
     }
 
 
-    public void updateBranches() {
-        for (Branch branch : game.GetGameBranches())
-            if(cam.position.y - (cam.viewportHeight/2) > branch.getPosRightBranch().y + branch.getLeftBranch().getHeight())
-                branch.reposition(branch.getPosRightBranch().y + ((Branch.B_HEIGHT + BRANCH_SPACING) * BRANCH_COUNT));
-    }
-
-
     public void drawBird() {
         gameMain.batch.draw(game.getGameBird().getBirdTexture(), game.getGameBird().getPosition().x, game.getGameBird().getPosition().y);
     }
@@ -135,11 +112,11 @@ public class PlayState implements Screen  {
 
 
     public void drawWalls() {
-        gameMain.batch.draw(leftWall, leftWallPos1.x, leftWallPos1.y);
-        gameMain.batch.draw(leftWall, leftWallPos2.x, leftWallPos2.y);
+        gameMain.batch.draw(game.getLeftWall(), game.getLeftWallPos1().x, game.getLeftWallPos1().y);
+        gameMain.batch.draw(game.getLeftWall(), game.getLeftWallPos2().x, game.getLeftWallPos2().y);
 
-        gameMain.batch.draw(rightWall, rightWallPos1.x, rightWallPos1.y);
-        gameMain.batch.draw(rightWall, rightWallPos2.x, rightWallPos2.y);
+        gameMain.batch.draw(game.getRightWall(), game.getRightWallPos1().x, game.getRightWallPos1().y);
+        gameMain.batch.draw(game.getRightWall(), game.getRightWallPos2().x, game.getRightWallPos2().y);
     }
 
     public void drawBranches() {
@@ -171,37 +148,38 @@ public class PlayState implements Screen  {
     }
 
     void updateMovementDown() {
-        if (cam.position.y+(cam.viewportHeight / 2) < leftWallPos1.y)
-            leftWallPos1.add(0, - 2* leftWall.getHeight());
+        if (cam.position.y+(cam.viewportHeight / 2) < game.getLeftWallPos1().y)
+            game.getLeftWallPos1().add(0, - 2* game.getLeftWall().getHeight());
 
-        if (cam.position.y+(cam.viewportHeight / 2) < leftWallPos2.y)
-            leftWallPos2.add(0, - 2* leftWall.getHeight());
+        if (cam.position.y+(cam.viewportHeight / 2) < game.getLeftWallPos2().y)
+            game.getLeftWallPos2().add(0, - 2* game.getLeftWall().getHeight());
 
-        if (cam.position.y + (cam.viewportHeight / 2) < rightWallPos1.y )
-            rightWallPos1.add(0, - 2* rightWall.getHeight());
+        if (cam.position.y + (cam.viewportHeight / 2) < game.getRightWallPos1().y )
+            game.getRightWallPos1().add(0, - 2* game.getRightWall().getHeight());
 
-        if (cam.position.y + (cam.viewportHeight / 2) < rightWallPos2.y )
-            rightWallPos2.add(0, - 2* rightWall.getHeight());
+        if (cam.position.y + (cam.viewportHeight / 2) < game.getRightWallPos2().y )
+            game.getRightWallPos2().add(0, - 2* game.getRightWall().getHeight());
     }
 
     void updateMovementUp() {
-            if (cam.position.y - (cam.viewportHeight / 2) > leftWallPos1.y + leftWall.getHeight())
-                leftWallPos1.add(0, leftWall.getHeight() * 2);
+            if (cam.position.y - (cam.viewportHeight / 2) > game.getLeftWallPos1().y + game.getLeftWall().getHeight())
+                game.getLeftWallPos1().add(0, game.getLeftWall().getHeight() * 2);
 
-            if (cam.position.y - (cam.viewportHeight / 2) > leftWallPos2.y + leftWall.getHeight())
-                leftWallPos2.add(0, leftWall.getHeight() * 2);
+            if (cam.position.y - (cam.viewportHeight / 2) > game.getLeftWallPos2().y + game.getLeftWall().getHeight())
+                game.getLeftWallPos2().add(0, game.getLeftWall().getHeight() * 2);
 
-            if (cam.position.y - (cam.viewportHeight / 2) > rightWallPos1.y + rightWall.getHeight())
-                rightWallPos1.add(0, rightWall.getHeight() * 2);
+            if (cam.position.y - (cam.viewportHeight / 2) > game.getRightWallPos1().y + game.getRightWall().getHeight())
+                game.getRightWallPos1().add(0, game.getRightWall().getHeight() * 2);
 
-            if (cam.position.y - (cam.viewportHeight / 2) > rightWallPos2.y + rightWall.getHeight())
-                rightWallPos2.add(0, rightWall.getHeight() * 2);
+            if (cam.position.y - (cam.viewportHeight / 2) > game.getRightWallPos2().y + game.getRightWall().getHeight())
+                game.getRightWallPos2().add(0, game.getRightWall().getHeight() * 2);
     }
 
     public void checkCollisions()  {
         if(game.checkCollisionsBranchs()) {
             this.dispose();
-            gameMain.setScreen(new GameOverMenu(gameMain));
+            //gameMain.setScreen(new GameOverMenu(gameMain));
+            gameMain.setScreen(new MainMenu(gameMain));
         }
 
         if(game.checkCollisionsWater()) {
@@ -209,34 +187,13 @@ public class PlayState implements Screen  {
             gameMain.setScreen(new GameOverMenu(gameMain));
         }
 
-        checkAppleCollision();
+        game.checkAppleCollision();
     }
 
 
    public void updateWater(){
         game.GetWater().setPosY(game.GetWater().getPosY() + WATER_INCREMENT);
         game.GetWater().setWaterBoundsPosition(0, game.GetWater().getPosY());
-   }
-
-   public void updateApple() {
-       if (cam.position.y - (cam.viewportHeight / 2) > game.getApple().getPosY() + game.getApple().getAppleTexture().getHeight()) {
-           int min = leftWall.getWidth();
-           int max = FlyChicken.WIDTH-rightWall.getWidth();
-           game.getApple().setPosX(rand.nextInt((max- min)+1)+min);
-           game.getApple().setPosY((game.getApple().getPosY() + (int)cam.position.y));
-          // ((max - min)+1) + min
-           game.getApple().getAppleBounds().setPosition(game.getApple().getPosX(), game.getApple().getPosY());
-       }
-
-   }
-
-   public boolean checkAppleCollision(){
-       if(game.getApple().getAppleBounds().overlaps(game.getGameBird().getBounds())){
-          game.setEatenApples(game.getEatenApples()+1);
-           return true;
-       }
-       return false;
-
    }
 
     @Override

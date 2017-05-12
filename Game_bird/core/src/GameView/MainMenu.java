@@ -15,10 +15,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 
-/**
- * Created by cristiana on 30-04-2017.
- */
-
 public class MainMenu implements Screen {
 
     private Viewport gamePort;

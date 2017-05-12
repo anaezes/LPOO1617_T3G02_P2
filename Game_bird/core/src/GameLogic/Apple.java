@@ -2,7 +2,6 @@ package GameLogic;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 /**
  * Created by cristiana on 30-04-2017.
