@@ -25,4 +25,5 @@ public class Apple extends Award {
     public Rectangle getAppleBounds() {
         return appleBounds;
     }
+
 }

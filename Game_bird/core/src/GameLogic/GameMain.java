@@ -82,7 +82,7 @@ public class GameMain {
     }
 
     public void createApple(){
-        apple = new Apple(50, 900);
+        this.apple = new Apple(50, 900);
     }
 
     public void createBranchs() {
@@ -117,6 +117,10 @@ public class GameMain {
 
     public Apple getApple() {
         return apple;
+    }
+
+    public void disposeApple() {
+        this.apple = null;
     }
 
     public Water GetWater() {
@@ -160,8 +164,8 @@ public class GameMain {
 
     public boolean checkAppleCollision(){
         if(apple.getAppleBounds().overlaps(bird.getBounds())){
+            this.eatenApples += 1;
             updateScore(50);
-            setEatenApples(getEatenApples()+1);
             return true;
         }
         return false;
@@ -169,10 +173,11 @@ public class GameMain {
 
     public void updateApple(OrthographicCamera cam) {
         if (cam.position.y - (cam.viewportHeight / 2) > apple.getPosY() + apple.getAppleTexture().getHeight()) {
-            int min = leftWall.getWidth();
-            int max = FlyChicken.WIDTH-rightWall.getWidth();
+            int min = leftWall.getWidth() + 40;
+            int max = (int)cam.viewportWidth-rightWall.getWidth() - 40;
             apple.setPosX(rand.nextInt((max- min)+1)+min);
-            apple.setPosY((apple.getPosY() + (int)cam.position.y));
+            //apple.setPosX(rand.nextInt(max) + min);
+            apple.setPosY((bird.getPosY() + (int)cam.position.y));
             apple.getAppleBounds().setPosition(apple.getPosX(), apple.getPosY());
         }
     }

@@ -71,19 +71,22 @@ public class GameView implements Screen  {
         gameMain.batch.begin();
 
         handleinput();
-        updateBird(delta);
+
         updateWalls(game.getGameBird().getPosition().y);
-        game.updateBranches(cam);
         game.updateApple(cam);
+        game.updateBranches(cam);
+
         updateWater();
+
+        updateBird(delta);
 
         cam.position.y = game.getGameBird().getPosition().y + game.getGameBird().getBirdTexture().getRegionHeight()/2;
 
         drawBird();
+        drawApple();
         drawBranches();
         drawWater();
         drawWalls();
-        drawApple();
 
         cam.update();
 
@@ -191,7 +194,11 @@ public class GameView implements Screen  {
             gameMain.setScreen(new GameOverMenu(gameMain));
         }
 
-        game.checkAppleCollision();
+        if(game.checkAppleCollision())
+        {
+            game.disposeApple();
+            game.createApple();
+        }
     }
 
 
