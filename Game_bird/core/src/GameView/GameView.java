@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.util.Random;
 
 import GameLogic.Branch;
+import GameLogic.EnumGameState;
 import GameLogic.GameMain;
 
 public class GameView implements Screen  {
@@ -27,8 +28,8 @@ public class GameView implements Screen  {
     private Hud hud;
     private Random rand;
 
-    public GameView(FlyChicken mainGameObj) {
 
+    public GameView(FlyChicken mainGameObj) {
         Gdx.input.setCatchBackKey(true);
         this.gameMain = mainGameObj;
 
@@ -38,9 +39,8 @@ public class GameView implements Screen  {
         cam.setToOrtho(false, FlyChicken.WIDTH / 2, FlyChicken.HEIGHT / 2);
         hud = new Hud(gameMain.batch);
 
-        //gameview = new ViewMain(mainGameObj);
         gamePort = new FitViewport(FlyChicken.WIDTH/2, FlyChicken.HEIGHT/2, cam);
-        game = GameMain.GetInstance();
+        game = new GameMain();
         game.createBird(FlyChicken.WIDTH);
 
         birdPosY = game.getGameBird().getPosition().y;
@@ -61,13 +61,11 @@ public class GameView implements Screen  {
 
     @Override
     public void render(float delta) {
-
         Gdx.gl.glClearColor(54/255f, 204/255f, 253/255f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         gameMain.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
-        //gameview.render(delta);
         gameMain.batch.setProjectionMatrix(cam.combined);
 
         gameMain.batch.begin();
@@ -92,16 +90,15 @@ public class GameView implements Screen  {
 
         cam.update();
 
-        if(game.getLives()!=0){
-            checkCollisions();
-        } else if (game.getLives() == 0){
-            game.setEatenApples(0);
-            game.setLives(3);
-            game.setScore(0);
-            gameMain.setScreen(new GameOverMenu(gameMain));}
-        updateHud();
+        checkCollisions();
 
+        updateHud();
         gameMain.batch.end();
+
+        if (game.getState() == EnumGameState.Lose){
+            gameMain.setScreen(new MainMenu(gameMain));
+            this.dispose();
+        }
     }
 
     public void updateHud() {
@@ -142,15 +139,11 @@ public class GameView implements Screen  {
     }
 
     public void handleinput() {
-        if(Gdx.input.justTouched()){
+        if(Gdx.input.justTouched())
             game.getGameBird().jump();
-            //game.getGameBird().setWeight(game.getGameBird().getWeight() + 10);
-        }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.BACK)){
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK))
             gameMain.setScreen(new MainMenu(gameMain));
-        }
-
     }
 
     public void updateWalls(float currentBirdPosY) {
@@ -190,23 +183,13 @@ public class GameView implements Screen  {
                 game.getRightWallPos2().add(0, game.getRightWall().getHeight() * 2);
     }
 
-    public void checkCollisions()  {
-        if(game.checkCollisionsBranchs()) {
-           // this.dispose();
-            //gameMain.setScreen(new GameOverMenu(gameMain));
-            //gameMain.setScreen(new MainMenu(gameMain));
+    public void checkCollisions(){
+        game.checkCollisionsBranchs();
+
+        if(game.checkCollisionsWater())
             gameMain.setScreen(new GameView(gameMain));
-        }
 
-        if(game.checkCollisionsWater()) {
-          //  this.dispose();
-            //gameMain.setScreen(new GameOverMenu(gameMain));
-
-            gameMain.setScreen(new GameView(gameMain));
-        }
-
-        if(game.checkAppleCollision())
-        {
+        if(game.checkAppleCollision()) {
             game.disposeApple();
             game.createApple();
         }
@@ -225,21 +208,17 @@ public class GameView implements Screen  {
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void hide() {
-
     }
 
     @Override
     public void dispose() {
-
     }
 }

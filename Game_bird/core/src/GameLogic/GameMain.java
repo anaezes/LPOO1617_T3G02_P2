@@ -5,9 +5,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import GameView.FlyChicken;
-import GameView.GameOverMenu;
 
 
 public class GameMain {
@@ -16,11 +16,13 @@ public class GameMain {
     private static final int BRANCH_SPACING = 125;
     private static final int BRANCH_COUNT = 10;
 
+    private EnumGameLevel level;
+    private EnumGameState state;
+
     private int eatenApples;
     private Bird bird;
     private Array<Branch> branches;
     private Water water;
-    private EnumGameLevel level;
     private Apple apple;
     private static GameMain instance = null;
     private  Random rand;
@@ -31,22 +33,18 @@ public class GameMain {
     private int lives;
     private float timeCount;
     private int score;
+    private long timeSinceCollision;
 
     public GameMain() {
         level = EnumGameLevel.LevelOne;
+        state = EnumGameState.Running;
         eatenApples = 0;
         rand = new Random();
 
         lives = 3;
         timeCount = 0;
         score = 0;
-    }
-
-    public static GameMain GetInstance() {
-        if(instance == null) {
-            instance = new GameMain();
-        }
-        return instance;
+        timeSinceCollision = System.nanoTime();
     }
 
     public void updateTime(float dt) {
@@ -140,17 +138,34 @@ public class GameMain {
         return branches;
     }
 
+    public void updateState() {
+        System.out.print("LIVES:    " + lives);
+
+        if(lives < 0)
+            state = EnumGameState.Lose;
+    }
+
+    public EnumGameState getState() {
+        return state;
+    }
+
     public boolean checkCollisionsBranchs() {
+        long delta_time =(System.nanoTime() - timeSinceCollision)/ 1000000;
+        TimeUnit.SECONDS.convert(delta_time, TimeUnit.NANOSECONDS);
+        System.out.println("TIME:"+ delta_time);
+        if(delta_time <= 300) {
+            return false;
+        }
 
         for (int i=1; i < branches.size; i++){
             if(bird.getBounds().overlaps(branches.get(i).getBoundsLeftBranch()) ||
                     bird.getBounds().overlaps(branches.get(i).getBoundsRightBranch())) {
-                if (lives != 0) {
                     updateLives(-1);
+                    updateState();
+                timeSinceCollision = System.nanoTime();
                     return true;
                 }
             }
-        }
 
     return false;
     }
@@ -158,10 +173,8 @@ public class GameMain {
     public boolean checkCollisionsWater() {
 
         if(bird.getBounds().overlaps(water.getWaterBounds())){
-            if (lives != 0) {
-                updateLives(-1);
+                state = EnumGameState.Lose;
                 return true;
-            }
         }
 
         return false;
