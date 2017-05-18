@@ -94,8 +94,11 @@ public class GameView implements Screen  {
 
         if(game.getLives()!=0){
             checkCollisions();
-        } else
-            gameMain.setScreen(new GameOverMenu(gameMain));
+        } else if (game.getLives() == 0){
+            game.setEatenApples(0);
+            game.setLives(3);
+            game.setScore(0);
+            gameMain.setScreen(new GameOverMenu(gameMain));}
         updateHud();
 
         gameMain.batch.end();

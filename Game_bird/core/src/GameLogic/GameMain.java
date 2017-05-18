@@ -65,8 +65,16 @@ public class GameMain {
         return score;
     }
 
+    public void setScore( int score1){
+        score=score1;
+    }
+
     public int getLives() {
         return lives;
+    }
+
+    public void setLives(int live) {
+        lives = live;
     }
 
     public float getCurrTime() {
