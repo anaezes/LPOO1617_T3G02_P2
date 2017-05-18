@@ -30,8 +30,9 @@ public class GameView implements Screen  {
     public GameView(FlyChicken mainGameObj) {
 
         Gdx.input.setCatchBackKey(true);
-
         this.gameMain = mainGameObj;
+
+        Gdx.input.setInputProcessor(null);
 
         cam = new OrthographicCamera();
         cam.setToOrtho(false, FlyChicken.WIDTH / 2, FlyChicken.HEIGHT / 2);
@@ -63,6 +64,7 @@ public class GameView implements Screen  {
 
         Gdx.gl.glClearColor(54/255f, 204/255f, 253/255f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         gameMain.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
         //gameview.render(delta);
@@ -90,14 +92,17 @@ public class GameView implements Screen  {
 
         cam.update();
 
-        checkCollisions();
+        if(game.getLives()!=0){
+            checkCollisions();
+        } else
+            gameMain.setScreen(new GameOverMenu(gameMain));
         updateHud();
 
         gameMain.batch.end();
     }
 
     public void updateHud() {
-        hud.updateHud(game.getLives(), game.getCurrTime(), game.getScore());
+        hud.updateHud(game.getLives(), game.getCurrTime(), game.getScore(), game.getEatenApples());
     }
 
     public void updateBird(float delta) {
@@ -186,12 +191,14 @@ public class GameView implements Screen  {
         if(game.checkCollisionsBranchs()) {
             this.dispose();
             //gameMain.setScreen(new GameOverMenu(gameMain));
-            gameMain.setScreen(new MainMenu(gameMain));
+            //gameMain.setScreen(new MainMenu(gameMain));
+            gameMain.setScreen(new GameView(gameMain));
         }
 
         if(game.checkCollisionsWater()) {
             this.dispose();
-            gameMain.setScreen(new GameOverMenu(gameMain));
+            //gameMain.setScreen(new GameOverMenu(gameMain));
+            gameMain.setScreen(new GameView(gameMain));
         }
 
         if(game.checkAppleCollision())

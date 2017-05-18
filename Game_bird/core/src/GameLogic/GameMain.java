@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import java.util.Random;
 
 import GameView.FlyChicken;
+import GameView.GameOverMenu;
 
 
 public class GameMain {
@@ -53,7 +54,7 @@ public class GameMain {
     }
 
     public void updateLives(int value) {
-        lives+=value;
+            lives+=value;
     }
 
     public void updateScore(int sc) {
@@ -136,8 +137,10 @@ public class GameMain {
         for (int i=1; i < branches.size; i++){
             if(bird.getBounds().overlaps(branches.get(i).getBoundsLeftBranch()) ||
                     bird.getBounds().overlaps(branches.get(i).getBoundsRightBranch())) {
-                updateLives(-1);
-                return true;
+                if (lives != 0) {
+                    updateLives(-1);
+                    return true;
+                }
             }
         }
 
@@ -147,8 +150,10 @@ public class GameMain {
     public boolean checkCollisionsWater() {
 
         if(bird.getBounds().overlaps(water.getWaterBounds())){
-            updateLives(-1);
-            return true;
+            if (lives != 0) {
+                updateLives(-1);
+                return true;
+            }
         }
 
         return false;
