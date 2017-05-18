@@ -34,8 +34,8 @@ public class Branch extends Obstacle {
         posLeftBranch = new Vector3(rand.nextInt(X_FLUCTUATION) + GAP_BRANCH + LOWEST_OPENING, y, 0);
         posRightBranch = new Vector3(posLeftBranch.x - GAP_BRANCH - leftBranch.getWidth(), y+rand.nextInt(X_FLUCTUATION) + GAP_BRANCH + LOWEST_OPENING, 0);
 
-        boundsLeftBranch = new Rectangle(posLeftBranch.x, posLeftBranch.y, leftBranch.getWidth(), leftBranch.getHeight());
-        boundsRightBranch = new Rectangle(posRightBranch.x, posRightBranch.y, rightBranch.getWidth(), rightBranch.getHeight());
+        boundsLeftBranch = new Rectangle(posLeftBranch.x, posLeftBranch.y+leftBranch.getHeight()/2, leftBranch.getWidth(), leftBranch.getHeight()/2);
+        boundsRightBranch = new Rectangle(posRightBranch.x, posRightBranch.y+rightBranch.getHeight()/2, rightBranch.getWidth(), rightBranch.getHeight()/2);
 
     }
 

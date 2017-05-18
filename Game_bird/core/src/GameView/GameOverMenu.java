@@ -72,7 +72,7 @@ public class GameOverMenu implements Screen {
     }
 
     public void playagain(){
-        game.setScreen(new PlayState(game));
+        game.setScreen(new GameView(game));
     }
 
 

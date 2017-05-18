@@ -15,10 +15,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 
-/**
- * Created by cristiana on 30-04-2017.
- */
-
 public class MainMenu implements Screen {
 
     private Viewport gamePort;
@@ -136,7 +132,7 @@ public class MainMenu implements Screen {
 
     public void onClickPlay() {
             this.dispose();
-            game.setScreen(new PlayState(game));
+            game.setScreen(new GameView(game));
             System.out.println("Play");
     }
 
