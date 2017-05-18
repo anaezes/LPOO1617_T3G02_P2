@@ -192,15 +192,16 @@ public class GameView implements Screen  {
 
     public void checkCollisions()  {
         if(game.checkCollisionsBranchs()) {
-            this.dispose();
+           // this.dispose();
             //gameMain.setScreen(new GameOverMenu(gameMain));
             //gameMain.setScreen(new MainMenu(gameMain));
             gameMain.setScreen(new GameView(gameMain));
         }
 
         if(game.checkCollisionsWater()) {
-            this.dispose();
+          //  this.dispose();
             //gameMain.setScreen(new GameOverMenu(gameMain));
+
             gameMain.setScreen(new GameView(gameMain));
         }
 
