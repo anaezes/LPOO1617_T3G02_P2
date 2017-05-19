@@ -3,7 +3,7 @@ package GameLogic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector3;
 
 
@@ -16,7 +16,7 @@ public class Bird extends GameObject {
     private Vector3 velocity;
     private Texture birdTexture;
     private Animation birdAnimation;
-    private Rectangle bounds;
+    private Circle bounds;
 
     private float birdPosMinX;
     private float birdPosMaxX;
@@ -31,9 +31,7 @@ public class Bird extends GameObject {
 
         birdTexture = new Texture("birdanimation2.png");
         birdAnimation = new Animation(new TextureRegion(birdTexture), 3, 0.5f);
-
-        bounds = new Rectangle(x, y, birdTexture.getWidth()/3, birdTexture.getHeight());
-
+        bounds = new Circle(x+birdAnimation.getFrame().getRegionWidth()/2, y+birdAnimation.getFrame().getRegionHeight()/2, birdAnimation.getFrame().getRegionHeight()/4);
     }
 
     public double getWeight() {
@@ -60,7 +58,7 @@ public class Bird extends GameObject {
 
         velocity.scl(1 / dt);
 
-        bounds.setPosition(position.x, position.y);
+        bounds.setPosition(position.x+birdAnimation.getFrame().getRegionWidth()/2, position.y+birdAnimation.getFrame().getRegionHeight()/2);
 
     }
 
@@ -87,7 +85,7 @@ public class Bird extends GameObject {
         birdPosMinY = minY;
     }
 
-    public Rectangle getBounds() {
+    public Circle getBounds() {
         return bounds;
     }
 }

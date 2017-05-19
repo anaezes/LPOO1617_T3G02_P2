@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.Random;
@@ -17,8 +19,6 @@ public class GameView implements Screen  {
 
     private static final int WATER_INCREMENT = 2;
 
-    //private ViewMain gameview;
-
     private GameMain game;
     private float birdPosY;
 
@@ -28,6 +28,27 @@ public class GameView implements Screen  {
     private Hud hud;
     private Random rand;
 
+    /**
+     * Used to debug the position of the physics fixtures
+     */
+    private static final boolean DEBUG_PHYSICS = false;
+
+    /**
+     * How much meters does a pixel represent.
+     */
+    public final static float PIXEL_TO_METER = 0.04f;
+
+
+    /**
+     * A renderer used to debug the physical fixtures.
+     */
+    private Box2DDebugRenderer debugRenderer;
+
+    /**
+     * The transformation matrix used to transform meters into
+     * pixels in order to show fixtures in their correct places.
+     */
+    private Matrix4 debugCamera;
 
     public GameView(FlyChicken mainGameObj) {
         Gdx.input.setCatchBackKey(true);
@@ -37,6 +58,13 @@ public class GameView implements Screen  {
 
         cam = new OrthographicCamera();
         cam.setToOrtho(false, FlyChicken.WIDTH / 2, FlyChicken.HEIGHT / 2);
+
+        if (DEBUG_PHYSICS) {
+            debugRenderer = new Box2DDebugRenderer();
+            debugCamera = cam.combined.cpy();
+            debugCamera.scl(1 / PIXEL_TO_METER);
+        }
+
         hud = new Hud(gameMain.batch);
 
         gamePort = new FitViewport(FlyChicken.WIDTH/2, FlyChicken.HEIGHT/2, cam);
@@ -52,6 +80,7 @@ public class GameView implements Screen  {
 
         game.getGameBird().setValidPositionsX(game.getLeftWallPos1().x+game.getLeftWall().getWidth(), game.getRightWallPos1().x,
                 game.GetWater().getPosY()+game.GetWater().getWaterTexture().getHeight());
+
     }
 
     @Override
@@ -93,12 +122,20 @@ public class GameView implements Screen  {
         checkCollisions();
 
         updateHud();
+
         gameMain.batch.end();
 
         if (game.getState() == EnumGameState.Lose){
             gameMain.setScreen(new MainMenu(gameMain));
             this.dispose();
         }
+
+        /*
+        if (DEBUG_PHYSICS) {
+            debugCamera = cam.combined.cpy();
+            debugCamera.scl(1 / PIXEL_TO_METER);
+            debugRenderer.render(GameController.getInstance().getWorld(), debugCamera);
+        }*/
     }
 
     public void updateHud() {
@@ -133,9 +170,13 @@ public class GameView implements Screen  {
 
     public void drawBranches() {
         for (Branch branch : game.GetGameBranches()) {
-            gameMain.batch.draw(branch.getRightBranch(), branch.getPosLeftBranch().x, branch.getPosLeftBranch().y);
-            gameMain.batch.draw(branch.getLeftBranch(), branch.getPosRightBranch().x, branch.getPosRightBranch().y);
+            gameMain.batch.draw(branch.getLeftBranch(), branch.getPosLeftBranch().x, branch.getPosLeftBranch().y);
+            gameMain.batch.draw(branch.getRightBranch(), branch.getPosRightBranch().x, branch.getPosRightBranch().y);
+            //gameMain.batch.draw(branch.getRectangle1(), branch.getPosRectangle1().x, branch.getPosRectangle1().y);
+            //gameMain.batch.draw(branch.getRectangle2(), branch.getPosRectangle2().x, branch.getPosRectangle2().y);
         }
+
+
     }
 
     public void handleinput() {

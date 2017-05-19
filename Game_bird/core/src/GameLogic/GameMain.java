@@ -1,7 +1,9 @@
 package GameLogic;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.Random;
@@ -21,7 +23,10 @@ public class GameMain {
 
     private int eatenApples;
     private Bird bird;
+    private Body birdBody;
+
     private Array<Branch> branches;
+
     private Water water;
     private Apple apple;
     private static GameMain instance = null;
@@ -31,9 +36,11 @@ public class GameMain {
     private Vector2 leftWallPos1, leftWallPos2, rightWallPos1, rightWallPos2;
 
     private int lives;
-    private float timeCount;
+    private long timeCount;
+    private long currTime;
     private int score;
     private long timeSinceCollision;
+
 
     public GameMain() {
         level = EnumGameLevel.LevelOne;
@@ -43,6 +50,7 @@ public class GameMain {
 
         lives = 3;
         timeCount = 0;
+        currTime = System.currentTimeMillis();
         score = 0;
         timeSinceCollision = System.nanoTime();
     }
@@ -75,7 +83,9 @@ public class GameMain {
         lives = live;
     }
 
-    public float getCurrTime() {
+    public long getCurrTime() {
+        timeCount = (System.currentTimeMillis() - currTime)/1000;
+        System.out.println("TIME:"+ timeCount);
         return timeCount;
     }
 
@@ -89,7 +99,7 @@ public class GameMain {
     }
 
     public void createApple(){
-        this.apple = new Apple(50, 900);
+        this.apple = new Apple(50, -100);
     }
 
     public void createBranchs() {
@@ -152,14 +162,13 @@ public class GameMain {
     public boolean checkCollisionsBranchs() {
         long delta_time =(System.nanoTime() - timeSinceCollision)/ 1000000;
         TimeUnit.SECONDS.convert(delta_time, TimeUnit.NANOSECONDS);
-        System.out.println("TIME:"+ delta_time);
-        if(delta_time <= 300) {
+        if(delta_time <= 200) {
             return false;
         }
 
         for (int i=1; i < branches.size; i++){
-            if(bird.getBounds().overlaps(branches.get(i).getBoundsLeftBranch()) ||
-                    bird.getBounds().overlaps(branches.get(i).getBoundsRightBranch())) {
+            if(Intersector.overlaps(bird.getBounds(), branches.get(i).getBoundsLeftBranch()) ||
+                    Intersector.overlaps(bird.getBounds(), branches.get(i).getBoundsRightBranch())) {
                     updateLives(-1);
                     updateState();
                 timeSinceCollision = System.nanoTime();
@@ -171,12 +180,10 @@ public class GameMain {
     }
 
     public boolean checkCollisionsWater() {
-
-        if(bird.getBounds().overlaps(water.getWaterBounds())){
+        if(Intersector.overlaps(bird.getBounds(), water.getWaterBounds())) {
                 state = EnumGameState.Lose;
                 return true;
         }
-
         return false;
     }
 
@@ -189,11 +196,11 @@ public class GameMain {
     }
 
     public boolean checkAppleCollision(){
-        if(apple.getAppleBounds().overlaps(bird.getBounds())){
-            this.eatenApples += 1;
-            updateScore(50);
-            return true;
-        }
+       if( Intersector.overlaps(apple.getAppleBounds(), bird.getBounds())) {
+           this.eatenApples += 1;
+           updateScore(50);
+           return true;
+       }
         return false;
     }
 
@@ -202,7 +209,6 @@ public class GameMain {
             int min = leftWall.getWidth() + 40;
             int max = (int)cam.viewportWidth-rightWall.getWidth() - 40;
             apple.setPosX(rand.nextInt((max- min)+1)+min);
-            //apple.setPosX(rand.nextInt(max) + min);
             apple.setPosY((bird.getPosY() + (int)cam.position.y));
             apple.getAppleBounds().setPosition(apple.getPosX(), apple.getPosY());
         }
@@ -210,7 +216,7 @@ public class GameMain {
 
     public void updateBranches(OrthographicCamera cam) {
         for (Branch branch : branches)
-            if(cam.position.y - (cam.viewportHeight/2) > branch.getPosRightBranch().y + branch.getLeftBranch().getHeight())
+            if(cam.position.y - (cam.viewportHeight/2) > branch.getPosRightBranch().y + branch.getRightBranch().getHeight())
                 branch.reposition(branch.getPosRightBranch().y + ((Branch.B_HEIGHT + BRANCH_SPACING) * BRANCH_COUNT));
     }
 
