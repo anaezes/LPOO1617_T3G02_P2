@@ -74,7 +74,7 @@ public class GameView implements Screen  {
         birdPosY = game.getGameBird().getPosition().y;
         game.createWater();
         game.createBranchs();
-        game.createApple();
+        game.createApple(50, -100);
         game.createWalls(cam);
         rand = new Random();
 
@@ -232,7 +232,9 @@ public class GameView implements Screen  {
 
         if(game.checkAppleCollision()) {
             game.disposeApple();
-            game.createApple();
+            int x = game.GetXRandomAxis(cam);
+            int y = game.GetCurrentYAxis(cam);
+            game.createApple(x, y);
         }
     }
 

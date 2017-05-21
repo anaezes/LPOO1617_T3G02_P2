@@ -98,8 +98,9 @@ public class GameMain {
         water = new Water(0, 0);
     }
 
-    public void createApple(){
-        this.apple = new Apple(50, -100);
+    public void createApple(int x, int y){
+        // x = 50 y = -100
+        this.apple = new Apple(x, y);
     }
 
     public void createBranchs() {
@@ -206,10 +207,8 @@ public class GameMain {
 
     public void updateApple(OrthographicCamera cam) {
         if (cam.position.y - (cam.viewportHeight / 2) > apple.getPosY() + apple.getAppleTexture().getHeight()) {
-            int min = leftWall.getWidth() + 40;
-            int max = (int)cam.viewportWidth-rightWall.getWidth() - 40;
-            apple.setPosX(rand.nextInt((max- min)+1)+min);
-            apple.setPosY((bird.getPosY() + (int)cam.position.y));
+            apple.setPosX(GetXRandomAxis(cam));
+            apple.setPosY(GetCurrentYAxis(cam));
             apple.getAppleBounds().setPosition(apple.getPosX(), apple.getPosY());
         }
     }
@@ -242,5 +241,17 @@ public class GameMain {
 
     public Vector2 getRightWallPos2() {
         return rightWallPos2;
+    }
+
+    public int GetXRandomAxis(OrthographicCamera cam) {
+        int min = leftWall.getWidth();
+        int max = (int)cam.viewportWidth-rightWall.getWidth();
+        int x = rand.nextInt((max- min)+1)+min;
+        return x;
+    }
+
+    public int GetCurrentYAxis(OrthographicCamera cam) {
+        int y = bird.getPosY() + (int)cam.position.y;
+        return y;
     }
 }
