@@ -120,16 +120,37 @@ public class GameMain {
     public void createBranchs() {
         branches = new Array<Branch>();
         for (int i=1; i<BRANCH_COUNT; i++){
-            branches.add(new Branch(0,i* (BRANCH_SPACING + Branch.B_HEIGHT)));
+            if(level == EnumGameLevel.LevelOne)
+                branches.add(new BranchLevelOne(0,i* (BRANCH_SPACING + Branch.B_HEIGHT)));
+            else if(level == EnumGameLevel.LevelTwo)
+                branches.add(new BranchLevelTwo(0,i* (BRANCH_SPACING + Branch.B_HEIGHT)));
+            else
+                branches.add(new BranchLevelThree(0,i* (BRANCH_SPACING + Branch.B_HEIGHT)));
         }
     }
 
     public void createWalls(OrthographicCamera cam) {
-        leftWall = new Texture("wallLeft.png");
+
+        if(level == EnumGameLevel.LevelOne) {
+            leftWall = new Texture("wallLeftNormal.png");
+            rightWall = new Texture("wallRightNormal.png");
+        }
+        else if(level == EnumGameLevel.LevelTwo) {
+            leftWall = new Texture("wallLeftWinter.png");
+            rightWall = new Texture("wallRightWinter.png");
+        }
+        else {
+            leftWall = new Texture("wallLeftHot.png");
+            rightWall = new Texture("wallRightHot.png");
+        }
+
+
         leftWallPos1 = new Vector2(WALL_X_OFFSET, cam.position.y - cam.viewportHeight/2);
         leftWallPos2 = new Vector2(WALL_X_OFFSET, (cam.position.x - cam.viewportWidth/2) + leftWall.getHeight());
 
-        rightWall = new Texture("wallRight.png");
+
+
+
         rightWallPos1 = new Vector2(FlyChicken.WIDTH/2 - (rightWall.getWidth() + WALL_X_OFFSET), cam.position.y - cam.viewportHeight/2);
         rightWallPos2 = new Vector2(FlyChicken.WIDTH/2- (rightWall.getWidth() + WALL_X_OFFSET), (cam.position.x - cam.viewportWidth/2) + rightWall.getHeight());
 

@@ -10,37 +10,27 @@ import java.util.Random;
 public class Branch extends Obstacle {
 
     public static final int B_HEIGHT = 150;           /////Depende da imagem
+    protected static final int X_FLUCTUATION = 60;
+    protected static final int GAP_BRANCH = 110;
+    protected static final int LOWEST_OPENING = 20;
 
-    private static final int X_FLUCTUATION = 60;
-    private static final int GAP_BRANCH = 110;
-    private static final int LOWEST_OPENING = 20;
+    protected Texture rightBranch, leftBranch, rectangle1, rectangle2;
+    protected Rectangle boundsRightBranch, boundsLeftBranch;
+    protected Vector3 posLeftBranch;
+    protected Vector3 posRightBranch;
+    protected Random rand;
 
-    private Texture rightBranch, leftBranch, rectangle1, rectangle2;
-    private Rectangle boundsRightBranch, boundsLeftBranch;
-    private Vector3 posLeftBranch;
-    private Vector3 posRightBranch;
-    private Random rand;
-
-    private Vector3 posRectangle1, posRectangle2;
+    protected Vector3 posRectangle1, posRectangle2;
 
     public Branch(int x, int y) {
         super(x, y);
-
-        rightBranch = new Texture("rightBranch2.png");
-        leftBranch = new Texture("leftBranch2.png");
-        //rectangle1 = new Texture("rectangle.png");
-        //rectangle2 = new Texture("rectangle.png");
-
         rand = new Random();
-        posLeftBranch = new Vector3(rand.nextInt(X_FLUCTUATION) + GAP_BRANCH + LOWEST_OPENING, y, 0);
-        posRightBranch = new Vector3(posLeftBranch.x - GAP_BRANCH - leftBranch.getWidth(), y+rand.nextInt(X_FLUCTUATION) + GAP_BRANCH + LOWEST_OPENING, 0);
 
         //debug
+        //rectangle1 = new Texture("rectangle.png");
+        //rectangle2 = new Texture("rectangle.png");
         //posRectangle1 = new Vector3(posLeftBranch.x, posLeftBranch.y+3*leftBranch.getHeight()/4,0);
         //posRectangle2 = new Vector3(posRightBranch.x-rightBranch.getWidth()/3, posRightBranch.y+3*leftBranch.getHeight()/4,0);
-
-        boundsLeftBranch = new Rectangle(posLeftBranch.x, posLeftBranch.y+3*leftBranch.getHeight()/4, leftBranch.getWidth(), leftBranch.getHeight()/4);
-        boundsRightBranch = new Rectangle(posRightBranch.x + rightBranch.getWidth()/3, posRightBranch.y+3*leftBranch.getHeight()/4, rightBranch.getWidth(), rightBranch.getHeight()/4);
     }
 
     public Texture getLeftBranch() {
