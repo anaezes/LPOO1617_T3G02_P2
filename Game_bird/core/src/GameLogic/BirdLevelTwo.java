@@ -5,11 +5,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 
 
-public class birdLevelOne extends Bird {
-    public birdLevelOne(int x, int y) {
+public class BirdLevelTwo extends Bird {
+
+    public BirdLevelTwo(int x, int y) {
         super(x, y);
         birdTexture = new Texture("birdanimation2.png");
-        weight = 0;
+        weight = 5f;
         birdAnimation = new Animation(new TextureRegion(birdTexture), 3, 0.5f);
         bounds = new Circle(x+birdAnimation.getFrame().getRegionWidth()/2, y+birdAnimation.getFrame().getRegionHeight()/2, birdAnimation.getFrame().getRegionHeight()/4);
     }

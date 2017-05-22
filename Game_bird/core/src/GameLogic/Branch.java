@@ -13,7 +13,7 @@ public class Branch extends Obstacle {
 
     private static final int X_FLUCTUATION = 60;
     private static final int GAP_BRANCH = 110;
-    private static final int LOWEST_OPENING = 30;
+    private static final int LOWEST_OPENING = 20;
 
     private Texture rightBranch, leftBranch, rectangle1, rectangle2;
     private Rectangle boundsRightBranch, boundsLeftBranch;
@@ -61,7 +61,7 @@ public class Branch extends Obstacle {
 
     public void reposition(float y){
         posLeftBranch.set(rand.nextInt(X_FLUCTUATION) + GAP_BRANCH + LOWEST_OPENING, y, 0);
-        posRightBranch.set(posLeftBranch.x - GAP_BRANCH - leftBranch.getWidth() ,y, 0);
+        posRightBranch.set(posLeftBranch.x - GAP_BRANCH - leftBranch.getWidth(), y+rand.nextInt(X_FLUCTUATION) + GAP_BRANCH + LOWEST_OPENING, 0);
 
         boundsLeftBranch.setPosition(posLeftBranch.x, posLeftBranch.y+3*leftBranch.getHeight()/4);
         boundsRightBranch.setPosition(posRightBranch.x-rightBranch.getWidth()/4, posRightBranch.y+3*rightBranch.getHeight()/4);

@@ -93,15 +93,20 @@ public class GameMain {
 
     public void createBird(int width) {
         if(level == EnumGameLevel.LevelOne)
-            bird = new birdLevelOne(100, width);
+            bird = new BirdLevelOne(100, width);
         else if(level == EnumGameLevel.LevelTwo)
-            bird = new birdLevelTwo(100, width);
+            bird = new BirdLevelTwo(100, width);
         else
-            bird = new birdLevelThree(100, width);
+            bird = new BirdLevelThree(100, width);
     }
 
     public void createWater() {
-        water = new Water(0, -478);
+        if(level == EnumGameLevel.LevelOne)
+            water = new WaterLevelOne(0, -478);
+        else if(level == EnumGameLevel.LevelTwo)
+            water = new WaterLevelTwo(0, -478);
+        else
+            water = new WaterLevelThree(0, -478);
     }
 
     public void createApple(int x, int y){
@@ -130,11 +135,11 @@ public class GameMain {
 
     }
 
-    public EnumGameLevel GetCurrentGameLevel() {
+    public EnumGameLevel getCurrentGameLevel() {
         return level;
     }
 
-    public void SetGameLevel(EnumGameLevel level) {
+    public void setGameLevel(EnumGameLevel level) {
         this.level = level;
     }
 
@@ -158,7 +163,7 @@ public class GameMain {
         this.star = null;
     }
 
-    public Water GetWater() {
+    public Water getWater() {
         return water;
     }
 

@@ -81,7 +81,7 @@ public class GameView implements Screen  {
         rand = new Random();
 
         game.getGameBird().setValidPositionsX(game.getLeftWallPos1().x+game.getLeftWall().getWidth(), game.getRightWallPos1().x,
-                game.GetWater().getPosY()+game.GetWater().getWaterTexture().getHeight());
+                game.getWater().getPosY()+game.getWater().getWaterTexture().getHeight());
 
     }
 
@@ -154,7 +154,7 @@ public class GameView implements Screen  {
     }
 
     public void drawWater(){
-        gameMain.batch.draw(game.GetWater().getWaterTexture(), game.GetWater().getPosX(), game.GetWater().getPosY());
+        gameMain.batch.draw(game.getWater().getWaterTexture(), game.getWater().getPosX(), game.getWater().getPosY());
     }
 
     public void drawAwards(){
@@ -253,8 +253,8 @@ public class GameView implements Screen  {
 
 
    public void updateWater(){
-        game.GetWater().setPosY(game.GetWater().getPosY() + WATER_INCREMENT);
-        game.GetWater().setWaterBoundsPosition(0, game.GetWater().getPosY());
+        game.getWater().setPosY(game.getWater().getPosY() + game.getWater().getWaterIncrement());
+        game.getWater().setWaterBoundsPosition(0, game.getWater().getPosY());
    }
 
     @Override
