@@ -29,6 +29,7 @@ public class GameMain {
 
     private Water water;
     private Apple apple;
+    private Star star;
     private static GameMain instance = null;
     private  Random rand;
 
@@ -99,8 +100,11 @@ public class GameMain {
     }
 
     public void createApple(int x, int y){
-        // x = 50 y = -100
         this.apple = new Apple(x, y);
+    }
+
+    public void createStar(int x, int y){
+        this.star = new Star(x, y);
     }
 
     public void createBranchs() {
@@ -137,8 +141,16 @@ public class GameMain {
         return apple;
     }
 
+    public Star getStar() {
+        return star;
+    }
+
     public void disposeApple() {
         this.apple = null;
+    }
+
+    public void disposeStar() {
+        this.star = null;
     }
 
     public Water GetWater() {
@@ -205,11 +217,23 @@ public class GameMain {
         return false;
     }
 
-    public void updateApple(OrthographicCamera cam) {
+    public boolean checkStarCollision(){
+        if( Intersector.overlaps(star.getStarBounds(), bird.getBounds())) {
+            this.lives += 1;
+            return true;
+        }
+        return false;
+    }
+
+    public void updateAwards(OrthographicCamera cam) {
         if (cam.position.y - (cam.viewportHeight / 2) > apple.getPosY() + apple.getAppleTexture().getHeight()) {
-            apple.setPosX(GetXRandomAxis(cam));
-            apple.setPosY(GetCurrentYAxis(cam));
+            apple.setPosX(getXRandomAxis(cam));
+            apple.setPosY(getCurrentYAxis(cam));
             apple.getAppleBounds().setPosition(apple.getPosX(), apple.getPosY());
+
+            star.setPosX(getXRandomAxis(cam));
+            star.setPosY(getCurrentYAxis(cam));
+            star.getStarBounds().setPosition(star.getPosX(), star.getPosY());
         }
     }
 
@@ -243,15 +267,17 @@ public class GameMain {
         return rightWallPos2;
     }
 
-    public int GetXRandomAxis(OrthographicCamera cam) {
+    public int getXRandomAxis(OrthographicCamera cam) {
         int min = leftWall.getWidth();
         int max = (int)cam.viewportWidth-rightWall.getWidth();
         int x = rand.nextInt((max- min)+1)+min;
         return x;
     }
 
-    public int GetCurrentYAxis(OrthographicCamera cam) {
-        int y = bird.getPosY() + (int)cam.position.y;
+    public int getCurrentYAxis(OrthographicCamera cam) {
+        int min = 0 + (int)cam.position.y;
+        int max = FlyChicken.HEIGHT + (int)cam.position.y;
+        int y = bird.getPosY() + rand.nextInt((max - min)+1)+min;
         return y;
     }
 }

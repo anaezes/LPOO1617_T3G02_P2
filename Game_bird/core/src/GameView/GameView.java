@@ -75,6 +75,7 @@ public class GameView implements Screen  {
         game.createWater();
         game.createBranchs();
         game.createApple(50, -100);
+        game.createStar(70, 400);
         game.createWalls(cam);
         rand = new Random();
 
@@ -102,7 +103,7 @@ public class GameView implements Screen  {
         handleinput();
 
         updateWalls(game.getGameBird().getPosition().y);
-        game.updateApple(cam);
+        game.updateAwards(cam);
         game.updateBranches(cam);
 
         updateWater();
@@ -112,7 +113,7 @@ public class GameView implements Screen  {
         cam.position.y = game.getGameBird().getPosition().y + game.getGameBird().getBirdTexture().getRegionHeight()/2;
 
         drawBird();
-        drawApple();
+        drawAwards();
         drawBranches();
         drawWater();
         drawWalls();
@@ -155,8 +156,9 @@ public class GameView implements Screen  {
         gameMain.batch.draw(game.GetWater().getWaterTexture(), game.GetWater().getPosX(), game.GetWater().getPosY());
     }
 
-    public void drawApple(){
+    public void drawAwards(){
         gameMain.batch.draw(game.getApple().getAppleTexture(), game.getApple().getPosX(), game.getApple().getPosY());
+        gameMain.batch.draw(game.getStar().getStarTexture(), game.getStar().getPosX(), game.getStar().getPosY());
     }
 
 
@@ -232,9 +234,16 @@ public class GameView implements Screen  {
 
         if(game.checkAppleCollision()) {
             game.disposeApple();
-            int x = game.GetXRandomAxis(cam);
-            int y = game.GetCurrentYAxis(cam);
+            int x = game.getXRandomAxis(cam);
+            int y = game.getCurrentYAxis(cam);
             game.createApple(x, y);
+        }
+
+        if(game.checkStarCollision()) {
+            game.disposeStar();
+            int x = game.getXRandomAxis(cam);
+            int y = game.getCurrentYAxis(cam);
+            game.createStar(x, y);
         }
     }
 
