@@ -126,7 +126,7 @@ public class GameView implements Screen  {
         gameMain.batch.end();
 
         if (game.getState() == EnumGameState.Lose){
-            gameMain.setScreen(new MainMenu(gameMain));
+            gameMain.setScreen(new GameMenu(gameMain));
             this.dispose();
         }
 
@@ -175,16 +175,16 @@ public class GameView implements Screen  {
             //gameMain.batch.draw(branch.getRectangle1(), branch.getPosRectangle1().x, branch.getPosRectangle1().y);
             //gameMain.batch.draw(branch.getRectangle2(), branch.getPosRectangle2().x, branch.getPosRectangle2().y);
         }
-
-
     }
 
     public void handleinput() {
         if(Gdx.input.justTouched())
             game.getGameBird().jump();
 
-        if (Gdx.input.isKeyPressed(Input.Keys.BACK))
-            gameMain.setScreen(new MainMenu(gameMain));
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            this.dispose();
+            gameMain.setScreen(new GameMenu(gameMain));
+        }
     }
 
     public void updateWalls(float currentBirdPosY) {
