@@ -176,7 +176,7 @@ public class GameMain {
         long delta_time =(System.nanoTime() - timeSinceCollision)/ 1000000;
         TimeUnit.SECONDS.convert(delta_time, TimeUnit.NANOSECONDS);
         if(delta_time <= 200) {
-            return false;
+            return true;
         }
 
         for (int i=1; i < branches.size; i++){
@@ -184,12 +184,12 @@ public class GameMain {
                     Intersector.overlaps(bird.getBounds(), branches.get(i).getBoundsRightBranch())) {
                     updateLives(-1);
                     updateState();
-                timeSinceCollision = System.nanoTime();
-                    return true;
+                    timeSinceCollision = System.nanoTime();
+                return true;
                 }
             }
 
-    return false;
+            return false;
     }
 
     public boolean checkCollisionsWater() {
@@ -230,7 +230,9 @@ public class GameMain {
             apple.setPosX(getXRandomAxis(cam));
             apple.setPosY(getCurrentYAxis(cam));
             apple.getAppleBounds().setPosition(apple.getPosX(), apple.getPosY());
+        }
 
+        if(cam.position.y - (cam.viewportHeight / 2) > star.getPosY() + star.getStarTexture().getHeight()) {
             star.setPosX(getXRandomAxis(cam));
             star.setPosY(getCurrentYAxis(cam));
             star.getStarBounds().setPosition(star.getPosX(), star.getPosY());

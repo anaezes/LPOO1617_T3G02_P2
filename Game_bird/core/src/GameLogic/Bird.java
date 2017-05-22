@@ -15,6 +15,7 @@ public class Bird extends GameObject {
     private Vector3 position;
     private Vector3 velocity;
     private Texture birdTexture;
+    private Texture birdStars;
     private Animation birdAnimation;
     private Circle bounds;
 
@@ -32,6 +33,8 @@ public class Bird extends GameObject {
         birdTexture = new Texture("birdanimation2.png");
         birdAnimation = new Animation(new TextureRegion(birdTexture), 3, 0.5f);
         bounds = new Circle(x+birdAnimation.getFrame().getRegionWidth()/2, y+birdAnimation.getFrame().getRegionHeight()/2, birdAnimation.getFrame().getRegionHeight()/4);
+
+        birdStars = new Texture("starsbird.png");
     }
 
     public double getWeight() {
@@ -68,6 +71,10 @@ public class Bird extends GameObject {
 
     public TextureRegion getBirdTexture() {
         return birdAnimation.getFrame();
+    }
+
+    public Texture getBirdStarsTexture() {
+        return birdStars;
     }
 
     public void jump(){

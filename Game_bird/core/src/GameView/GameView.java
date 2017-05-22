@@ -227,8 +227,11 @@ public class GameView implements Screen  {
     }
 
     public void checkCollisions(){
-        game.checkCollisionsBranchs();
-
+        if(game.checkCollisionsBranchs()) {
+            float posX = game.getGameBird().getPosition().x + game.getGameBird().getBirdTexture().getRegionWidth()/2-game.getGameBird().getBirdStarsTexture().getWidth()/2;
+            float posY = game.getGameBird().getPosition().y + 3*game.getGameBird().getBirdTexture().getRegionHeight()/4;
+            gameMain.batch.draw(game.getGameBird().getBirdStarsTexture(), posX,  posY);
+        }
         if(game.checkCollisionsWater())
             gameMain.setScreen(new GameView(gameMain));
 

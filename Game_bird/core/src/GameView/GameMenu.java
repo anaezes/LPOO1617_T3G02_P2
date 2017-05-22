@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class GameMenu implements Screen{
     private Viewport gamePort;
     private Stage stage;
-    private Texture backGround, btn;
+    private Texture backGround, btnLevelOne, btnLevelTwo, btnLevelThree;
     private FlyChicken game;
     private ImageButton levelOneBtn, levelTwoBtn, levelThreeBtn;
 
@@ -30,14 +30,20 @@ public class GameMenu implements Screen{
 
         backGround = new Texture(Gdx.files.internal("bg.png"));
 
-        btn = new Texture(Gdx.files.internal("btn.png"));
+        btnLevelOne = new Texture(Gdx.files.internal("btnlevel1.png"));
+        TextureRegion btn = new TextureRegion(btnLevelOne);
+        TextureRegionDrawable btnDraw = new TextureRegionDrawable(btn);
+        levelOneBtn = new ImageButton(btnDraw);
 
-        TextureRegion returnBtnRegion = new TextureRegion(btn);
-        TextureRegionDrawable returnBtnDraw = new TextureRegionDrawable(returnBtnRegion);
+        btnLevelTwo = new Texture(Gdx.files.internal("btnlevel2.png"));
+        btn = new TextureRegion(btnLevelTwo);
+        btnDraw = new TextureRegionDrawable(btn);
+        levelTwoBtn = new ImageButton(btnDraw);
 
-        levelOneBtn = new ImageButton(returnBtnDraw);
-        levelTwoBtn = new ImageButton(returnBtnDraw);
-        levelThreeBtn = new ImageButton(returnBtnDraw);
+        btnLevelThree = new Texture(Gdx.files.internal("btnlevel3.png"));
+        btn = new TextureRegion(btnLevelThree);
+        btnDraw = new TextureRegionDrawable(btn);
+        levelThreeBtn = new ImageButton(btnDraw);
 
         levelOneBtn.setPosition(FlyChicken.WIDTH/2- levelOneBtn.getWidth()/2,
                 FlyChicken.HEIGHT- levelOneBtn.getHeight());
