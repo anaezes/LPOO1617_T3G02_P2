@@ -15,6 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import GameLogic.EnumGameLevel;
+
 public class GameMenu implements Screen{
     private Viewport gamePort;
     private Stage stage;
@@ -88,13 +90,13 @@ public class GameMenu implements Screen{
     }
 
     public void levelOneClick(){
-        game.setScreen(new GameView(game));
+        game.setScreen(new GameView(game, EnumGameLevel.LevelOne));
     }
     public void levelTwoClick(){
-        game.setScreen(new GameView(game));
+        game.setScreen(new GameView(game, EnumGameLevel.LevelTwo));
     }
     public void levelThreeClick(){
-        game.setScreen(new GameView(game));
+        game.setScreen(new GameView(game, EnumGameLevel.LevelThree));
     }
 
     @Override

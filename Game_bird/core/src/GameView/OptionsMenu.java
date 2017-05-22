@@ -14,9 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-/**
- * Created by cristiana on 03-05-2017.
- */
 
 public class OptionsMenu implements Screen{
     private Viewport gamePort;

@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.util.Random;
 
 import GameLogic.Branch;
+import GameLogic.EnumGameLevel;
 import GameLogic.EnumGameState;
 import GameLogic.GameMain;
 
@@ -50,9 +51,9 @@ public class GameView implements Screen  {
      */
     private Matrix4 debugCamera;
 
-    public GameView(FlyChicken mainGameObj) {
+    public GameView(FlyChicken mainGame, EnumGameLevel level) {
         Gdx.input.setCatchBackKey(true);
-        this.gameMain = mainGameObj;
+        this.gameMain = mainGame;
 
         Gdx.input.setInputProcessor(null);
 
@@ -68,8 +69,8 @@ public class GameView implements Screen  {
         hud = new Hud(gameMain.batch);
 
         gamePort = new FitViewport(FlyChicken.WIDTH/2, FlyChicken.HEIGHT/2, cam);
-        game = new GameMain();
-        game.createBird(FlyChicken.WIDTH);
+        game = new GameMain(level);
+        game.createBird(FlyChicken.HEIGHT+400);
 
         birdPosY = game.getGameBird().getPosition().y;
         game.createWater();
@@ -233,7 +234,7 @@ public class GameView implements Screen  {
             gameMain.batch.draw(game.getGameBird().getBirdStarsTexture(), posX,  posY);
         }
         if(game.checkCollisionsWater())
-            gameMain.setScreen(new GameView(gameMain));
+            gameMain.setScreen(new GameMenu(gameMain));
 
         if(game.checkAppleCollision()) {
             game.disposeApple();

@@ -171,8 +171,6 @@ public class MainMenu implements Screen {
         stage.getBatch().end();
         stage.act(delta);
         stage.draw();
-
-
     }
 
     @Override

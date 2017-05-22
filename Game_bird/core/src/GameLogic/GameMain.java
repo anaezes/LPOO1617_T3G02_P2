@@ -43,8 +43,8 @@ public class GameMain {
     private long timeSinceCollision;
 
 
-    public GameMain() {
-        level = EnumGameLevel.LevelOne;
+    public GameMain(EnumGameLevel l) {
+        level = l;
         state = EnumGameState.Running;
         eatenApples = 0;
         rand = new Random();
@@ -92,11 +92,16 @@ public class GameMain {
 
 
     public void createBird(int width) {
-        bird = new Bird(100, width ,100);
+        if(level == EnumGameLevel.LevelOne)
+            bird = new birdLevelOne(100, width);
+        else if(level == EnumGameLevel.LevelTwo)
+            bird = new birdLevelTwo(100, width);
+        else
+            bird = new birdLevelThree(100, width);
     }
 
     public void createWater() {
-        water = new Water(0, 0);
+        water = new Water(0, -478);
     }
 
     public void createApple(int x, int y){
