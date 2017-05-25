@@ -232,9 +232,12 @@ public class GameView implements Screen  {
             float posX = game.getGameBird().getPosition().x + game.getGameBird().getBirdTexture().getRegionWidth()/2-game.getGameBird().getBirdStarsTexture().getWidth()/2;
             float posY = game.getGameBird().getPosition().y + 3*game.getGameBird().getBirdTexture().getRegionHeight()/4;
             gameMain.batch.draw(game.getGameBird().getBirdStarsTexture(), posX,  posY);
+            Gdx.input.vibrate(500);
         }
-        if(game.checkCollisionsWater())
+        if(game.checkCollisionsWater()) {
+            Gdx.input.vibrate(500);
             gameMain.setScreen(new GameMenu(gameMain));
+        }
 
         if(game.checkAppleCollision()) {
             game.disposeApple();

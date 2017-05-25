@@ -27,10 +27,8 @@ public class Branch extends Obstacle {
         rand = new Random();
 
         //debug
-        //rectangle1 = new Texture("rectangle.png");
-        //rectangle2 = new Texture("rectangle.png");
-        //posRectangle1 = new Vector3(posLeftBranch.x, posLeftBranch.y+3*leftBranch.getHeight()/4,0);
-        //posRectangle2 = new Vector3(posRightBranch.x-rightBranch.getWidth()/3, posRightBranch.y+3*leftBranch.getHeight()/4,0);
+        rectangle1 = new Texture("rectangle.png");
+        rectangle2 = new Texture("rectangle.png");
     }
 
     public Texture getLeftBranch() {
@@ -56,8 +54,8 @@ public class Branch extends Obstacle {
         boundsLeftBranch.setPosition(posLeftBranch.x, posLeftBranch.y+3*leftBranch.getHeight()/4);
         boundsRightBranch.setPosition(posRightBranch.x-rightBranch.getWidth()/4, posRightBranch.y+3*rightBranch.getHeight()/4);
 
-        //posRectangle1.set(posLeftBranch.x, posLeftBranch.y+3*leftBranch.getHeight()/4, 0);
-        //posRectangle2.set(posRightBranch.x-rightBranch.getWidth()/3, posRightBranch.y+3*leftBranch.getHeight()/4, 0);
+        posRectangle1.set(posLeftBranch.x, posLeftBranch.y+3*leftBranch.getHeight()/4, 0);
+        posRectangle2.set(posRightBranch.x-rightBranch.getWidth()/4, posRightBranch.y+3*leftBranch.getHeight()/4, 0);
     }
 
     public Rectangle getBoundsRightBranch() {
