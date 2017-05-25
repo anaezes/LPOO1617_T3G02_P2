@@ -55,10 +55,13 @@ public class ScoresMenu implements Screen{
 
 
         for(int i = 0; i<total; i++) {
+            BitmapFont myfont = new BitmapFont();
+            myfont.getData().scale(1.05f);
         record = new Label(FlyChicken.GetInstance().GetScores().get(i).GetPlayerName() + " - "
                 + String.format("%01d" ,FlyChicken.GetInstance().GetScores().get(i).GetPlayerPoints()),
-                new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        record.setPosition(FlyChicken.WIDTH/2 - record.getWidth()/2, FlyChicken.HEIGHT-100 - i * 40);
+                new Label.LabelStyle(myfont, Color.WHITE));
+
+        record.setPosition(FlyChicken.WIDTH/2 - record.getWidth()/2, FlyChicken.HEIGHT-120 - i * 70);
         stage.addActor(record);
         }
 
