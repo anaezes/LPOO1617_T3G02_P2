@@ -195,8 +195,11 @@ public class GameMain {
     public void updateState() {
         System.out.print("LIVES:    " + lives);
 
-        if(lives < 0)
+        if(lives < 0) {
+            Score playerScore = new Score("Teste", score);
+            FlyChicken.GetInstance().AddScore(playerScore);
             state = EnumGameState.Lose;
+        }
     }
 
     public EnumGameState getState() {
@@ -225,8 +228,11 @@ public class GameMain {
 
     public boolean checkCollisionsWater() {
         if(Intersector.overlaps(bird.getBounds(), water.getWaterBounds())) {
+
+                Score playerScore = new Score("Teste", score);
+                FlyChicken.GetInstance().AddScore(playerScore);
                 state = EnumGameState.Lose;
-                return true;
+            return true;
         }
         return false;
     }

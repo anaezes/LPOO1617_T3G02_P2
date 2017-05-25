@@ -1,5 +1,6 @@
 package com.anacris.game.desktop;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
@@ -12,5 +13,7 @@ public class DesktopLauncher {
 		config.height = FlyChicken.HEIGHT;
 		config.title = FlyChicken.TITLE;
 		new LwjglApplication(FlyChicken.GetInstance(), config);
+
+		FlyChicken.GetInstance().setPrefs(Gdx.app.getPreferences("com.anacris.game"));
 	}
 }
