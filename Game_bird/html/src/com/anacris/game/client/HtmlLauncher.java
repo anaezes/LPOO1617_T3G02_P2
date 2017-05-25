@@ -15,6 +15,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener createApplicationListener () {
-                return FlyChicken.GetInstance();
+                return FlyChicken.getInstance();
         }
 }

@@ -20,9 +20,10 @@ import GameLogic.EnumGameLevel;
 public class GameMenu implements Screen{
     private Viewport gamePort;
     private Stage stage;
-    private Texture backGround, btnLevelOne, btnLevelTwo, btnLevelThree;
+    private Texture backGround, btnreturn, btnLevelOne, btnLevelTwo, btnLevelThree;
     private FlyChicken game;
     private ImageButton levelOneBtn, levelTwoBtn, levelThreeBtn;
+    private ImageButton goBack;
 
     public GameMenu(FlyChicken game){
 
@@ -31,6 +32,15 @@ public class GameMenu implements Screen{
         stage = new Stage(gamePort, game.batch);
 
         backGround = new Texture(Gdx.files.internal("bg.png"));
+
+        btnreturn = new Texture(Gdx.files.internal("returnbtn.png"));
+        TextureRegion returnBtnRegion = new TextureRegion(btnreturn);
+        TextureRegionDrawable returnBtnDraw = new TextureRegionDrawable(returnBtnRegion);
+        goBack = new ImageButton(returnBtnDraw);
+
+        stage.setDebugParentUnderMouse(true);
+        goBack.setPosition(50,50);
+        stage.addActor(goBack);
 
         btnLevelOne = new Texture(Gdx.files.internal("btnlevel1.png"));
         TextureRegion btn = new TextureRegion(btnLevelOne);
@@ -87,6 +97,16 @@ public class GameMenu implements Screen{
                 return true;
             }
         });
+
+        goBack.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if(goBack.isPressed()){
+                    onClickBack();
+                }
+                return true;
+            }
+        });
     }
 
     public void levelOneClick(){
@@ -118,9 +138,14 @@ public class GameMenu implements Screen{
 
     public void handleinput() {
        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
-           this.dispose();
            game.setScreen(new MainMenu(game));
        }
+    }
+
+    public void onClickBack() {
+        System.out.println("GoBack");
+        game.setScreen(new MainMenu(game));
+
     }
 
     @Override

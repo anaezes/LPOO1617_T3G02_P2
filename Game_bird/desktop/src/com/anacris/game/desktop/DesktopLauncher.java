@@ -12,8 +12,8 @@ public class DesktopLauncher {
 		config.width =  FlyChicken.WIDTH;
 		config.height = FlyChicken.HEIGHT;
 		config.title = FlyChicken.TITLE;
-		new LwjglApplication(FlyChicken.GetInstance(), config);
+		new LwjglApplication(FlyChicken.getInstance(), config);
 
-		FlyChicken.GetInstance().setPrefs(Gdx.app.getPreferences("com.anacris.game"));
+		FlyChicken.getInstance().setPrefs(Gdx.app.getPreferences("com.anacris.game"));
 	}
 }

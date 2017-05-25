@@ -13,11 +13,11 @@ public class Score implements Comparable<Score> {
         this.points = points;
     }
 
-    public String GetPlayerName() {
+    public String getPlayerName() {
         return this.playerName;
     }
 
-    public int GetPlayerPoints() {
+    public int getPlayerPoints() {
         return this.points;
     }
 

@@ -26,7 +26,7 @@ public class InstructionMenu implements Screen {
 
     public static InstructionMenu getInstance() {
         if(instance == null) {
-            instance = new InstructionMenu(FlyChicken.GetInstance());
+            instance = new InstructionMenu(FlyChicken.getInstance());
         }
         return instance;
     }

@@ -1,7 +1,6 @@
 package GameView;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -30,7 +29,7 @@ public class FlyChicken extends Game {
         this.scores = new ArrayList<Score>();
     }
 
-    public static FlyChicken GetInstance() {
+    public static FlyChicken getInstance() {
         if (instance == null) {
             instance = new FlyChicken();
         }
@@ -56,14 +55,14 @@ public class FlyChicken extends Game {
         Collections.sort(scores);
 
         for (int i=0; i<scores.size(); i++){
-            prefs.putInteger("score "+ i, scores.get(i).GetPlayerPoints());
-            prefs.putString("name " + i, scores.get(i).GetPlayerName());
+            prefs.putInteger("score "+ i, scores.get(i).getPlayerPoints());
+            prefs.putString("name " + i, scores.get(i).getPlayerName());
         }
 
         prefs.flush();
     }
 
-    public ArrayList<Score> GetScores() {
+    public ArrayList<Score> getScores() {
         return scores;
     }
 
