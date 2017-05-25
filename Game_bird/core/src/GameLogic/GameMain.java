@@ -1,9 +1,13 @@
 package GameLogic;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.Random;
@@ -196,8 +200,6 @@ public class GameMain {
         System.out.print("LIVES:    " + lives);
 
         if(lives < 0) {
-            Score playerScore = new Score("Teste", score);
-            FlyChicken.GetInstance().AddScore(playerScore);
             state = EnumGameState.Lose;
         }
     }
@@ -228,13 +230,29 @@ public class GameMain {
 
     public boolean checkCollisionsWater() {
         if(Intersector.overlaps(bird.getBounds(), water.getWaterBounds())) {
-
-                Score playerScore = new Score("Teste", score);
-                FlyChicken.GetInstance().AddScore(playerScore);
-                state = EnumGameState.Lose;
+            state = EnumGameState.Lose;
             return true;
         }
         return false;
+    }
+
+    public void checkScore(final int score) {
+        if (score > FlyChicken.GetInstance().scores.get(4).GetPlayerPoints()) {
+            Gdx.input.getTextInput(new Input.TextInputListener() {
+                @Override
+                public void input(String text) {
+                    Score playerScore = new Score(text, score);
+                    FlyChicken.GetInstance().AddScore(playerScore);
+                }
+
+                @Override
+                public void canceled() {
+                    Score playerScore = new Score("Anonymous", score);
+                    FlyChicken.GetInstance().AddScore(playerScore);
+                }
+            }, "New High Score", "", "Your Name");
+
+        }
     }
 
     public int getEatenApples() {

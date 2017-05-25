@@ -128,6 +128,7 @@ public class GameView implements Screen  {
         gameMain.batch.end();
 
         if (game.getState() == EnumGameState.Lose){
+            game.checkScore(game.getScore());
             gameMain.setScreen(new GameMenu(gameMain));
             this.dispose();
         }
@@ -185,6 +186,7 @@ public class GameView implements Screen  {
             game.getGameBird().jump();
 
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            game.checkScore(game.getScore());
             this.dispose();
             gameMain.setScreen(new GameMenu(gameMain));
         }
