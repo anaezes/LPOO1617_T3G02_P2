@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class OptionsMenu implements Screen{
     private Viewport gamePort;
     private Stage stage;
-    private Texture backGround, btnreturn;
+    private Texture backGround, btnreturn, options, rectangle;
     private ImageButton goBack;
     private FlyChicken game;
 
@@ -27,7 +27,8 @@ public class OptionsMenu implements Screen{
         gamePort = new FitViewport(FlyChicken.WIDTH, FlyChicken.HEIGHT, new OrthographicCamera());
         stage = new Stage(gamePort, game.batch);
 
-
+        options = new Texture(Gdx.files.internal("optionsBtn.png"));
+        rectangle = new Texture(Gdx.files.internal("table2.png"));
         backGround = new Texture(Gdx.files.internal("bg.png"));
         btnreturn = new Texture(Gdx.files.internal("returnbtn.png"));
         TextureRegion returnBtnRegion = new TextureRegion(btnreturn);
@@ -71,6 +72,8 @@ public class OptionsMenu implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
         stage.getBatch().draw(backGround, 0,0, FlyChicken.WIDTH, FlyChicken.HEIGHT);
+        stage.getBatch().draw(options, FlyChicken.WIDTH/2-options.getWidth()/2, FlyChicken.HEIGHT-options.getHeight());
+        stage.getBatch().draw(rectangle, FlyChicken.WIDTH/2- rectangle.getWidth()/2, FlyChicken.HEIGHT/2- rectangle.getHeight()/3);
         stage.getBatch().end();
         stage.act(delta);
         stage.draw();

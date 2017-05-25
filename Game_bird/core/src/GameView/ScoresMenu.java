@@ -33,7 +33,7 @@ public class ScoresMenu implements Screen{
         stage = new Stage(gamePort, game.batch);
         backGround = new Texture(Gdx.files.internal("bg.png"));
         btnreturn = new Texture(Gdx.files.internal("returnbtn.png"));
-        tableScore = new Texture(Gdx.files.internal("scores.png"));
+        tableScore = new Texture(Gdx.files.internal("scoresBtn.png"));
         rectangle = new Texture(Gdx.files.internal("table2.png"));
 
         TextureRegion returnBtnRegion = new TextureRegion(btnreturn);
