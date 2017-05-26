@@ -2,14 +2,17 @@ package GameView;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -18,9 +21,11 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class OptionsMenu implements Screen{
     private Viewport gamePort;
     private Stage stage;
-    private Texture backGround, btnreturn, options, rectangle, sound1, music1, vibration1;
+    private Texture backGround, btnreturn, options, rectangle;
+    private Texture OnBtn, OffBtn;
     private ImageButton goBack, sound, vibration, music;
     private FlyChicken game;
+    private Label musicLabel, soundLabel, vibrationLabel;
 
     public OptionsMenu(FlyChicken game) {
         this.game=game;
@@ -35,34 +40,38 @@ public class OptionsMenu implements Screen{
         TextureRegionDrawable returnBtnDraw = new TextureRegionDrawable(returnBtnRegion);
         goBack = new ImageButton(returnBtnDraw);
 
+        OnBtn = new Texture(Gdx.files.internal("onBtn.png"));
+        OffBtn = new Texture(Gdx.files.internal("offBtn.png"));
 
+        TextureRegion btnRegionOn = new TextureRegion(OnBtn);
+        TextureRegionDrawable btnDrawOn = new TextureRegionDrawable(btnRegionOn);
+        TextureRegion btnRegionOff = new TextureRegion(OffBtn);
+        TextureRegionDrawable btnDrawOff = new TextureRegionDrawable(btnRegionOff);
+        sound = new ImageButton(btnDrawOn, btnDrawOff, btnDrawOff);
+        music = new ImageButton(btnDrawOn, btnDrawOff, btnDrawOff);
+        vibration = new ImageButton(btnDrawOn, btnDrawOff, btnDrawOff);
 
-        sound1 = new Texture(Gdx.files.internal("optionsBtn.png"));
-        music1  = new Texture(Gdx.files.internal("optionsBtn.png"));
-        vibration1  = new Texture(Gdx.files.internal("optionsBtn.png"));
-
-        TextureRegion soundBtnRegion = new TextureRegion(sound1);
-        TextureRegionDrawable soundBtnDraw = new TextureRegionDrawable(soundBtnRegion);
-        TextureRegion musicBtnRegion = new TextureRegion(music1);
-        TextureRegionDrawable musicBtnDraw = new TextureRegionDrawable(musicBtnRegion);
-        TextureRegion vibraBtnRegion = new TextureRegion(vibration1);
-        TextureRegionDrawable vibraBtnDraw = new TextureRegionDrawable(vibraBtnRegion);
-
-        sound = new ImageButton(soundBtnDraw);
-        music = new ImageButton(musicBtnDraw);
-        vibration = new ImageButton(vibraBtnDraw);
-
-
+        BitmapFont myfont = new BitmapFont();
+        myfont.getData().scale(1.05f);
+        musicLabel = new Label("Music", new Label.LabelStyle(myfont, Color.WHITE));
+        musicLabel.setPosition(FlyChicken.WIDTH/2 - sound.getWidth()/2-100, FlyChicken.HEIGHT-200);
+        stage.addActor(musicLabel);
+        soundLabel  = new Label("Sound", new Label.LabelStyle(myfont, Color.WHITE));
+        soundLabel.setPosition(FlyChicken.WIDTH/2 - sound.getWidth()/2-100, FlyChicken.HEIGHT-300);
+        stage.addActor(soundLabel);
+        vibrationLabel = new Label("Vibration", new Label.LabelStyle(myfont, Color.WHITE));
+        vibrationLabel.setPosition(FlyChicken.WIDTH/2 - sound.getWidth()/2-100, FlyChicken.HEIGHT-400);
+        stage.addActor(vibrationLabel);
 
 
         stage.setDebugParentUnderMouse(true);
         goBack.setPosition(50,50);
         stage.addActor(goBack);
-        sound.setPosition(FlyChicken.WIDTH/2 - sound.getWidth()/2, FlyChicken.HEIGHT-200);
+        sound.setPosition(FlyChicken.WIDTH/2 - sound.getWidth()/2+100, FlyChicken.HEIGHT-200);
         stage.addActor(sound);
-        music.setPosition(FlyChicken.WIDTH/2 - sound.getWidth()/2, FlyChicken.HEIGHT-350);
+        music.setPosition(FlyChicken.WIDTH/2 - sound.getWidth()/2+100, FlyChicken.HEIGHT-300);
         stage.addActor(music);
-        vibration.setPosition(FlyChicken.WIDTH/2 - sound.getWidth()/2, FlyChicken.HEIGHT-500);
+        vibration.setPosition(FlyChicken.WIDTH/2 - sound.getWidth()/2+100, FlyChicken.HEIGHT-400);
         stage.addActor(vibration);
 
 
@@ -71,50 +80,78 @@ public class OptionsMenu implements Screen{
             public boolean handle(Event event) {
                 if(goBack.isPressed()){
                     onClickBack();
+                    return true;
                 }
-                return true;
+                return false;
             }
         });
 
-        sound.addListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                if (sound.isPressed()){
-                    //onClickSound();
-                    System.out.println("sound pressed");
-                }
-                return true;
-            }
-        });
-
-        music.addListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                if (music.isPressed()){
-                   // onClickMusic();
-                    System.out.println("music pressed");
-                }
-                return true;
-            }
-        });
-
-        vibration.addListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                if (vibration.isPressed()) {
-                    System.out.println("vibra pressed");
-                }
-                return true;
-            }
-        });
+        soundAddListenner();
+        musicAddListenner();
+        vibrationAddListenner();
     }
 
     public void onClickBack() {
         System.out.println("GoBack");
         game.setScreen(new MainMenu(game));
-
         System.out.println("GoBack to main menu");
 
+    }
+
+    public void soundAddListenner() {
+        sound.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if (sound.isPressed()){
+                    onClickSound();
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    public void musicAddListenner() {
+        music.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if (music.isPressed()){
+                    onClickMusic();
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    public void vibrationAddListenner() {
+        vibration.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if (vibration.isChecked()) {
+                    onClickVibration();
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    public void onClickSound() {
+        System.out.println("SOUND pressed");
+        sound.isChecked();
+
+    }
+
+    public void onClickMusic() {
+        System.out.println("MUSIC pressed");
+        music.isChecked();
+
+    }
+
+    public void onClickVibration() {
+        System.out.println("VIBRATION pressed");
+        vibration.isChecked();
     }
 
 

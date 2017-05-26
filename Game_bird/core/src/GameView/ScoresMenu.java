@@ -25,7 +25,9 @@ public class ScoresMenu implements Screen{
     private ImageButton goBack;
     private FlyChicken game;
     private Table table;
-    private Label record;
+    private Label name;
+    private Label score;
+
 
     public ScoresMenu(FlyChicken game) {
         this.game=game;
@@ -54,12 +56,14 @@ public class ScoresMenu implements Screen{
         myfont.getData().scale(1.05f);
 
         for(int i = 0; i<total; i++) {
-            record = new Label(FlyChicken.getInstance().getScores().get(i).getPlayerName() + "      "
-                    + String.format("%01d", FlyChicken.getInstance().getScores().get(i).getPlayerPoints()),
-                    new Label.LabelStyle(myfont, Color.WHITE));
 
-            record.setPosition(FlyChicken.WIDTH / 2 - record.getWidth() / 2, FlyChicken.HEIGHT - 200 - i * 70);
-            stage.addActor(record);
+            name = new Label(FlyChicken.getInstance().getScores().get(i).getPlayerName(), new Label.LabelStyle(myfont, Color.WHITE));
+            score = new Label(String.format("%01d", FlyChicken.getInstance().getScores().get(i).getPlayerPoints()), new Label.LabelStyle(myfont, Color.WHITE));
+            name.setPosition(FlyChicken.WIDTH / 2 - name.getWidth() / 2 - 75, FlyChicken.HEIGHT - 200 - i * 70);
+            score.setPosition(FlyChicken.WIDTH / 2 - name.getWidth() / 2 + 160, FlyChicken.HEIGHT - 200 - i * 70);
+            stage.addActor(name);
+            stage.addActor(score);
+
         }
 
         goBack.addListener(new EventListener() {
