@@ -14,22 +14,19 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-/**
- * Created by cristiana on 03-05-2017.
- */
 
 public class InstructionMenu implements Screen {
     private Viewport gamePort;
     private Stage stage;
-    private Texture backGround, btnreturn;
+    private Texture backGround, btnreturn, instructions, rectangle;
     private ImageButton goBack;
     private FlyChicken game;
 
     private static InstructionMenu instance = null;
 
-    public static InstructionMenu GetInstance() {
+    public static InstructionMenu getInstance() {
         if(instance == null) {
-            instance = new InstructionMenu(FlyChicken.GetInstance());
+            instance = new InstructionMenu(FlyChicken.getInstance());
         }
         return instance;
     }
@@ -40,6 +37,8 @@ public class InstructionMenu implements Screen {
         stage = new Stage(gamePort, game.batch);
 
         backGround = new Texture(Gdx.files.internal("bg.png"));
+        instructions = new Texture(Gdx.files.internal("instructionsBtn.png"));
+        rectangle = new Texture(Gdx.files.internal("table2.png"));
         btnreturn = new Texture(Gdx.files.internal("returnbtn.png"));
         TextureRegion returnBtnRegion = new TextureRegion(btnreturn);
         TextureRegionDrawable returnBtnDraw = new TextureRegionDrawable(returnBtnRegion);
@@ -80,6 +79,8 @@ public class InstructionMenu implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
         stage.getBatch().draw(backGround, 0,0, FlyChicken.WIDTH, FlyChicken.HEIGHT);
+        stage.getBatch().draw(instructions, FlyChicken.WIDTH/2-instructions.getWidth()/2, FlyChicken.HEIGHT-instructions.getHeight());
+        stage.getBatch().draw(rectangle, FlyChicken.WIDTH/2- rectangle.getWidth()/2, FlyChicken.HEIGHT/2- rectangle.getHeight()/3);
         stage.getBatch().end();
         stage.act(delta);
         stage.draw();

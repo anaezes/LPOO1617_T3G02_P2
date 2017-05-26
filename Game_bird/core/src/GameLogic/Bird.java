@@ -3,49 +3,44 @@ package GameLogic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector3;
 
 
 public class Bird extends GameObject {
 
-    private double weight;
-    private static final int GRAVITY_X = -5;
-    private static final int GRAVITY_Y = -7;
-    private Vector3 position;
-    private Vector3 velocity;
-    private Texture birdTexture;
-    private Animation birdAnimation;
-    private Rectangle bounds;
+    protected float weight;
+    protected static final int GRAVITY_X = -5;
+    protected static final int GRAVITY_Y = -7;
+    protected Vector3 position;
+    protected Vector3 velocity;
+    protected Texture birdTexture;
+    protected Texture birdStars;
+    protected Animation birdAnimation;
+    protected Circle bounds;
 
-    private float birdPosMinX;
-    private float birdPosMaxX;
-    private float birdPosMinY;
+    protected float birdPosMinX;
+    protected float birdPosMaxX;
+    protected float birdPosMinY;
 
-    public Bird(int x, int y, double w) {
+    public Bird(int x, int y) {
         super(x, y);
-        weight = w;
 
+        birdStars = new Texture("starsbird.png");
         position = new Vector3(x, y, 0);
         velocity = new Vector3(0,0,0);
-
-        birdTexture = new Texture("birdanimation2.png");
-        birdAnimation = new Animation(new TextureRegion(birdTexture), 3, 0.5f);
-
-        bounds = new Rectangle(x, y, birdTexture.getWidth()/3, birdTexture.getHeight());
-
     }
 
-    public double getWeight() {
+    public float getWeight() {
         return weight;
     }
 
     public void update(float dt) {
-
         birdAnimation.update(dt);
 
+        System.out.println("PESO" + weight);
         if (position.y > 15)
-            velocity.add(GRAVITY_X, GRAVITY_Y, 0);
+            velocity.add(GRAVITY_X, GRAVITY_Y-weight, 0);
 
         velocity.scl(dt);
 
@@ -60,7 +55,8 @@ public class Bird extends GameObject {
 
         velocity.scl(1 / dt);
 
-        bounds.setPosition(position.x, position.y);
+        bounds.setPosition(position.x+birdAnimation.getFrame().getRegionWidth()/2, position.y+birdAnimation.getFrame().getRegionHeight()/2);
+
 
     }
 
@@ -72,12 +68,16 @@ public class Bird extends GameObject {
         return birdAnimation.getFrame();
     }
 
+    public Texture getBirdStarsTexture() {
+        return birdStars;
+    }
+
     public void jump(){
         velocity.y = 300;
         velocity.x = 300;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(float weight) {
         this.weight = weight;
     }
 
@@ -87,7 +87,7 @@ public class Bird extends GameObject {
         birdPosMinY = minY;
     }
 
-    public Rectangle getBounds() {
+    public Circle getBounds() {
         return bounds;
     }
 }

@@ -2,16 +2,14 @@ package GameLogic;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector3;
 
 
 public class Water extends Obstacle {
     private Rectangle waterBounds;
-
     private Texture waterTexture;
+    protected int waterIncrement;
 
-    public Water(int x, int y)
-    {
+    public Water(int x, int y) {
         super(x, y);
         waterTexture = new Texture("water.png");
         waterBounds = new Rectangle(x, y, waterTexture.getWidth(), waterTexture.getHeight());
@@ -27,5 +25,9 @@ public class Water extends Obstacle {
 
     public Rectangle getWaterBounds() {
         return waterBounds;
+    }
+
+    public int getWaterIncrement() {
+        return waterIncrement;
     }
 }

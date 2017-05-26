@@ -132,26 +132,30 @@ public class MainMenu implements Screen {
 
     public void onClickPlay() {
             this.dispose();
-            game.setScreen(new GameView(game));
+            game.setScreen(new GameMenu(game));
             System.out.println("Play");
     }
 
     public void onClickOptions() {
+        this.dispose();
         game.setScreen(new OptionsMenu(game));
-            System.out.println("Options");
+        System.out.println("Options");
     }
 
     public void onClickOInstructions() {
-            game.setScreen(new InstructionMenu(game));
-            System.out.println("Instr");
+        this.dispose();
+        game.setScreen(new InstructionMenu(game));
+        System.out.println("Instructions");
     }
     public void onClickScores() {
-            game.setScreen(new ScoresMenu(game));
-            System.out.println("Scores");
+        this.dispose();
+        game.setScreen(new ScoresMenu(game));
+        System.out.println("Scores");
     }
     public void onClickExit() {
-            System.out.println("Sair");
-            System.exit(0);
+        this.dispose();
+        System.out.println("Sair");
+        System.exit(0);
     }
 
     @Override
@@ -167,8 +171,6 @@ public class MainMenu implements Screen {
         stage.getBatch().end();
         stage.act(delta);
         stage.draw();
-
-
     }
 
     @Override

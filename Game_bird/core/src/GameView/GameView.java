@@ -3,21 +3,22 @@ package GameView;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.Random;
 
 import GameLogic.Branch;
+import GameLogic.EnumGameLevel;
 import GameLogic.EnumGameState;
 import GameLogic.GameMain;
 
 public class GameView implements Screen  {
 
     private static final int WATER_INCREMENT = 2;
-
-    //private ViewMain gameview;
 
     private GameMain game;
     private float birdPosY;
@@ -28,30 +29,35 @@ public class GameView implements Screen  {
     private Hud hud;
     private Random rand;
 
+    private ShapeRenderer shapeRenderer;
 
-    public GameView(FlyChicken mainGameObj) {
+    public GameView(FlyChicken mainGame, EnumGameLevel level) {
         Gdx.input.setCatchBackKey(true);
-        this.gameMain = mainGameObj;
+        this.gameMain = mainGame;
 
         Gdx.input.setInputProcessor(null);
 
         cam = new OrthographicCamera();
         cam.setToOrtho(false, FlyChicken.WIDTH / 2, FlyChicken.HEIGHT / 2);
+        shapeRenderer = new ShapeRenderer();
+
         hud = new Hud(gameMain.batch);
 
         gamePort = new FitViewport(FlyChicken.WIDTH/2, FlyChicken.HEIGHT/2, cam);
-        game = new GameMain();
-        game.createBird(FlyChicken.WIDTH);
+        game = new GameMain(level);
+        game.createBird(FlyChicken.HEIGHT+400);
 
         birdPosY = game.getGameBird().getPosition().y;
         game.createWater();
         game.createBranchs();
-        game.createApple();
+        game.createApple(50, -100);
+        game.createStar(70, 400);
         game.createWalls(cam);
         rand = new Random();
 
         game.getGameBird().setValidPositionsX(game.getLeftWallPos1().x+game.getLeftWall().getWidth(), game.getRightWallPos1().x,
-                game.GetWater().getPosY()+game.GetWater().getWaterTexture().getHeight());
+                game.getWater().getPosY()+game.getWater().getWaterTexture().getHeight());
+
     }
 
     @Override
@@ -73,17 +79,16 @@ public class GameView implements Screen  {
         handleinput();
 
         updateWalls(game.getGameBird().getPosition().y);
-        game.updateApple(cam);
+        game.updateAwards(cam);
         game.updateBranches(cam);
 
         updateWater();
-
         updateBird(delta);
 
         cam.position.y = game.getGameBird().getPosition().y + game.getGameBird().getBirdTexture().getRegionHeight()/2;
 
         drawBird();
-        drawApple();
+        drawAwards();
         drawBranches();
         drawWater();
         drawWalls();
@@ -93,10 +98,14 @@ public class GameView implements Screen  {
         checkCollisions();
 
         updateHud();
+
         gameMain.batch.end();
 
+        shapeRenderes();
+
         if (game.getState() == EnumGameState.Lose){
-            gameMain.setScreen(new MainMenu(gameMain));
+            game.checkScore(game.getScore());
+            gameMain.setScreen(new GameMenu(gameMain));
             this.dispose();
         }
     }
@@ -106,7 +115,7 @@ public class GameView implements Screen  {
     }
 
     public void updateBird(float delta) {
-        game.getGameBird().update(delta);
+        game.updateBirdPos(delta);
     }
 
 
@@ -114,12 +123,38 @@ public class GameView implements Screen  {
         gameMain.batch.draw(game.getGameBird().getBirdTexture(), game.getGameBird().getPosition().x, game.getGameBird().getPosition().y);
     }
 
-    public void drawWater(){
-        gameMain.batch.draw(game.GetWater().getWaterTexture(), game.GetWater().getPosX(), game.GetWater().getPosY());
+
+    public void shapeRenderes() {
+
+        cam.update();
+        shapeRenderer.setProjectionMatrix(cam.combined);
+
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.circle(game.getGameBird().getBounds().x, game.getGameBird().getBounds().y, game.getGameBird().getBounds().radius);
+        shapeRenderer.rect(game.getWater().getWaterBounds().getX(), game.getWater().getWaterBounds().getY(),
+                game.getWater().getWaterBounds().getWidth(), game.getWater().getWaterBounds().getHeight());
+        shapeRenderer.circle(game.getApple().getAppleBounds().x, game.getApple().getAppleBounds().x, game.getApple().getAppleBounds().radius);
+        shapeRenderer.circle(game.getStar().getStarBounds().x, game.getStar().getStarBounds().x, game.getStar().getStarBounds().radius);
+
+        for (Branch branch : game.getGameBranches()) {
+            shapeRenderer.rect(branch.getBoundsLeftBranch().getX(), branch.getBoundsLeftBranch().y,
+                    branch.getBoundsLeftBranch().getWidth(), branch.getBoundsLeftBranch().getHeight());
+            shapeRenderer.rect(branch.getBoundsRightBranch().getX(), branch.getBoundsRightBranch().y,
+                    branch.getBoundsRightBranch().getWidth(), branch.getBoundsRightBranch().getHeight());
+        }
+
+        shapeRenderer.end();
     }
 
-    public void drawApple(){
+    public void drawWater(){
+        gameMain.batch.draw(game.getWater().getWaterTexture(), game.getWater().getPosX(), game.getWater().getPosY());
+
+    }
+
+    public void drawAwards(){
         gameMain.batch.draw(game.getApple().getAppleTexture(), game.getApple().getPosX(), game.getApple().getPosY());
+        gameMain.batch.draw(game.getStar().getStarTexture(), game.getStar().getPosX(), game.getStar().getPosY());
     }
 
 
@@ -132,9 +167,9 @@ public class GameView implements Screen  {
     }
 
     public void drawBranches() {
-        for (Branch branch : game.GetGameBranches()) {
-            gameMain.batch.draw(branch.getRightBranch(), branch.getPosLeftBranch().x, branch.getPosLeftBranch().y);
-            gameMain.batch.draw(branch.getLeftBranch(), branch.getPosRightBranch().x, branch.getPosRightBranch().y);
+        for (Branch branch : game.getGameBranches()) {
+            gameMain.batch.draw(branch.getLeftBranch(), branch.getPosLeftBranch().x, branch.getPosLeftBranch().y);
+            gameMain.batch.draw(branch.getRightBranch(), branch.getPosRightBranch().x, branch.getPosRightBranch().y);
         }
     }
 
@@ -142,8 +177,11 @@ public class GameView implements Screen  {
         if(Gdx.input.justTouched())
             game.getGameBird().jump();
 
-        if (Gdx.input.isKeyPressed(Input.Keys.BACK))
-            gameMain.setScreen(new MainMenu(gameMain));
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            game.checkScore(game.getScore());
+            this.dispose();
+            gameMain.setScreen(new GameMenu(gameMain));
+        }
     }
 
     public void updateWalls(float currentBirdPosY) {
@@ -184,21 +222,36 @@ public class GameView implements Screen  {
     }
 
     public void checkCollisions(){
-        game.checkCollisionsBranchs();
-
-        if(game.checkCollisionsWater())
-            gameMain.setScreen(new GameView(gameMain));
+        if(game.checkCollisionsBranchs()) {
+            float posX = game.getGameBird().getPosition().x + game.getGameBird().getBirdTexture().getRegionWidth()/2-game.getGameBird().getBirdStarsTexture().getWidth()/2;
+            float posY = game.getGameBird().getPosition().y + 3*game.getGameBird().getBirdTexture().getRegionHeight()/4;
+            gameMain.batch.draw(game.getGameBird().getBirdStarsTexture(), posX,  posY);
+            Gdx.input.vibrate(500);
+        }
+        if(game.checkCollisionsWater()) {
+            Gdx.input.vibrate(500);
+            gameMain.setScreen(new GameMenu(gameMain));
+        }
 
         if(game.checkAppleCollision()) {
             game.disposeApple();
-            game.createApple();
+            int x = game.getXRandomAxis(cam);
+            int y = game.getCurrentYAxis(cam);
+            game.createApple(x, y);
+        }
+
+        if(game.checkStarCollision()) {
+            game.disposeStar();
+            int x = game.getXRandomAxis(cam);
+            int y = game.getCurrentYAxis(cam);
+            game.createStar(x, y);
         }
     }
 
 
    public void updateWater(){
-        game.GetWater().setPosY(game.GetWater().getPosY() + WATER_INCREMENT);
-        game.GetWater().setWaterBoundsPosition(0, game.GetWater().getPosY());
+        game.getWater().setPosY(game.getWater().getPosY() + game.getWater().getWaterIncrement());
+        game.getWater().setWaterBoundsPosition(0, game.getWater().getPosY());
    }
 
     @Override

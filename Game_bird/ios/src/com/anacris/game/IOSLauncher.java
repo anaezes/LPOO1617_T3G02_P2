@@ -12,7 +12,7 @@ public class IOSLauncher extends IOSApplication.Delegate {
     @Override
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
-        return new IOSApplication(FlyChicken.GetInstance(), config);
+        return new IOSApplication(FlyChicken.getInstance(), config);
     }
 
     public static void main(String[] argv) {
