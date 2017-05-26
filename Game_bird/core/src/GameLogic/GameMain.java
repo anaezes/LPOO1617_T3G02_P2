@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.Random;
@@ -17,7 +16,7 @@ import GameView.FlyChicken;
 public class GameMain {
 
     private static final int WALL_X_OFFSET = -40;
-    private static final int BRANCH_SPACING = 125;
+    private static final int BRANCH_SPACING = 50;
     private static final int BRANCH_COUNT = 10;
 
     private EnumGameLevel level;
@@ -25,7 +24,6 @@ public class GameMain {
 
     private int eatenApples;
     private Bird bird;
-    private Body birdBody;
 
     private Array<Branch> branches;
 
@@ -39,6 +37,7 @@ public class GameMain {
     private Vector2 leftWallPos1, leftWallPos2, rightWallPos1, rightWallPos2;
 
     private int lives;
+    private int currDist;
     private long timeCount;
     private long currTime;
     private int score;
@@ -51,6 +50,7 @@ public class GameMain {
         eatenApples = 0;
         rand = new Random();
 
+        currDist = 0;
         lives = 3;
         timeCount = 0;
         currTime = System.currentTimeMillis();
@@ -100,6 +100,8 @@ public class GameMain {
             bird = new BirdLevelTwo(100, width);
         else
             bird = new BirdLevelThree(100, width);
+
+        currDist = (int)bird.getPosition().y;
     }
 
     public void createWater() {
@@ -150,9 +152,6 @@ public class GameMain {
         leftWallPos1 = new Vector2(WALL_X_OFFSET, cam.position.y - cam.viewportHeight/2);
         leftWallPos2 = new Vector2(WALL_X_OFFSET, (cam.position.x - cam.viewportWidth/2) + leftWall.getHeight());
 
-
-
-
         rightWallPos1 = new Vector2(FlyChicken.WIDTH/2 - (rightWall.getWidth() + WALL_X_OFFSET), cam.position.y - cam.viewportHeight/2);
         rightWallPos2 = new Vector2(FlyChicken.WIDTH/2- (rightWall.getWidth() + WALL_X_OFFSET), (cam.position.x - cam.viewportWidth/2) + rightWall.getHeight());
 
@@ -190,8 +189,13 @@ public class GameMain {
         return water;
     }
 
-    public Array<Branch> GetGameBranches() {
+    public Array<Branch> getGameBranches() {
         return branches;
+    }
+
+    public void updateBirdPos(float delta) {
+        bird.update(delta);
+        updateDist();
     }
 
     public void updateState() {
@@ -334,5 +338,15 @@ public class GameMain {
         int max = FlyChicken.HEIGHT + (int)cam.position.y;
         int y = bird.getPosY() + rand.nextInt((max - min)+1)+min;
         return y;
+    }
+
+    public void updateDist() {
+
+        if((int)bird.getPosition().y - currDist >= 500) {
+            score += 1;
+            currDist = (int)bird.getPosition().y;
+        }
+
+
     }
 }

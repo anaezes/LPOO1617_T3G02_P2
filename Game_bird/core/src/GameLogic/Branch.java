@@ -9,10 +9,10 @@ import java.util.Random;
 
 public class Branch extends Obstacle {
 
-    public static final int B_HEIGHT = 150;           /////Depende da imagem
-    protected static final int X_FLUCTUATION = 60;
+    public static final int B_HEIGHT = 100;           /////Depende da imagem
+    protected static final int X_FLUCTUATION = 20;
     protected static final int GAP_BRANCH = 110;
-    protected static final int LOWEST_OPENING = 20;
+    protected static final int LOWEST_OPENING = 50;
 
     protected Texture rightBranch, leftBranch;
     protected Rectangle boundsRightBranch, boundsLeftBranch;
@@ -43,7 +43,7 @@ public class Branch extends Obstacle {
 
     public void reposition(float y){
         posLeftBranch.set(rand.nextInt(X_FLUCTUATION) + GAP_BRANCH + LOWEST_OPENING, y, 0);
-        posRightBranch.set(posLeftBranch.x - GAP_BRANCH - leftBranch.getWidth(), y+rand.nextInt(X_FLUCTUATION) + GAP_BRANCH + LOWEST_OPENING, 0);
+        posRightBranch.set(posLeftBranch.x - GAP_BRANCH - LOWEST_OPENING, y+rand.nextInt(X_FLUCTUATION) + GAP_BRANCH + LOWEST_OPENING, 0);
 
         boundsLeftBranch.setPosition(posLeftBranch.x, posLeftBranch.y+3*leftBranch.getHeight()/4);
         boundsRightBranch.setPosition(posRightBranch.x, posRightBranch.y+3*rightBranch.getHeight()/4);

@@ -83,7 +83,6 @@ public class GameView implements Screen  {
         game.updateBranches(cam);
 
         updateWater();
-
         updateBird(delta);
 
         cam.position.y = game.getGameBird().getPosition().y + game.getGameBird().getBirdTexture().getRegionHeight()/2;
@@ -116,7 +115,7 @@ public class GameView implements Screen  {
     }
 
     public void updateBird(float delta) {
-        game.getGameBird().update(delta);
+        game.updateBirdPos(delta);
     }
 
 
@@ -138,7 +137,7 @@ public class GameView implements Screen  {
         shapeRenderer.circle(game.getApple().getAppleBounds().x, game.getApple().getAppleBounds().x, game.getApple().getAppleBounds().radius);
         shapeRenderer.circle(game.getStar().getStarBounds().x, game.getStar().getStarBounds().x, game.getStar().getStarBounds().radius);
 
-        for (Branch branch : game.GetGameBranches()) {
+        for (Branch branch : game.getGameBranches()) {
             shapeRenderer.rect(branch.getBoundsLeftBranch().getX(), branch.getBoundsLeftBranch().y,
                     branch.getBoundsLeftBranch().getWidth(), branch.getBoundsLeftBranch().getHeight());
             shapeRenderer.rect(branch.getBoundsRightBranch().getX(), branch.getBoundsRightBranch().y,
@@ -168,7 +167,7 @@ public class GameView implements Screen  {
     }
 
     public void drawBranches() {
-        for (Branch branch : game.GetGameBranches()) {
+        for (Branch branch : game.getGameBranches()) {
             gameMain.batch.draw(branch.getLeftBranch(), branch.getPosLeftBranch().x, branch.getPosLeftBranch().y);
             gameMain.batch.draw(branch.getRightBranch(), branch.getPosRightBranch().x, branch.getPosRightBranch().y);
         }

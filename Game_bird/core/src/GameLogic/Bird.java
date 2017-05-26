@@ -57,6 +57,7 @@ public class Bird extends GameObject {
 
         bounds.setPosition(position.x+birdAnimation.getFrame().getRegionWidth()/2, position.y+birdAnimation.getFrame().getRegionHeight()/2);
 
+
     }
 
     public Vector3 getPosition() {
