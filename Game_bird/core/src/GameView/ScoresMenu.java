@@ -45,7 +45,31 @@ public class ScoresMenu implements Screen{
         stage.setDebugParentUnderMouse(true);
         goBack.setPosition(50,50);
         stage.addActor(goBack);
+        btnAddListener();
+        
+        addTableScores();
+    }
 
+    private void btnAddListener() {
+        goBack.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if(goBack.isPressed()){
+                    onClickBack();
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    public void onClickBack() {
+        System.out.println("GoBack");
+        game.setScreen(new MainMenu(game));
+
+    }
+
+    public void addTableScores() {
         int total = 5;
         int totalRecords = FlyChicken.getInstance().getScores().size();
         if(totalRecords < 6) {
@@ -55,32 +79,14 @@ public class ScoresMenu implements Screen{
         BitmapFont myfont = new BitmapFont();
         myfont.getData().scale(1.05f);
 
-        for(int i = 0; i<total; i++) {
-
+        for(int i = 0; i < total; i++) {
             name = new Label(FlyChicken.getInstance().getScores().get(i).getPlayerName(), new Label.LabelStyle(myfont, Color.WHITE));
             score = new Label(String.format("%01d", FlyChicken.getInstance().getScores().get(i).getPlayerPoints()), new Label.LabelStyle(myfont, Color.WHITE));
             name.setPosition(FlyChicken.WIDTH / 2 - name.getWidth() / 2 - 75, FlyChicken.HEIGHT - 200 - i * 70);
-            score.setPosition(FlyChicken.WIDTH / 2 - name.getWidth() / 2 + 160, FlyChicken.HEIGHT - 200 - i * 70);
+            score.setPosition(FlyChicken.WIDTH / 2 - score.getWidth() / 2 + 100, FlyChicken.HEIGHT - 200 - i * 70);
             stage.addActor(name);
             stage.addActor(score);
-
         }
-
-        goBack.addListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                if(goBack.isPressed()){
-                    onClickBack();
-                }
-                return true;
-            }
-        });
-    }
-
-    public void onClickBack() {
-        System.out.println("GoBack");
-        game.setScreen(new MainMenu(game));
-
     }
 
     @Override
