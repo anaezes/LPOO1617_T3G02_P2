@@ -11,6 +11,6 @@ public class BirdLevelOne extends Bird {
         birdTexture = new Texture("birdAnimation.png");
         weight = 0;
         birdAnimation = new Animation(new TextureRegion(birdTexture), 3, 0.5f);
-        bounds = new Circle(x+birdAnimation.getFrame().getRegionWidth()/2, y+birdAnimation.getFrame().getRegionHeight()/2, birdAnimation.getFrame().getRegionHeight()/4);
+        bounds = new Circle(x+birdAnimation.getFrame().getRegionWidth()/2, y+birdAnimation.getFrame().getRegionHeight()/2, birdAnimation.getFrame().getRegionHeight()/2);
     }
 }

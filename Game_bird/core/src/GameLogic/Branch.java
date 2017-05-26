@@ -14,21 +14,15 @@ public class Branch extends Obstacle {
     protected static final int GAP_BRANCH = 110;
     protected static final int LOWEST_OPENING = 20;
 
-    protected Texture rightBranch, leftBranch, rectangle1, rectangle2;
+    protected Texture rightBranch, leftBranch;
     protected Rectangle boundsRightBranch, boundsLeftBranch;
     protected Vector3 posLeftBranch;
     protected Vector3 posRightBranch;
     protected Random rand;
 
-    protected Vector3 posRectangle1, posRectangle2;
-
     public Branch(int x, int y) {
         super(x, y);
         rand = new Random();
-
-        //debug
-        rectangle1 = new Texture("rectangle.png");
-        rectangle2 = new Texture("rectangle.png");
     }
 
     public Texture getLeftBranch() {
@@ -52,10 +46,7 @@ public class Branch extends Obstacle {
         posRightBranch.set(posLeftBranch.x - GAP_BRANCH - leftBranch.getWidth(), y+rand.nextInt(X_FLUCTUATION) + GAP_BRANCH + LOWEST_OPENING, 0);
 
         boundsLeftBranch.setPosition(posLeftBranch.x, posLeftBranch.y+3*leftBranch.getHeight()/4);
-        boundsRightBranch.setPosition(posRightBranch.x-rightBranch.getWidth()/4, posRightBranch.y+3*rightBranch.getHeight()/4);
-
-        posRectangle1.set(posLeftBranch.x, posLeftBranch.y+3*leftBranch.getHeight()/4, 0);
-        posRectangle2.set(posRightBranch.x-rightBranch.getWidth()/4, posRightBranch.y+3*leftBranch.getHeight()/4, 0);
+        boundsRightBranch.setPosition(posRightBranch.x, posRightBranch.y+3*rightBranch.getHeight()/4);
     }
 
     public Rectangle getBoundsRightBranch() {
@@ -63,21 +54,5 @@ public class Branch extends Obstacle {
     }
     public Rectangle getBoundsLeftBranch() {
         return boundsLeftBranch;
-    }
-
-    public Texture getRectangle1() {
-        return rectangle1;
-    }
-
-    public Texture getRectangle2() {
-        return rectangle2;
-    }
-
-    public Vector3 getPosRectangle1() {
-        return posRectangle1;
-    }
-
-    public Vector3 getPosRectangle2() {
-        return posRectangle2;
     }
 }

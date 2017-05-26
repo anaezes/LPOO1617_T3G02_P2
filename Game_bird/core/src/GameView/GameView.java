@@ -3,10 +3,10 @@ package GameView;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.Random;
@@ -29,27 +29,7 @@ public class GameView implements Screen  {
     private Hud hud;
     private Random rand;
 
-    /**
-     * Used to debug the position of the physics fixtures
-     */
-    private static final boolean DEBUG_PHYSICS = false;
-
-    /**
-     * How much meters does a pixel represent.
-     */
-    public final static float PIXEL_TO_METER = 0.04f;
-
-
-    /**
-     * A renderer used to debug the physical fixtures.
-     */
-    private Box2DDebugRenderer debugRenderer;
-
-    /**
-     * The transformation matrix used to transform meters into
-     * pixels in order to show fixtures in their correct places.
-     */
-    private Matrix4 debugCamera;
+    private ShapeRenderer shapeRenderer;
 
     public GameView(FlyChicken mainGame, EnumGameLevel level) {
         Gdx.input.setCatchBackKey(true);
@@ -59,12 +39,7 @@ public class GameView implements Screen  {
 
         cam = new OrthographicCamera();
         cam.setToOrtho(false, FlyChicken.WIDTH / 2, FlyChicken.HEIGHT / 2);
-
-        if (DEBUG_PHYSICS) {
-            debugRenderer = new Box2DDebugRenderer();
-            debugCamera = cam.combined.cpy();
-            debugCamera.scl(1 / PIXEL_TO_METER);
-        }
+        shapeRenderer = new ShapeRenderer();
 
         hud = new Hud(gameMain.batch);
 
@@ -127,18 +102,13 @@ public class GameView implements Screen  {
 
         gameMain.batch.end();
 
+        shapeRenderes();
+
         if (game.getState() == EnumGameState.Lose){
             game.checkScore(game.getScore());
             gameMain.setScreen(new GameMenu(gameMain));
             this.dispose();
         }
-
-        /*
-        if (DEBUG_PHYSICS) {
-            debugCamera = cam.combined.cpy();
-            debugCamera.scl(1 / PIXEL_TO_METER);
-            debugRenderer.render(GameController.getInstance().getWorld(), debugCamera);
-        }*/
     }
 
     public void updateHud() {
@@ -154,8 +124,33 @@ public class GameView implements Screen  {
         gameMain.batch.draw(game.getGameBird().getBirdTexture(), game.getGameBird().getPosition().x, game.getGameBird().getPosition().y);
     }
 
+
+    public void shapeRenderes() {
+
+        cam.update();
+        shapeRenderer.setProjectionMatrix(cam.combined);
+
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.circle(game.getGameBird().getBounds().x, game.getGameBird().getBounds().y, game.getGameBird().getBounds().radius);
+        shapeRenderer.rect(game.getWater().getWaterBounds().getX(), game.getWater().getWaterBounds().getY(),
+                game.getWater().getWaterBounds().getWidth(), game.getWater().getWaterBounds().getHeight());
+        shapeRenderer.circle(game.getApple().getAppleBounds().x, game.getApple().getAppleBounds().x, game.getApple().getAppleBounds().radius);
+        shapeRenderer.circle(game.getStar().getStarBounds().x, game.getStar().getStarBounds().x, game.getStar().getStarBounds().radius);
+
+        for (Branch branch : game.GetGameBranches()) {
+            shapeRenderer.rect(branch.getBoundsLeftBranch().getX(), branch.getBoundsLeftBranch().y,
+                    branch.getBoundsLeftBranch().getWidth(), branch.getBoundsLeftBranch().getHeight());
+            shapeRenderer.rect(branch.getBoundsRightBranch().getX(), branch.getBoundsRightBranch().y,
+                    branch.getBoundsRightBranch().getWidth(), branch.getBoundsRightBranch().getHeight());
+        }
+
+        shapeRenderer.end();
+    }
+
     public void drawWater(){
         gameMain.batch.draw(game.getWater().getWaterTexture(), game.getWater().getPosX(), game.getWater().getPosY());
+
     }
 
     public void drawAwards(){
@@ -176,8 +171,6 @@ public class GameView implements Screen  {
         for (Branch branch : game.GetGameBranches()) {
             gameMain.batch.draw(branch.getLeftBranch(), branch.getPosLeftBranch().x, branch.getPosLeftBranch().y);
             gameMain.batch.draw(branch.getRightBranch(), branch.getPosRightBranch().x, branch.getPosRightBranch().y);
-            //gameMain.batch.draw(branch.getRectangle1(), branch.getPosRectangle1().x, branch.getPosRectangle1().y);
-            //gameMain.batch.draw(branch.getRectangle2(), branch.getPosRectangle2().x, branch.getPosRectangle2().y);
         }
     }
 

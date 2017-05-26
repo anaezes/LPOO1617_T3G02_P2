@@ -46,7 +46,7 @@ public class ScoresMenu implements Screen{
         goBack.setPosition(50,50);
         stage.addActor(goBack);
         btnAddListener();
-        
+
         addTableScores();
     }
 
