@@ -18,8 +18,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class OptionsMenu implements Screen{
     private Viewport gamePort;
     private Stage stage;
-    private Texture backGround, btnreturn, options, rectangle;
-    private ImageButton goBack;
+    private Texture backGround, btnreturn, options, rectangle, sound1, music1, vibration1;
+    private ImageButton goBack, sound, vibration, music;
     private FlyChicken game;
 
     public OptionsMenu(FlyChicken game) {
@@ -35,9 +35,35 @@ public class OptionsMenu implements Screen{
         TextureRegionDrawable returnBtnDraw = new TextureRegionDrawable(returnBtnRegion);
         goBack = new ImageButton(returnBtnDraw);
 
+
+
+        sound1 = new Texture(Gdx.files.internal("optionsBtn.png"));
+        music1  = new Texture(Gdx.files.internal("optionsBtn.png"));
+        vibration1  = new Texture(Gdx.files.internal("optionsBtn.png"));
+
+        TextureRegion soundBtnRegion = new TextureRegion(sound1);
+        TextureRegionDrawable soundBtnDraw = new TextureRegionDrawable(soundBtnRegion);
+        TextureRegion musicBtnRegion = new TextureRegion(music1);
+        TextureRegionDrawable musicBtnDraw = new TextureRegionDrawable(musicBtnRegion);
+        TextureRegion vibraBtnRegion = new TextureRegion(vibration1);
+        TextureRegionDrawable vibraBtnDraw = new TextureRegionDrawable(vibraBtnRegion);
+
+        sound = new ImageButton(soundBtnDraw);
+        music = new ImageButton(musicBtnDraw);
+        vibration = new ImageButton(vibraBtnDraw);
+
+
+
+
         stage.setDebugParentUnderMouse(true);
         goBack.setPosition(50,50);
         stage.addActor(goBack);
+        sound.setPosition(FlyChicken.WIDTH/2 - sound.getWidth()/2, FlyChicken.HEIGHT-200);
+        stage.addActor(sound);
+        music.setPosition(FlyChicken.WIDTH/2 - sound.getWidth()/2, FlyChicken.HEIGHT-350);
+        stage.addActor(music);
+        vibration.setPosition(FlyChicken.WIDTH/2 - sound.getWidth()/2, FlyChicken.HEIGHT-500);
+        stage.addActor(vibration);
 
 
         goBack.addListener(new EventListener() {
@@ -45,6 +71,38 @@ public class OptionsMenu implements Screen{
             public boolean handle(Event event) {
                 if(goBack.isPressed()){
                     onClickBack();
+                }
+                return true;
+            }
+        });
+
+        sound.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if (sound.isPressed()){
+                    //onClickSound();
+                    System.out.println("sound pressed");
+                }
+                return true;
+            }
+        });
+
+        music.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if (music.isPressed()){
+                   // onClickMusic();
+                    System.out.println("music pressed");
+                }
+                return true;
+            }
+        });
+
+        vibration.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if (vibration.isPressed()) {
+                    System.out.println("vibra pressed");
                 }
                 return true;
             }
