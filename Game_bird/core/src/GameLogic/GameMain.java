@@ -12,7 +12,10 @@ import java.util.concurrent.TimeUnit;
 
 import GameView.FlyChicken;
 
-
+/**
+ * Class GameMain
+ * <br> Implements the logic of the game
+ */
 public class GameMain {
 
     private static final int WALL_X_OFFSET = -40;
@@ -44,6 +47,14 @@ public class GameMain {
     private long timeSinceCollision;
 
 
+    /**
+     * Create a new game with
+     * <br> zero score
+     * <br> zero distance
+     * <br> zero time passed
+     * <br> three lives
+     * @param l current level
+     */
     public GameMain(EnumGameLevel l) {
         level = l;
         state = EnumGameState.Running;
@@ -58,34 +69,66 @@ public class GameMain {
         timeSinceCollision = System.nanoTime();
     }
 
+    /**
+     * Increments time passed
+     * @param dt time
+     */
     public void updateTime(float dt) {
         timeCount+=dt;
     }
 
+    /**
+     * Update lives to this value
+     * @param value new lives
+     */
     public void updateLives(int value) {
             lives+=value;
     }
 
+    /**
+     * Update scores to this value
+     * @param sc  new score
+     */
     public void updateScore(int sc) {
         score+=sc;
     }
 
+    /**
+     * Return actual Score
+     * @return score
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * Change Score to this value
+     * @param score1  new score
+     */
     public void setScore( int score1){
         score=score1;
     }
 
+    /**
+     * Return actual number of lives
+     * @return lives
+     */
     public int getLives() {
         return lives;
     }
 
+    /**
+     * Change lives to this value
+     * @param live new lives
+     */
     public void setLives(int live) {
         lives = live;
     }
 
+    /**
+     *
+     * @return
+     */
     public long getCurrTime() {
         timeCount = (System.currentTimeMillis() - currTime)/1000;
         System.out.println("TIME:"+ timeCount);

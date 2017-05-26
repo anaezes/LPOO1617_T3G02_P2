@@ -27,6 +27,7 @@ public class FlyChicken extends Game {
 
     public FlyChicken() {
         this.scores = new ArrayList<Score>();
+
     }
 
     public static FlyChicken getInstance() {
@@ -39,6 +40,12 @@ public class FlyChicken extends Game {
     public Preferences getPrefs() {
         return prefs;
     }
+
+    public void setPreferences(String key, boolean value) {
+        this.prefs.putBoolean(key, value);
+        this.prefs.flush();
+    }
+
     public void setPrefs(Preferences p) {
         this.prefs = p;
 
@@ -50,6 +57,7 @@ public class FlyChicken extends Game {
             scores.add(s);
         }
     }
+
     public void AddScore(Score playerScore) {
         scores.add(playerScore);
         Collections.sort(scores);
@@ -61,6 +69,7 @@ public class FlyChicken extends Game {
 
         prefs.flush();
     }
+
 
     public ArrayList<Score> getScores() {
         return scores;

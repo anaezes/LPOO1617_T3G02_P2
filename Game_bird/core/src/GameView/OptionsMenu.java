@@ -47,9 +47,25 @@ public class OptionsMenu implements Screen{
         TextureRegionDrawable btnDrawOn = new TextureRegionDrawable(btnRegionOn);
         TextureRegion btnRegionOff = new TextureRegion(OffBtn);
         TextureRegionDrawable btnDrawOff = new TextureRegionDrawable(btnRegionOff);
-        sound = new ImageButton(btnDrawOn, btnDrawOff, btnDrawOff);
-        music = new ImageButton(btnDrawOn, btnDrawOff, btnDrawOff);
-        vibration = new ImageButton(btnDrawOn, btnDrawOff, btnDrawOff);
+
+        System.out.println(FlyChicken.getInstance().getPrefs().getBoolean("sound"));
+        if (FlyChicken.getInstance().getPrefs().getBoolean("sound") == true) {
+            sound = new ImageButton(btnDrawOn, btnDrawOff, btnDrawOff);
+        } else {
+            sound = new ImageButton(btnDrawOff, btnDrawOn, btnDrawOn);
+        }
+
+        if(FlyChicken.getInstance().getPrefs().getBoolean("music") == true) {
+            music = new ImageButton(btnDrawOn, btnDrawOff, btnDrawOff);
+        } else {
+            music = new ImageButton(btnDrawOff, btnDrawOn, btnDrawOn);
+        }
+
+        if(FlyChicken.getInstance().getPrefs().getBoolean("vibration") == true) {
+            vibration = new ImageButton(btnDrawOn, btnDrawOff, btnDrawOff);
+        } else {
+            vibration = new ImageButton(btnDrawOff, btnDrawOn, btnDrawOn);
+        }
 
         BitmapFont myfont = new BitmapFont();
         myfont.getData().scale(1.05f);
@@ -67,10 +83,10 @@ public class OptionsMenu implements Screen{
         stage.setDebugParentUnderMouse(true);
         goBack.setPosition(50,50);
         stage.addActor(goBack);
-        sound.setPosition(FlyChicken.WIDTH/2 - sound.getWidth()/2+100, FlyChicken.HEIGHT-200);
-        stage.addActor(sound);
-        music.setPosition(FlyChicken.WIDTH/2 - sound.getWidth()/2+100, FlyChicken.HEIGHT-300);
+        music.setPosition(FlyChicken.WIDTH/2 - sound.getWidth()/2+100, FlyChicken.HEIGHT-200);
         stage.addActor(music);
+        sound.setPosition(FlyChicken.WIDTH/2 - sound.getWidth()/2+100, FlyChicken.HEIGHT-300);
+        stage.addActor(sound);
         vibration.setPosition(FlyChicken.WIDTH/2 - sound.getWidth()/2+100, FlyChicken.HEIGHT-400);
         stage.addActor(vibration);
 
@@ -128,7 +144,7 @@ public class OptionsMenu implements Screen{
         vibration.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                if (vibration.isChecked()) {
+                if (vibration.isPressed()) {
                     onClickVibration();
                     return true;
                 }
@@ -139,19 +155,21 @@ public class OptionsMenu implements Screen{
 
     public void onClickSound() {
         System.out.println("SOUND pressed");
-        sound.isChecked();
-
+        boolean soundConfig = FlyChicken.getInstance().getPrefs().getBoolean("sound");
+        FlyChicken.getInstance().setPreferences("sound", !soundConfig);
     }
 
     public void onClickMusic() {
         System.out.println("MUSIC pressed");
-        music.isChecked();
+        boolean musicConfig = FlyChicken.getInstance().getPrefs().getBoolean("music");
+        FlyChicken.getInstance().setPreferences("music", !musicConfig);
 
     }
 
     public void onClickVibration() {
         System.out.println("VIBRATION pressed");
-        vibration.isChecked();
+        boolean vibraTionConfig = FlyChicken.getInstance().getPrefs().getBoolean("vibration");
+        FlyChicken.getInstance().setPreferences("vibration", !vibraTionConfig);
     }
 
 

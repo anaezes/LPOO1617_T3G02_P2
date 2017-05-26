@@ -3,6 +3,7 @@ package GameView;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -29,6 +30,8 @@ public class GameView implements Screen  {
     private Hud hud;
     private Random rand;
 
+    private Sound s;
+
     private ShapeRenderer shapeRenderer;
 
     public GameView(FlyChicken mainGame, EnumGameLevel level) {
@@ -36,6 +39,7 @@ public class GameView implements Screen  {
         this.gameMain = mainGame;
 
         Gdx.input.setInputProcessor(null);
+
 
         cam = new OrthographicCamera();
         cam.setToOrtho(false, FlyChicken.WIDTH / 2, FlyChicken.HEIGHT / 2);
