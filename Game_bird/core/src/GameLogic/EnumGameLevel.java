@@ -1,9 +1,8 @@
 package GameLogic;
 
 /**
- * Created by cristiana on 30-04-2017.
+ * Enum to identify possible Levels in the game
  */
-
 public enum EnumGameLevel {
     LevelOne,
     LevelTwo,

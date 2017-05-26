@@ -3,6 +3,11 @@ package GameLogic;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
+/**
+ * Class Animation
+ *  <br>
+ * contains methods and values to create an ilusion of bird's movement
+ */
 public class Animation {
     private Array<TextureRegion> frames;
     private float maxFrameTime;
@@ -10,6 +15,12 @@ public class Animation {
     private int frameCount;
     private int frame;
 
+    /**
+     * Class Constructor Animation
+     * @param region
+     * @param frameCount
+     * @param cycleTime
+     */
     public Animation(TextureRegion region, int frameCount, float cycleTime) {
         frames = new Array<TextureRegion>();
         int frameWidth = region.getRegionWidth() / frameCount;

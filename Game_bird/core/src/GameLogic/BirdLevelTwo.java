@@ -4,9 +4,22 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 
+/**
+ * Class BirdLevelTwo:
+ * <br>
+ * contains methods and values for Bird's type objects to Level Two
+ */
 
 public class BirdLevelTwo extends Bird {
 
+
+    /**
+     * Class Constructor BirdLevelTwo
+     * @param x     x-coordinate
+     * @param y     y-coordinate
+     * <br>
+     * Create a bird with x and y coordinates, attach it to a texture and a Circle (to detect collisions)
+     */
     public BirdLevelTwo(int x, int y) {
         super(x, y);
         birdTexture = new Texture("birdAnimationWinter.png");
