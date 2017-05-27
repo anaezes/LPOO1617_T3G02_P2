@@ -1,4 +1,4 @@
-package GameLogic;
+package GameLogic.gameobjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector3;
+
+import GameLogic.Animation;
 
 /**
  * Class Bird:
@@ -147,7 +149,7 @@ public class Bird extends GameObject {
         this.birdTexture = texture;
         birdAnimation = new Animation(new TextureRegion(birdTexture), 3, 0.5f);
         bounds = new Circle(getPosX()+birdAnimation.getFrame().getRegionWidth()/2, getPosY()+birdAnimation.getFrame().getRegionHeight()/2,
-                birdAnimation.getFrame().getRegionHeight()/2);
+                birdAnimation.getFrame().getRegionHeight()/2-3);
     }
 
 

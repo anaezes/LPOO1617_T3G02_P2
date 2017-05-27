@@ -1,4 +1,4 @@
-package GameLogic;
+package GameLogic.gameobjects;
 
 /**
  * Class Obstacle
@@ -8,7 +8,7 @@ package GameLogic;
  * water and branches are awards
  */
 
-public class Obstacle extends GameObject {
+public class Obstacle extends GameLogic.gameobjects.GameObject {
 
     /**
      * Class Constructor Obstacle

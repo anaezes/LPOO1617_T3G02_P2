@@ -3,10 +3,7 @@ package GameLogic.gameobjects;
 
 import com.badlogic.gdx.graphics.Texture;
 
-import GameLogic.Bird;
-import GameLogic.Branch;
 import GameLogic.EnumGameLevel;
-import GameLogic.Water;
 
 public class Factory {
 
@@ -72,5 +69,40 @@ public class Factory {
                 break;
         }
         return water;
+    }
+
+    public static Wall createLeftWall(EnumGameLevel level) {
+        Wall wall = new Wall(0, 0);
+        switch (level) {
+            case LevelOne:
+                wall.setTexture(new Texture("wallLeftNormal.png"));
+                break;
+
+            case LevelTwo:
+                wall.setTexture(new Texture("wallLeftWinter.png"));
+                break;
+            case LevelThree:
+                wall.setTexture(new Texture("wallLeftHot.png"));
+                break;
+        }
+
+        return wall;
+    }
+
+    public static Wall createRightWall(EnumGameLevel level) {
+        Wall wall = new Wall(0, 0);
+
+        switch (level) {
+            case LevelOne:
+                wall.setTexture(new Texture("wallRightNormal.png"));
+                break;
+            case LevelTwo:
+                wall.setTexture(new Texture("wallRightWinter.png"));
+                break;
+            case LevelThree:
+                wall.setTexture(new Texture("wallRightHot.png"));
+                break;
+        }
+        return wall;
     }
 }

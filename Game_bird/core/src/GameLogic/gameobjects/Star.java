@@ -1,4 +1,4 @@
-package GameLogic;
+package GameLogic.gameobjects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Circle;
@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Circle;
  * <br>
  * contains methods and values for Star's type objects
  */
-public class Star extends Award {
+public class Star extends GameLogic.gameobjects.Award {
 
     private Texture star;
     private Circle starBounds;
