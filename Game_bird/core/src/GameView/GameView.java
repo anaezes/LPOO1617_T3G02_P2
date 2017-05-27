@@ -13,15 +13,12 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.Random;
 
-import GameLogic.Branch;
+import GameLogic.gameobjects.Branch;
 import GameLogic.EnumGameLevel;
 import GameLogic.EnumGameState;
 import GameLogic.GameMain;
 
-public class GameView implements Screen  {
-
-    private static final int WATER_INCREMENT = 2;
-
+public class GameView implements Screen{
     private GameMain game;
     private float birdPosY;
 
@@ -60,7 +57,7 @@ public class GameView implements Screen  {
         game.createWalls(cam);
         rand = new Random();
 
-        game.getGameBird().setValidPositionsX(game.getLeftWallPos1().x+game.getLeftWall().getWidth(), game.getRightWallPos1().x,
+        game.getGameBird().setValidPositionsX(game.getLeftWallPos1().x+game.getLeftWall().getTexture().getWidth(), game.getRightWallPos1().x,
                 game.getWater().getPosY()+game.getWater().getWaterTexture().getHeight());
 
         soundCoin = Gdx.audio.newSound(Gdx.files.internal("coin.ogg"));
@@ -173,11 +170,11 @@ public class GameView implements Screen  {
 
 
     public void drawWalls() {
-        gameMain.batch.draw(game.getLeftWall(), game.getLeftWallPos1().x, game.getLeftWallPos1().y);
-        gameMain.batch.draw(game.getLeftWall(), game.getLeftWallPos2().x, game.getLeftWallPos2().y);
+        gameMain.batch.draw(game.getLeftWall().getTexture(), game.getLeftWallPos1().x, game.getLeftWallPos1().y);
+        gameMain.batch.draw(game.getLeftWall().getTexture(), game.getLeftWallPos2().x, game.getLeftWallPos2().y);
 
-        gameMain.batch.draw(game.getRightWall(), game.getRightWallPos1().x, game.getRightWallPos1().y);
-        gameMain.batch.draw(game.getRightWall(), game.getRightWallPos2().x, game.getRightWallPos2().y);
+        gameMain.batch.draw(game.getRightWall().getTexture(), game.getRightWallPos1().x, game.getRightWallPos1().y);
+        gameMain.batch.draw(game.getRightWall().getTexture(), game.getRightWallPos2().x, game.getRightWallPos2().y);
     }
 
     public void drawBranches() {
@@ -210,30 +207,30 @@ public class GameView implements Screen  {
 
     void updateMovementDown() {
         if (cam.position.y+(cam.viewportHeight / 2) < game.getLeftWallPos1().y)
-            game.getLeftWallPos1().add(0, - 2* game.getLeftWall().getHeight());
+            game.getLeftWallPos1().add(0, - 2* game.getLeftWall().getTexture().getHeight());
 
         if (cam.position.y+(cam.viewportHeight / 2) < game.getLeftWallPos2().y)
-            game.getLeftWallPos2().add(0, - 2* game.getLeftWall().getHeight());
+            game.getLeftWallPos2().add(0, - 2* game.getLeftWall().getTexture().getHeight());
 
         if (cam.position.y + (cam.viewportHeight / 2) < game.getRightWallPos1().y )
-            game.getRightWallPos1().add(0, - 2* game.getRightWall().getHeight());
+            game.getRightWallPos1().add(0, - 2* game.getRightWall().getTexture().getHeight());
 
         if (cam.position.y + (cam.viewportHeight / 2) < game.getRightWallPos2().y )
-            game.getRightWallPos2().add(0, - 2* game.getRightWall().getHeight());
+            game.getRightWallPos2().add(0, - 2* game.getRightWall().getTexture().getHeight());
     }
 
     void updateMovementUp() {
-            if (cam.position.y - (cam.viewportHeight / 2) > game.getLeftWallPos1().y + game.getLeftWall().getHeight())
-                game.getLeftWallPos1().add(0, game.getLeftWall().getHeight() * 2);
+            if (cam.position.y - (cam.viewportHeight / 2) > game.getLeftWallPos1().y + game.getLeftWall().getTexture().getHeight())
+                game.getLeftWallPos1().add(0, game.getLeftWall().getTexture().getHeight() * 2);
 
-            if (cam.position.y - (cam.viewportHeight / 2) > game.getLeftWallPos2().y + game.getLeftWall().getHeight())
-                game.getLeftWallPos2().add(0, game.getLeftWall().getHeight() * 2);
+            if (cam.position.y - (cam.viewportHeight / 2) > game.getLeftWallPos2().y + game.getLeftWall().getTexture().getHeight())
+                game.getLeftWallPos2().add(0, game.getLeftWall().getTexture().getHeight() * 2);
 
-            if (cam.position.y - (cam.viewportHeight / 2) > game.getRightWallPos1().y + game.getRightWall().getHeight())
-                game.getRightWallPos1().add(0, game.getRightWall().getHeight() * 2);
+            if (cam.position.y - (cam.viewportHeight / 2) > game.getRightWallPos1().y + game.getRightWall().getTexture().getHeight())
+                game.getRightWallPos1().add(0, game.getRightWall().getTexture().getHeight() * 2);
 
-            if (cam.position.y - (cam.viewportHeight / 2) > game.getRightWallPos2().y + game.getRightWall().getHeight())
-                game.getRightWallPos2().add(0, game.getRightWall().getHeight() * 2);
+            if (cam.position.y - (cam.viewportHeight / 2) > game.getRightWallPos2().y + game.getRightWall().getTexture().getHeight())
+                game.getRightWallPos2().add(0, game.getRightWall().getTexture().getHeight() * 2);
     }
 
     public void checkCollisions(){
