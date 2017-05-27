@@ -14,7 +14,7 @@ import java.util.Random;
  */
 public class Branch extends Obstacle {
 
-    public static final int B_HEIGHT = 100;           /////Depende da imagem
+    public static final int B_HEIGHT = 100;          
     protected static final int X_FLUCTUATION = 20;
     protected static final int GAP_BRANCH = 110;
     protected static final int LOWEST_OPENING = 50;

@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.Array;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import GameLogic.gameobjects.*;
+import GameLogic.gameobjects.Factory;
 import GameLogic.gameobjects.Bird;
 import GameLogic.gameobjects.Branch;
 import GameLogic.gameobjects.Star;
@@ -364,7 +364,5 @@ public class GameMain {
             score += 1;
             currDist = (int)bird.getPosition().y;
         }
-
-
     }
 }

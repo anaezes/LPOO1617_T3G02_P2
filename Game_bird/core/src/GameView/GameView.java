@@ -1,7 +1,6 @@
 package GameView;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -13,10 +12,11 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.Random;
 
-import GameLogic.gameobjects.Branch;
+import GameInteraction.Interaction;
 import GameLogic.EnumGameLevel;
 import GameLogic.EnumGameState;
 import GameLogic.GameMain;
+import GameLogic.gameobjects.Branch;
 
 public class GameView implements Screen {
     private GameMain game;
@@ -32,29 +32,26 @@ public class GameView implements Screen {
     private Music musicGame;
 
     private ShapeRenderer shapeRenderer;
+    private Interaction interaction;
 
-    public GameView(FlyChicken mainGame, EnumGameLevel level) {
-        Gdx.input.setCatchBackKey(true);
+    public GameView(FlyChicken mainGame, EnumGameLevel level, Interaction interaction) {
+        this.interaction = interaction;
         this.gameMain = mainGame;
-
-        Gdx.input.setInputProcessor(null);
+        interaction.setCatchBackKey(true);
+        interaction.setInputProcessor(null);
 
         cam = new OrthographicCamera();
         cam.setToOrtho(false, FlyChicken.WIDTH / 2, FlyChicken.HEIGHT / 2);
         shapeRenderer = new ShapeRenderer();
 
         hud = new Hud(gameMain.batch);
-
         gamePort = new FitViewport(FlyChicken.WIDTH/2, FlyChicken.HEIGHT/2, cam);
         game = new GameMain(level);
-        game.createBird(FlyChicken.HEIGHT+400);
+
+        createObjects();
 
         birdPosY = game.getGameBird().getPosition().y;
-        game.createWater();
-        game.createBranchs();
-        game.createApple(50, -100);
-        game.createStar(70, 400);
-        game.createWalls(cam);
+
         rand = new Random();
 
         game.getGameBird().setValidPositionsX(game.getLeftWallPos1().x+game.getLeftWall().getTexture().getWidth(), game.getRightWallPos1().x,
@@ -71,6 +68,15 @@ public class GameView implements Screen {
         }
     }
 
+    private void createObjects() {
+        game.createBird(FlyChicken.HEIGHT+400);
+        game.createWater();
+        game.createBranchs();
+        game.createApple(50, -100);
+        game.createStar(70, 400);
+        game.createWalls(cam);
+    }
+
     @Override
     public void show() {
 
@@ -80,15 +86,40 @@ public class GameView implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(54/255f, 204/255f, 253/255f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         gameMain.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
         gameMain.batch.setProjectionMatrix(cam.combined);
-
         gameMain.batch.begin();
 
         handleinput();
 
+        updateObjects(delta);
+        drawObjects();
+        cam.update();
+        checkCollisions();
+        updateHud();
+
+        gameMain.batch.end();
+
+        //debug
+        //shapeRenderes();
+
+        if (game.getState() == EnumGameState.Lose){
+            game.checkScore(game.getScore());
+            gameMain.setScreen(new GameMenu(gameMain));
+            this.dispose();
+        }
+    }
+
+    private void drawObjects() {
+        drawBird();
+        drawAwards();
+        drawBranches();
+        drawWater();
+        drawWalls();
+    }
+
+    public void updateObjects(float delta) {
         updateWalls(game.getGameBird().getPosition().y);
         game.updateAwards(cam);
         game.updateBranches(cam);
@@ -97,28 +128,6 @@ public class GameView implements Screen {
         updateBird(delta);
 
         cam.position.y = game.getGameBird().getPosition().y + game.getGameBird().getBirdTexture().getRegionHeight()/2;
-
-        drawBird();
-        drawAwards();
-        drawBranches();
-        drawWater();
-        drawWalls();
-
-        cam.update();
-
-        checkCollisions();
-
-        updateHud();
-
-        gameMain.batch.end();
-
-        shapeRenderes();
-
-        if (game.getState() == EnumGameState.Lose){
-            game.checkScore(game.getScore());
-            gameMain.setScreen(new GameMenu(gameMain));
-            this.dispose();
-        }
     }
 
     public void updateHud() {
@@ -185,11 +194,11 @@ public class GameView implements Screen {
     }
 
     public void handleinput() {
-        if(Gdx.input.justTouched()) {
+        if(interaction.screenIsTouched()) {
             game.getGameBird().jump();
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+        if (interaction.backKeyIsPressed()) {
             game.checkScore(game.getScore());
             this.dispose();
             gameMain.setScreen(new GameMenu(gameMain));
@@ -239,11 +248,11 @@ public class GameView implements Screen {
             float posY = game.getGameBird().getPosition().y + 3*game.getGameBird().getBirdTexture().getRegionHeight()/4;
             gameMain.batch.draw(game.getGameBird().getBirdStarsTexture(), posX,  posY);
             if(FlyChicken.getInstance().getPrefs().getBoolean("vibration"))
-                Gdx.input.vibrate(500);
+                interaction.vibrate(500);
         }
         if(game.checkCollisionsWater()) {
             if(FlyChicken.getInstance().getPrefs().getBoolean("vibration"))
-                Gdx.input.vibrate(500);
+                interaction.vibrate(500);
             gameMain.setScreen(new GameMenu(gameMain));
         }
 
@@ -269,7 +278,6 @@ public class GameView implements Screen {
 
         }
     }
-
 
    public void updateWater(){
         game.getWater().setPosY(game.getWater().getPosY() + game.getWater().getWaterIncrement());
