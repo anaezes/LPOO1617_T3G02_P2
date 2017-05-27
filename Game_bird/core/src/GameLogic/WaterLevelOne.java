@@ -16,6 +16,6 @@ public class WaterLevelOne extends Water {
      */
     public WaterLevelOne(int x, int y) {
         super(x, y);
-        waterIncrement = 1;
+        waterIncrement = 2;
     }
 }

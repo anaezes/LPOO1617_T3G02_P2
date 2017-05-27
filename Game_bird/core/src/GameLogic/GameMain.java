@@ -166,13 +166,13 @@ public class GameMain {
 
     public void createBranchs() {
         branches = new Array<Branch>();
-        for (int i=1; i<BRANCH_COUNT; i++){
+        for (int i = 1; i < BRANCH_COUNT; i++){
             if(level == EnumGameLevel.LevelOne)
-                branches.add(new BranchLevelOne(0,i* (BRANCH_SPACING + Branch.B_HEIGHT)));
+                branches.add(new BranchLevelOne(0,  i * (BRANCH_SPACING + Branch.B_HEIGHT) + (int)bird.getPosition().y));
             else if(level == EnumGameLevel.LevelTwo)
-                branches.add(new BranchLevelTwo(0,i* (BRANCH_SPACING + Branch.B_HEIGHT)));
+                branches.add(new BranchLevelTwo(0,  i * (BRANCH_SPACING + Branch.B_HEIGHT) + (int)bird.getPosition().y ));
             else
-                branches.add(new BranchLevelThree(0,i* (BRANCH_SPACING + Branch.B_HEIGHT)));
+                branches.add(new BranchLevelThree(0,    i * (BRANCH_SPACING + Branch.B_HEIGHT) + (int)bird.getPosition().y));
         }
     }
 
@@ -340,9 +340,10 @@ public class GameMain {
     }
 
     public void updateBranches(OrthographicCamera cam) {
-        for (Branch branch : branches)
-            if(cam.position.y - (cam.viewportHeight/2) > branch.getPosRightBranch().y + branch.getRightBranch().getHeight())
+        for (Branch branch : branches) {
+            if (cam.position.y - (cam.viewportHeight / 2)  > branch.getPosRightBranch().y + branch.getRightBranch().getHeight())
                 branch.reposition(branch.getPosRightBranch().y + ((Branch.B_HEIGHT + BRANCH_SPACING) * BRANCH_COUNT));
+        }
     }
 
     public Texture getLeftWall(){

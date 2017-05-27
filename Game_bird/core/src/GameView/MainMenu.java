@@ -77,7 +77,7 @@ public class MainMenu implements Screen {
         instructionsBtn.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                if(instructionsBtn.isPressed()){
+                if(instructionsBtn.isTouchable()){
                     onClickOInstructions();
                 }
 
@@ -88,7 +88,7 @@ public class MainMenu implements Screen {
         optionsBtn.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                if(optionsBtn.isPressed()){
+                if(optionsBtn.isTouchable()){
                     onClickOptions();
                 }
 
@@ -99,7 +99,7 @@ public class MainMenu implements Screen {
         scoresBtn.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                if(scoresBtn.isPressed()){
+                if(scoresBtn.isTouchable()){
                     onClickScores();
                 }
 
@@ -110,7 +110,7 @@ public class MainMenu implements Screen {
         exitBtn.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                if(exitBtn.isPressed()){
+                if(exitBtn.isTouchable()){
                     onClickExit();
                 }
 
@@ -121,7 +121,7 @@ public class MainMenu implements Screen {
         playBtn.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                if(playBtn.isPressed()){
+                if(playBtn.isTouchable()){
                     onClickPlay();
                 }
 
