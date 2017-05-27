@@ -58,4 +58,8 @@ public class Water extends Obstacle {
     public int getWaterIncrement() {
         return waterIncrement;
     }
+
+    public void setWaterIncrement(int inc) {
+        waterIncrement = inc;
+    }
 }

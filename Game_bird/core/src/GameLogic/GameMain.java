@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import GameLogic.gameobjects.Factory;
 import GameView.FlyChicken;
 
 /**
@@ -137,23 +138,12 @@ public class GameMain {
 
 
     public void createBird(int width) {
-        if(level == EnumGameLevel.LevelOne)
-            bird = new BirdLevelOne(100, width);
-        else if(level == EnumGameLevel.LevelTwo)
-            bird = new BirdLevelTwo(100, width);
-        else
-            bird = new BirdLevelThree(100, width);
-
+        bird = Factory.createBird(level, 100, width);
         currDist = (int)bird.getPosition().y;
     }
 
     public void createWater() {
-        if(level == EnumGameLevel.LevelOne)
-            water = new WaterLevelOne(0, -478);
-        else if(level == EnumGameLevel.LevelTwo)
-            water = new WaterLevelTwo(0, -478);
-        else
-            water = new WaterLevelThree(0, -478);
+        water = Factory.createWater(level, 0, -478);
     }
 
     public void createApple(int x, int y){
@@ -166,14 +156,8 @@ public class GameMain {
 
     public void createBranchs() {
         branches = new Array<Branch>();
-        for (int i = 1; i < BRANCH_COUNT; i++){
-            if(level == EnumGameLevel.LevelOne)
-                branches.add(new BranchLevelOne(0,  i * (BRANCH_SPACING + Branch.B_HEIGHT) + (int)bird.getPosition().y));
-            else if(level == EnumGameLevel.LevelTwo)
-                branches.add(new BranchLevelTwo(0,  i * (BRANCH_SPACING + Branch.B_HEIGHT) + (int)bird.getPosition().y ));
-            else
-                branches.add(new BranchLevelThree(0,    i * (BRANCH_SPACING + Branch.B_HEIGHT) + (int)bird.getPosition().y));
-        }
+        for (int i = 1; i < BRANCH_COUNT; i++)
+            branches.add(Factory.createBranch(level, 0, i * (BRANCH_SPACING + Branch.B_HEIGHT) + (int)bird.getPosition().y));
     }
 
     public void createWalls(OrthographicCamera cam) {
@@ -242,11 +226,8 @@ public class GameMain {
     }
 
     public void updateState() {
-        System.out.print("LIVES:    " + lives);
-
-        if(lives < 0) {
+        if(lives <= 0)
             state = EnumGameState.Lose;
-        }
     }
 
     public EnumGameState getState() {

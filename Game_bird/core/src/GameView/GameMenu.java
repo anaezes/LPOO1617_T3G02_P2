@@ -79,7 +79,7 @@ public class GameMenu implements Screen{
     }
 
     private void addButtonLevelTwo() {
-        if(FlyChicken.getInstance().getScores().get(0).getPlayerPoints()  >= 1500) {
+        if(FlyChicken.getInstance().getScores().get(0).getPlayerPoints()  >= 1000) {
             btnLevelTwo = new Texture(Gdx.files.internal("btnlevel2.png"));
             TextureRegion btn = new TextureRegion(btnLevelTwo);
             TextureRegionDrawable btnDraw = new TextureRegionDrawable(btn);

@@ -142,4 +142,13 @@ public class Bird extends GameObject {
     public Circle getBounds() {
         return bounds;
     }
+
+    public void setTexture(Texture texture) {
+        this.birdTexture = texture;
+        birdAnimation = new Animation(new TextureRegion(birdTexture), 3, 0.5f);
+        bounds = new Circle(getPosX()+birdAnimation.getFrame().getRegionWidth()/2, getPosY()+birdAnimation.getFrame().getRegionHeight()/2,
+                birdAnimation.getFrame().getRegionHeight()/2);
+    }
+
+
 }
