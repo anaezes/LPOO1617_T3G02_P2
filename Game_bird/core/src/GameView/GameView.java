@@ -18,7 +18,7 @@ import GameLogic.EnumGameLevel;
 import GameLogic.EnumGameState;
 import GameLogic.GameMain;
 
-public class GameView implements Screen{
+public class GameView implements Screen {
     private GameMain game;
     private float birdPosY;
 

@@ -1,7 +1,6 @@
 package GameView;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,18 +9,15 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+
+;
 
 
-public class MainMenu implements Screen {
+public class MainMenu extends Menu {
 
-    private Viewport gamePort;
-    private Stage stage;
-    private Texture backGround;
     private ImageButton playBtn, instructionsBtn, scoresBtn, optionsBtn, exitBtn;
-    private FlyChicken game;
 
     public MainMenu(FlyChicken game) {
         this.game = game;
@@ -159,11 +155,6 @@ public class MainMenu implements Screen {
     }
 
     @Override
-    public void show() {
-        Gdx.input.setInputProcessor(this.stage);
-    }
-
-    @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
@@ -171,31 +162,5 @@ public class MainMenu implements Screen {
         stage.getBatch().end();
         stage.act(delta);
         stage.draw();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-        Gdx.input.setInputProcessor(null);
-    }
-
-    @Override
-    public void dispose() {
-        backGround.dispose();
-        stage.dispose();
     }
 }

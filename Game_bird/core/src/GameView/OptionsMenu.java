@@ -1,7 +1,6 @@
 package GameView;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -15,20 +14,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 
-public class OptionsMenu implements Screen{
-    private Viewport gamePort;
-    private Stage stage;
+public class OptionsMenu extends Menu {
     private Texture backGround, btnreturn, options, rectangle;
     private Texture OnBtn, OffBtn;
     private ImageButton goBack, sound, vibration, music;
-    private FlyChicken game;
     private Label musicLabel, soundLabel, vibrationLabel;
 
     public OptionsMenu(FlyChicken game) {
-        this.game=game;
+        this.game = game;
         gamePort = new FitViewport(FlyChicken.WIDTH, FlyChicken.HEIGHT, new OrthographicCamera());
         stage = new Stage(gamePort, game.batch);
 
@@ -154,13 +149,6 @@ public class OptionsMenu implements Screen{
         FlyChicken.getInstance().setPreferences("vibration", !FlyChicken.getInstance().getPrefs().getBoolean("vibration"));
     }
 
-
-
-    @Override
-    public void show() {
-        Gdx.input.setInputProcessor(stage);
-    }
-
     @Override
     public void render(float delta) {
 
@@ -172,32 +160,5 @@ public class OptionsMenu implements Screen{
         stage.getBatch().end();
         stage.act(delta);
         stage.draw();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-        Gdx.input.setInputProcessor(null);
-
-    }
-
-    @Override
-    public void dispose() {
-        backGround.dispose();
-        stage.dispose();
     }
 }
