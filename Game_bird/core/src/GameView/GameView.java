@@ -3,6 +3,7 @@ package GameView;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,15 +13,12 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.Random;
 
-import GameLogic.Branch;
+import GameLogic.gameobjects.Branch;
 import GameLogic.EnumGameLevel;
 import GameLogic.EnumGameState;
 import GameLogic.GameMain;
 
-public class GameView implements Screen  {
-
-    private static final int WATER_INCREMENT = 2;
-
+public class GameView implements Screen {
     private GameMain game;
     private float birdPosY;
 
@@ -30,7 +28,8 @@ public class GameView implements Screen  {
     private Hud hud;
     private Random rand;
 
-    private Sound s;
+    private Sound soundCoin, soundBiting;
+    private Music musicGame;
 
     private ShapeRenderer shapeRenderer;
 
@@ -39,7 +38,6 @@ public class GameView implements Screen  {
         this.gameMain = mainGame;
 
         Gdx.input.setInputProcessor(null);
-
 
         cam = new OrthographicCamera();
         cam.setToOrtho(false, FlyChicken.WIDTH / 2, FlyChicken.HEIGHT / 2);
@@ -59,9 +57,18 @@ public class GameView implements Screen  {
         game.createWalls(cam);
         rand = new Random();
 
-        game.getGameBird().setValidPositionsX(game.getLeftWallPos1().x+game.getLeftWall().getWidth(), game.getRightWallPos1().x,
+        game.getGameBird().setValidPositionsX(game.getLeftWallPos1().x+game.getLeftWall().getTexture().getWidth(), game.getRightWallPos1().x,
                 game.getWater().getPosY()+game.getWater().getWaterTexture().getHeight());
 
+        soundCoin = Gdx.audio.newSound(Gdx.files.internal("coin.ogg"));
+        soundBiting =  Gdx.audio.newSound(Gdx.files.internal("bittingApple.ogg"));
+
+        if(FlyChicken.getInstance().getPrefs().getBoolean("music")) {
+            musicGame = Gdx.audio.newMusic(Gdx.files.internal("musicGame.ogg"));
+            musicGame.setLooping(true);
+            musicGame.setVolume(0.05f);
+            musicGame.play();
+        }
     }
 
     @Override
@@ -163,11 +170,11 @@ public class GameView implements Screen  {
 
 
     public void drawWalls() {
-        gameMain.batch.draw(game.getLeftWall(), game.getLeftWallPos1().x, game.getLeftWallPos1().y);
-        gameMain.batch.draw(game.getLeftWall(), game.getLeftWallPos2().x, game.getLeftWallPos2().y);
+        gameMain.batch.draw(game.getLeftWall().getTexture(), game.getLeftWallPos1().x, game.getLeftWallPos1().y);
+        gameMain.batch.draw(game.getLeftWall().getTexture(), game.getLeftWallPos2().x, game.getLeftWallPos2().y);
 
-        gameMain.batch.draw(game.getRightWall(), game.getRightWallPos1().x, game.getRightWallPos1().y);
-        gameMain.batch.draw(game.getRightWall(), game.getRightWallPos2().x, game.getRightWallPos2().y);
+        gameMain.batch.draw(game.getRightWall().getTexture(), game.getRightWallPos1().x, game.getRightWallPos1().y);
+        gameMain.batch.draw(game.getRightWall().getTexture(), game.getRightWallPos2().x, game.getRightWallPos2().y);
     }
 
     public void drawBranches() {
@@ -178,8 +185,9 @@ public class GameView implements Screen  {
     }
 
     public void handleinput() {
-        if(Gdx.input.justTouched())
+        if(Gdx.input.justTouched()) {
             game.getGameBird().jump();
+        }
 
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
             game.checkScore(game.getScore());
@@ -199,30 +207,30 @@ public class GameView implements Screen  {
 
     void updateMovementDown() {
         if (cam.position.y+(cam.viewportHeight / 2) < game.getLeftWallPos1().y)
-            game.getLeftWallPos1().add(0, - 2* game.getLeftWall().getHeight());
+            game.getLeftWallPos1().add(0, - 2* game.getLeftWall().getTexture().getHeight());
 
         if (cam.position.y+(cam.viewportHeight / 2) < game.getLeftWallPos2().y)
-            game.getLeftWallPos2().add(0, - 2* game.getLeftWall().getHeight());
+            game.getLeftWallPos2().add(0, - 2* game.getLeftWall().getTexture().getHeight());
 
         if (cam.position.y + (cam.viewportHeight / 2) < game.getRightWallPos1().y )
-            game.getRightWallPos1().add(0, - 2* game.getRightWall().getHeight());
+            game.getRightWallPos1().add(0, - 2* game.getRightWall().getTexture().getHeight());
 
         if (cam.position.y + (cam.viewportHeight / 2) < game.getRightWallPos2().y )
-            game.getRightWallPos2().add(0, - 2* game.getRightWall().getHeight());
+            game.getRightWallPos2().add(0, - 2* game.getRightWall().getTexture().getHeight());
     }
 
     void updateMovementUp() {
-            if (cam.position.y - (cam.viewportHeight / 2) > game.getLeftWallPos1().y + game.getLeftWall().getHeight())
-                game.getLeftWallPos1().add(0, game.getLeftWall().getHeight() * 2);
+            if (cam.position.y - (cam.viewportHeight / 2) > game.getLeftWallPos1().y + game.getLeftWall().getTexture().getHeight())
+                game.getLeftWallPos1().add(0, game.getLeftWall().getTexture().getHeight() * 2);
 
-            if (cam.position.y - (cam.viewportHeight / 2) > game.getLeftWallPos2().y + game.getLeftWall().getHeight())
-                game.getLeftWallPos2().add(0, game.getLeftWall().getHeight() * 2);
+            if (cam.position.y - (cam.viewportHeight / 2) > game.getLeftWallPos2().y + game.getLeftWall().getTexture().getHeight())
+                game.getLeftWallPos2().add(0, game.getLeftWall().getTexture().getHeight() * 2);
 
-            if (cam.position.y - (cam.viewportHeight / 2) > game.getRightWallPos1().y + game.getRightWall().getHeight())
-                game.getRightWallPos1().add(0, game.getRightWall().getHeight() * 2);
+            if (cam.position.y - (cam.viewportHeight / 2) > game.getRightWallPos1().y + game.getRightWall().getTexture().getHeight())
+                game.getRightWallPos1().add(0, game.getRightWall().getTexture().getHeight() * 2);
 
-            if (cam.position.y - (cam.viewportHeight / 2) > game.getRightWallPos2().y + game.getRightWall().getHeight())
-                game.getRightWallPos2().add(0, game.getRightWall().getHeight() * 2);
+            if (cam.position.y - (cam.viewportHeight / 2) > game.getRightWallPos2().y + game.getRightWall().getTexture().getHeight())
+                game.getRightWallPos2().add(0, game.getRightWall().getTexture().getHeight() * 2);
     }
 
     public void checkCollisions(){
@@ -230,25 +238,35 @@ public class GameView implements Screen  {
             float posX = game.getGameBird().getPosition().x + game.getGameBird().getBirdTexture().getRegionWidth()/2-game.getGameBird().getBirdStarsTexture().getWidth()/2;
             float posY = game.getGameBird().getPosition().y + 3*game.getGameBird().getBirdTexture().getRegionHeight()/4;
             gameMain.batch.draw(game.getGameBird().getBirdStarsTexture(), posX,  posY);
-            Gdx.input.vibrate(500);
+            if(FlyChicken.getInstance().getPrefs().getBoolean("vibration"))
+                Gdx.input.vibrate(500);
         }
         if(game.checkCollisionsWater()) {
-            Gdx.input.vibrate(500);
+            if(FlyChicken.getInstance().getPrefs().getBoolean("vibration"))
+                Gdx.input.vibrate(500);
             gameMain.setScreen(new GameMenu(gameMain));
         }
 
         if(game.checkAppleCollision()) {
+            if(FlyChicken.getInstance().getPrefs().getBoolean("sound"))
+                soundBiting.play();
+
             game.disposeApple();
             int x = game.getXRandomAxis(cam);
             int y = game.getCurrentYAxis(cam);
             game.createApple(x, y);
+
         }
 
         if(game.checkStarCollision()) {
+            if(FlyChicken.getInstance().getPrefs().getBoolean("sound"))
+                soundCoin.play();
+
             game.disposeStar();
             int x = game.getXRandomAxis(cam);
             int y = game.getCurrentYAxis(cam);
             game.createStar(x, y);
+
         }
     }
 

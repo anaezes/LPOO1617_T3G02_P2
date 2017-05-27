@@ -1,4 +1,4 @@
-package GameLogic;
+package GameLogic.gameobjects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
  * <br>
  * contains methods and values for Water's type objects
  */
-public class Water extends Obstacle {
+public class Water extends GameLogic.gameobjects.Obstacle {
     private Rectangle waterBounds;
     private Texture waterTexture;
     protected int waterIncrement;
@@ -57,5 +57,9 @@ public class Water extends Obstacle {
      */
     public int getWaterIncrement() {
         return waterIncrement;
+    }
+
+    public void setWaterIncrement(int inc) {
+        waterIncrement = inc;
     }
 }

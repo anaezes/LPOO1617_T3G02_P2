@@ -1,4 +1,4 @@
-package GameLogic;
+package GameLogic.gameobjects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
@@ -96,5 +96,16 @@ public class Branch extends Obstacle {
      */
     public Rectangle getBoundsLeftBranch() {
         return boundsLeftBranch;
+    }
+
+    public void setTextures(Texture textureRightBranch, Texture textureLeftBranch) {
+        rightBranch = textureRightBranch;
+        leftBranch = textureLeftBranch;
+
+        posLeftBranch = new Vector3(rand.nextInt(X_FLUCTUATION) + GAP_BRANCH + LOWEST_OPENING, getPosY(), 0);
+        posRightBranch = new Vector3(posLeftBranch.x - GAP_BRANCH - LOWEST_OPENING, getPosY() + rand.nextInt(X_FLUCTUATION) + GAP_BRANCH + LOWEST_OPENING, 0);
+
+        boundsLeftBranch = new Rectangle(posLeftBranch.x, posLeftBranch.y+3*leftBranch.getHeight()/4, leftBranch.getWidth(), leftBranch.getHeight()/4);
+        boundsRightBranch = new Rectangle(posRightBranch.x, posRightBranch.y+3*leftBranch.getHeight()/4, rightBranch.getWidth(), rightBranch.getHeight()/4);
     }
 }

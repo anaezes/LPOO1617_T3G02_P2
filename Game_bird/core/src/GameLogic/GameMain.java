@@ -2,7 +2,6 @@ package GameLogic;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -10,6 +9,12 @@ import com.badlogic.gdx.utils.Array;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import GameLogic.gameobjects.*;
+import GameLogic.gameobjects.Bird;
+import GameLogic.gameobjects.Branch;
+import GameLogic.gameobjects.Star;
+import GameLogic.gameobjects.Wall;
+import GameLogic.gameobjects.Water;
 import GameView.FlyChicken;
 
 /**
@@ -22,21 +27,21 @@ public class GameMain {
     private static final int BRANCH_SPACING = 50;
     private static final int BRANCH_COUNT = 10;
 
-    private EnumGameLevel level;
+    private GameLogic.EnumGameLevel level;
     private EnumGameState state;
 
     private int eatenApples;
-    private Bird bird;
+    private GameLogic.gameobjects.Bird bird;
 
-    private Array<Branch> branches;
+    private Array<GameLogic.gameobjects.Branch> branches;
 
-    private Water water;
-    private Apple apple;
-    private Star star;
+    private GameLogic.gameobjects.Water water;
+    private GameLogic.gameobjects.Apple apple;
+    private GameLogic.gameobjects.Star star;
     private static GameMain instance = null;
     private  Random rand;
 
-    private Texture leftWall, rightWall;
+    private GameLogic.gameobjects.Wall leftWall, rightWall;
     private Vector2 leftWallPos1, leftWallPos2, rightWallPos1, rightWallPos2;
 
     private int lives;
@@ -137,67 +142,38 @@ public class GameMain {
 
 
     public void createBird(int width) {
-        if(level == EnumGameLevel.LevelOne)
-            bird = new BirdLevelOne(100, width);
-        else if(level == EnumGameLevel.LevelTwo)
-            bird = new BirdLevelTwo(100, width);
-        else
-            bird = new BirdLevelThree(100, width);
-
+        bird = Factory.createBird(level, 100, width);
         currDist = (int)bird.getPosition().y;
     }
 
     public void createWater() {
-        if(level == EnumGameLevel.LevelOne)
-            water = new WaterLevelOne(0, -478);
-        else if(level == EnumGameLevel.LevelTwo)
-            water = new WaterLevelTwo(0, -478);
-        else
-            water = new WaterLevelThree(0, -478);
+        water = Factory.createWater(level, 0, -478);
     }
 
     public void createApple(int x, int y){
-        this.apple = new Apple(x, y);
+        this.apple = new GameLogic.gameobjects.Apple(x, y);
     }
 
     public void createStar(int x, int y){
-        this.star = new Star(x, y);
+        this.star = new GameLogic.gameobjects.Star(x, y);
     }
 
     public void createBranchs() {
-        branches = new Array<Branch>();
-        for (int i=1; i<BRANCH_COUNT; i++){
-            if(level == EnumGameLevel.LevelOne)
-                branches.add(new BranchLevelOne(0,i* (BRANCH_SPACING + Branch.B_HEIGHT)));
-            else if(level == EnumGameLevel.LevelTwo)
-                branches.add(new BranchLevelTwo(0,i* (BRANCH_SPACING + Branch.B_HEIGHT)));
-            else
-                branches.add(new BranchLevelThree(0,i* (BRANCH_SPACING + Branch.B_HEIGHT)));
-        }
+        branches = new Array<GameLogic.gameobjects.Branch>();
+        for (int i = 1; i < BRANCH_COUNT; i++)
+            branches.add(Factory.createBranch(level, 0, i * (BRANCH_SPACING + GameLogic.gameobjects.Branch.B_HEIGHT) + (int)bird.getPosition().y));
     }
 
     public void createWalls(OrthographicCamera cam) {
 
-        if(level == EnumGameLevel.LevelOne) {
-            leftWall = new Texture("wallLeftNormal.png");
-            rightWall = new Texture("wallRightNormal.png");
-        }
-        else if(level == EnumGameLevel.LevelTwo) {
-            leftWall = new Texture("wallLeftWinter.png");
-            rightWall = new Texture("wallRightWinter.png");
-        }
-        else {
-            leftWall = new Texture("wallLeftHot.png");
-            rightWall = new Texture("wallRightHot.png");
-        }
-
+        leftWall = Factory.createLeftWall(level);
+        rightWall = Factory.createRightWall(level);
 
         leftWallPos1 = new Vector2(WALL_X_OFFSET, cam.position.y - cam.viewportHeight/2);
-        leftWallPos2 = new Vector2(WALL_X_OFFSET, (cam.position.x - cam.viewportWidth/2) + leftWall.getHeight());
+        leftWallPos2 = new Vector2(WALL_X_OFFSET, (cam.position.x - cam.viewportWidth/2) + leftWall.getTexture().getHeight());
 
-        rightWallPos1 = new Vector2(FlyChicken.WIDTH/2 - (rightWall.getWidth() + WALL_X_OFFSET), cam.position.y - cam.viewportHeight/2);
-        rightWallPos2 = new Vector2(FlyChicken.WIDTH/2- (rightWall.getWidth() + WALL_X_OFFSET), (cam.position.x - cam.viewportWidth/2) + rightWall.getHeight());
-
+        rightWallPos1 = new Vector2(FlyChicken.WIDTH/2 - (rightWall.getTexture().getWidth() + WALL_X_OFFSET), cam.position.y - cam.viewportHeight/2);
+        rightWallPos2 = new Vector2(FlyChicken.WIDTH/2- (rightWall.getTexture().getWidth() + WALL_X_OFFSET), (cam.position.x - cam.viewportWidth/2) + rightWall.getTexture().getHeight());
     }
 
     public EnumGameLevel getCurrentGameLevel() {
@@ -212,7 +188,7 @@ public class GameMain {
         return bird;
     }
 
-    public Apple getApple() {
+    public GameLogic.gameobjects.Apple getApple() {
         return apple;
     }
 
@@ -232,7 +208,14 @@ public class GameMain {
         return water;
     }
 
-    public Array<Branch> getGameBranches() {
+    public GameLogic.gameobjects.Wall getLeftWall() {
+        return leftWall;
+    }
+    public Wall getRightWall() {
+        return rightWall;
+    }
+
+    public Array<GameLogic.gameobjects.Branch> getGameBranches() {
         return branches;
     }
 
@@ -242,11 +225,8 @@ public class GameMain {
     }
 
     public void updateState() {
-        System.out.print("LIVES:    " + lives);
-
-        if(lives < 0) {
+        if(lives <= 0)
             state = EnumGameState.Lose;
-        }
     }
 
     public EnumGameState getState() {
@@ -340,18 +320,13 @@ public class GameMain {
     }
 
     public void updateBranches(OrthographicCamera cam) {
-        for (Branch branch : branches)
-            if(cam.position.y - (cam.viewportHeight/2) > branch.getPosRightBranch().y + branch.getRightBranch().getHeight())
+        for (GameLogic.gameobjects.Branch branch : branches) {
+            if (cam.position.y - (cam.viewportHeight / 2)  > branch.getPosRightBranch().y + branch.getRightBranch().getHeight())
                 branch.reposition(branch.getPosRightBranch().y + ((Branch.B_HEIGHT + BRANCH_SPACING) * BRANCH_COUNT));
+        }
     }
 
-    public Texture getLeftWall(){
-        return leftWall;
-    }
 
-    public Texture getRightWall(){
-        return rightWall;
-    }
 
     public Vector2 getLeftWallPos1() {
         return leftWallPos1;
@@ -370,8 +345,8 @@ public class GameMain {
     }
 
     public int getXRandomAxis(OrthographicCamera cam) {
-        int min = leftWall.getWidth();
-        int max = (int)cam.viewportWidth-rightWall.getWidth();
+        int min = leftWall.getTexture().getWidth();
+        int max = (int)cam.viewportWidth-rightWall.getTexture().getWidth();
         int x = rand.nextInt((max- min)+1)+min;
         return x;
     }

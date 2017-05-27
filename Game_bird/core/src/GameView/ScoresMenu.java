@@ -1,7 +1,6 @@
 package GameView;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -16,14 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class ScoresMenu implements Screen{
-    private Viewport gamePort;
-    private Stage stage;
-    private Texture backGround, btnreturn, tableScore, rectangle;
+public class ScoresMenu extends Menu{
+    private Texture btnreturn, tableScore, rectangle;
     private ImageButton goBack;
-    private FlyChicken game;
     private Table table;
     private Label name;
     private Label score;
@@ -90,11 +85,6 @@ public class ScoresMenu implements Screen{
     }
 
     @Override
-    public void show() {
-        Gdx.input.setInputProcessor(stage);
-    }
-
-    @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.getBatch().begin();
@@ -104,31 +94,5 @@ public class ScoresMenu implements Screen{
         stage.getBatch().end();
         stage.act(delta);
         stage.draw();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-        Gdx.input.setInputProcessor(null);
-    }
-
-    @Override
-    public void dispose() {
-        backGround.dispose();
-        stage.dispose();
     }
 }

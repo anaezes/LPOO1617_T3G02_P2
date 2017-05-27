@@ -1,4 +1,4 @@
-package GameLogic;
+package GameLogic.gameobjects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Circle;

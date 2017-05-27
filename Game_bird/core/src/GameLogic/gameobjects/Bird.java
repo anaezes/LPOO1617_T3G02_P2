@@ -1,4 +1,4 @@
-package GameLogic;
+package GameLogic.gameobjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector3;
 
-import GameView.FlyChicken;
+import GameLogic.Animation;
 
 /**
  * Class Bird:
@@ -45,8 +45,6 @@ public class Bird extends GameObject {
         birdStars = new Texture("starsbird.png");
         position = new Vector3(x, y, 0);
         velocity = new Vector3(0,0,0);
-
-        s = Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg"));
     }
 
     /**
@@ -117,9 +115,6 @@ public class Bird extends GameObject {
     public void jump(){
         velocity.y = 300;
         velocity.x = 300;
-        if(FlyChicken.getInstance().getPrefs().getBoolean("sound")) {
-            s.play();
-        }
     }
 
     /**
@@ -149,4 +144,13 @@ public class Bird extends GameObject {
     public Circle getBounds() {
         return bounds;
     }
+
+    public void setTexture(Texture texture) {
+        this.birdTexture = texture;
+        birdAnimation = new Animation(new TextureRegion(birdTexture), 3, 0.5f);
+        bounds = new Circle(getPosX()+birdAnimation.getFrame().getRegionWidth()/2, getPosY()+birdAnimation.getFrame().getRegionHeight()/2,
+                birdAnimation.getFrame().getRegionHeight()/2-3);
+    }
+
+
 }
