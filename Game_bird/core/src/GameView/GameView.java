@@ -104,7 +104,7 @@ public class GameView implements Screen {
         gameMain.batch.end();
 
         //debug
-        //shapeRenderes();
+        shapeRenderes();
 
         if (game.getState() == EnumGameState.Lose){
             int score = game.getScore();
@@ -125,14 +125,14 @@ public class GameView implements Screen {
     }
 
     public void updateObjects(float delta) {
+        updateBird(delta);
+        cam.position.y = game.getGameBird().getPosition().y + game.getGameBird().getBirdTexture().getRegionHeight()/2;
+
         updateWalls(game.getGameBird().getPosition().y);
-        game.updateAwards(cam);
-        game.updateBranches(cam);
+        game.updateAwards((int)cam.viewportWidth, (int)cam.viewportHeight);
+        game.updateBranches((int)cam.viewportHeight);
 
         updateWater();
-        updateBird(delta);
-
-        cam.position.y = game.getGameBird().getPosition().y + game.getGameBird().getBirdTexture().getRegionHeight()/2;
     }
 
     public void updateHud() {
@@ -269,8 +269,8 @@ public class GameView implements Screen {
                 soundBiting.play();
 
             game.disposeApple();
-            int x = game.getXRandomAxis(cam);
-            int y = game.getCurrentYAxis(cam);
+            int x = game.getXRandomAxis((int)cam.viewportWidth);
+            int y = game.getCurrentYAxis();
             game.createApple(x, y);
 
         }
@@ -280,8 +280,8 @@ public class GameView implements Screen {
                 soundCoin.play();
 
             game.disposeStar();
-            int x = game.getXRandomAxis(cam);
-            int y = game.getCurrentYAxis(cam);
+            int x = game.getXRandomAxis((int)cam.viewportWidth);
+            int y = game.getCurrentYAxis();
             game.createStar(x, y);
 
         }

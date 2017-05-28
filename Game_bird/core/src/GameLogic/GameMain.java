@@ -288,23 +288,23 @@ public class GameMain {
         return false;
     }
 
-    public void updateAwards(OrthographicCamera cam) {
-        if (cam.position.y - (cam.viewportHeight / 2) > apple.getPosY() + apple.getAppleTexture().getHeight()) {
-            apple.setPosX(getXRandomAxis(cam));
-            apple.setPosY(getCurrentYAxis(cam));
+    public void updateAwards(int viewportWidth, int viewportHeight) {
+        if (bird.getPosition().y - (viewportHeight / 2) > apple.getPosY() + apple.getAppleTexture().getHeight()) {
+            apple.setPosX(getXRandomAxis(viewportWidth));
+            apple.setPosY(getCurrentYAxis());
             apple.getAppleBounds().setPosition(apple.getPosX(), apple.getPosY());
         }
 
-        if(cam.position.y - (cam.viewportHeight / 2) > star.getPosY() + star.getStarTexture().getHeight()) {
-            star.setPosX(getXRandomAxis(cam));
-            star.setPosY(getCurrentYAxis(cam));
+        if(bird.getPosition().y - (viewportHeight / 2) > star.getPosY() + star.getStarTexture().getHeight()) {
+            star.setPosX(getXRandomAxis(viewportWidth));
+            star.setPosY(getCurrentYAxis());
             star.getStarBounds().setPosition(star.getPosX(), star.getPosY());
         }
     }
 
-    public void updateBranches(OrthographicCamera cam) {
+    public void updateBranches(int viewportHeight) {
         for (GameLogic.gameobjects.Branch branch : branches) {
-            if (cam.position.y - (cam.viewportHeight / 2)  > branch.getPosRightBranch().y + branch.getRightBranch().getHeight())
+            if (bird.getPosition().y- (viewportHeight / 2)  > branch.getPosRightBranch().y + branch.getRightBranch().getHeight())
                 branch.reposition(branch.getPosRightBranch().y + ((Branch.B_HEIGHT + BRANCH_SPACING) * BRANCH_COUNT));
         }
     }
@@ -327,16 +327,16 @@ public class GameMain {
         return rightWallPos2;
     }
 
-    public int getXRandomAxis(OrthographicCamera cam) {
+    public int getXRandomAxis(int viewportWidth) {
         int min = leftWall.getTexture().getWidth();
-        int max = (int)cam.viewportWidth-rightWall.getTexture().getWidth();
+        int max = viewportWidth-rightWall.getTexture().getWidth();
         int x = rand.nextInt((max- min)+1)+min;
         return x;
     }
 
-    public int getCurrentYAxis(OrthographicCamera cam) {
-        int min = 0 + (int)cam.position.y;
-        int max = FlyChicken.HEIGHT + (int)cam.position.y;
+    public int getCurrentYAxis() {
+        int min = 0 + (int)bird.getPosition().y;
+        int max = FlyChicken.HEIGHT + (int)bird.getPosition().y;
         int y = bird.getPosY() + rand.nextInt((max - min)+1)+min;
         return y;
     }
