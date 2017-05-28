@@ -1,6 +1,5 @@
 package GameLogic.gameobjects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -60,7 +59,7 @@ public class Bird extends GameObject {
      * @param dt    delta time
      *              <br> used  to calculate velocity and bird's position
      */
-    public void update(float dt) {
+    public void update(float dt, float ax) {
         birdAnimation.update(dt);
 
         System.out.println("PESO" + weight);
@@ -69,11 +68,11 @@ public class Bird extends GameObject {
 
         velocity.scl(dt);
 
-        if(position.x + (-Gdx.input.getAccelerometerX()) < birdPosMinX ||
-                (position.x + birdAnimation.getFrame().getRegionWidth() + (-Gdx.input.getAccelerometerX()) > birdPosMaxX))
+        if(position.x + (-ax) < birdPosMinX ||
+                (position.x + birdAnimation.getFrame().getRegionWidth() + (-ax) > birdPosMaxX))
             position.add(0, velocity.y, 0);
         else
-            position.add(-Gdx.input.getAccelerometerX()/2, velocity.y, 0);
+            position.add(-ax/2, velocity.y, 0);
 
         if (position.y <= birdPosMinY)
             position.y = birdPosMinY;
@@ -81,8 +80,6 @@ public class Bird extends GameObject {
         velocity.scl(1 / dt);
 
         bounds.setPosition(position.x+birdAnimation.getFrame().getRegionWidth()/2, position.y+birdAnimation.getFrame().getRegionHeight()/2);
-
-
     }
 
     /**

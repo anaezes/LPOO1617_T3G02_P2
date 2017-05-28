@@ -1,6 +1,4 @@
 package GameLogic;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
@@ -9,9 +7,9 @@ import com.badlogic.gdx.utils.Array;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import GameLogic.gameobjects.Factory;
 import GameLogic.gameobjects.Bird;
 import GameLogic.gameobjects.Branch;
+import GameLogic.gameobjects.Factory;
 import GameLogic.gameobjects.Star;
 import GameLogic.gameobjects.Wall;
 import GameLogic.gameobjects.Water;
@@ -219,8 +217,8 @@ public class GameMain {
         return branches;
     }
 
-    public void updateBirdPos(float delta) {
-        bird.update(delta);
+    public void updateBirdPos(float delta, float ax) {
+        bird.update(delta, ax);
         updateDist();
     }
 
@@ -261,23 +259,8 @@ public class GameMain {
         return false;
     }
 
-    public void checkScore(final int score) {
-        if (score > FlyChicken.getInstance().scores.get(4).getPlayerPoints()) {
-            Gdx.input.getTextInput(new Input.TextInputListener() {
-                @Override
-                public void input(String text) {
-                    Score playerScore = new Score(text, score);
-                    FlyChicken.getInstance().AddScore(playerScore);
-                }
-
-                @Override
-                public void canceled() {
-                    Score playerScore = new Score("Anonymous", score);
-                    FlyChicken.getInstance().AddScore(playerScore);
-                }
-            }, "New High Score", "", "Your Name");
-
-        }
+    public boolean checkScore(final int score) {
+        return score > FlyChicken.getInstance().scores.get(4).getPlayerPoints();
     }
 
     public int getEatenApples() {

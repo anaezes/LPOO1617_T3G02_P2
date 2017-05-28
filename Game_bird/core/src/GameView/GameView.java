@@ -1,6 +1,7 @@
 package GameView;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -16,6 +17,7 @@ import GameInteraction.Interaction;
 import GameLogic.EnumGameLevel;
 import GameLogic.EnumGameState;
 import GameLogic.GameMain;
+import GameLogic.Score;
 import GameLogic.gameobjects.Branch;
 
 public class GameView implements Screen {
@@ -105,7 +107,10 @@ public class GameView implements Screen {
         //shapeRenderes();
 
         if (game.getState() == EnumGameState.Lose){
-            game.checkScore(game.getScore());
+            int score = game.getScore();
+            if(game.checkScore(score))
+                saveScore(score);
+
             gameMain.setScreen(new GameMenu(gameMain));
             this.dispose();
         }
@@ -135,7 +140,7 @@ public class GameView implements Screen {
     }
 
     public void updateBird(float delta) {
-        game.updateBirdPos(delta);
+        game.updateBirdPos(delta, interaction.getAccelerometerX());
     }
 
 
@@ -199,7 +204,10 @@ public class GameView implements Screen {
         }
 
         if (interaction.backKeyIsPressed()) {
-            game.checkScore(game.getScore());
+            int score = game.getScore();
+            if(game.checkScore(score))
+                saveScore(score);
+
             this.dispose();
             gameMain.setScreen(new GameMenu(gameMain));
         }
@@ -277,6 +285,22 @@ public class GameView implements Screen {
             game.createStar(x, y);
 
         }
+    }
+
+    public void saveScore(final int score) {
+        Gdx.input.getTextInput(new Input.TextInputListener() {
+            @Override
+            public void input(String text) {
+                Score playerScore = new Score(text, score);
+                FlyChicken.getInstance().AddScore(playerScore);
+            }
+
+            @Override
+            public void canceled() {
+                Score playerScore = new Score("Anonymous", score);
+                FlyChicken.getInstance().AddScore(playerScore);
+            }
+        }, "New High Score", "", "Your Name");
     }
 
    public void updateWater(){
