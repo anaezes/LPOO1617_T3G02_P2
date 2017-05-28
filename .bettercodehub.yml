@@ -1,11 +1,12 @@
 exclude:
+- /Game_bird/android/*
 - /Game_bird/android/src/com/anacris/game/AndroidLauncher.java
-- /Game_bird/core/src/GameInteraction/.*
-- /Game_bird/core/src/GameView/.*
+- /Game_bird/desktop/*
 - /Game_bird/desktop/src/com/anacris/game/desktop/DesktopLauncher.java
-- /Game_bird/html/.*
+- /Game_bird/html/*
+- /Game_bird/html/src/com/anacris/game/client/HtmlLauncher.java
+- /Game_bird/ios/*
 - /Game_bird/ios/src/com/anacris/game/IOSLauncher.java
-component_depth: 1
+component_depth: 7
 languages:
 - java
-- javascript
