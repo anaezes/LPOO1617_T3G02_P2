@@ -139,39 +139,38 @@ public class GameMain {
     }
 
 
-    public void createBird(int width) {
-        bird = Factory.createBird(level, 100, width);
+    public void createBird(int y, int textureWidth, int textureHeight) {
+        bird = Factory.createBird(level, 100, y, textureWidth, textureHeight);
         currDist = (int)bird.getPosition().y;
     }
 
-    public void createWater() {
-        water = Factory.createWater(level, 0, -478);
+    public void createWater(int w, int h) {
+        water = Factory.createWater(level, 0, -478, w, h);
     }
 
-    public void createApple(int x, int y){
-        this.apple = new GameLogic.gameobjects.Apple(x, y);
+    public void createApple(int x, int y, int width, int height){
+        this.apple = new GameLogic.gameobjects.Apple(x, y, width, height);
     }
 
-    public void createStar(int x, int y){
-        this.star = new GameLogic.gameobjects.Star(x, y);
+    public void createStar(int x, int y, int w, int h){
+        this.star = new GameLogic.gameobjects.Star(x, y, w, h);
     }
 
-    public void createBranchs() {
+    public void createBranchs(int w, int h) {
         branches = new Array<GameLogic.gameobjects.Branch>();
         for (int i = 1; i < BRANCH_COUNT; i++)
-            branches.add(Factory.createBranch(level, 0, i * (BRANCH_SPACING + GameLogic.gameobjects.Branch.B_HEIGHT) + (int)bird.getPosition().y));
+            branches.add(new Branch(0, i * (BRANCH_SPACING + GameLogic.gameobjects.Branch.B_HEIGHT) + (int)bird.getPosition().y, w, h));
     }
 
-    public void createWalls(OrthographicCamera cam) {
-
-        leftWall = Factory.createLeftWall(level);
-        rightWall = Factory.createRightWall(level);
+    public void createWalls(OrthographicCamera cam, int width, int height) {
+        leftWall = new Wall(WALL_X_OFFSET, (int)(cam.position.y - cam.viewportHeight/2), width, height);
+        rightWall = new Wall(FlyChicken.WIDTH/2 - (width + WALL_X_OFFSET), (int)(cam.position.y - cam.viewportHeight/2),width, height);
 
         leftWallPos1 = new Vector2(WALL_X_OFFSET, cam.position.y - cam.viewportHeight/2);
-        leftWallPos2 = new Vector2(WALL_X_OFFSET, (cam.position.x - cam.viewportWidth/2) + leftWall.getTexture().getHeight());
+        leftWallPos2 = new Vector2(WALL_X_OFFSET, (cam.position.x - cam.viewportWidth/2) + height);
 
-        rightWallPos1 = new Vector2(FlyChicken.WIDTH/2 - (rightWall.getTexture().getWidth() + WALL_X_OFFSET), cam.position.y - cam.viewportHeight/2);
-        rightWallPos2 = new Vector2(FlyChicken.WIDTH/2- (rightWall.getTexture().getWidth() + WALL_X_OFFSET), (cam.position.x - cam.viewportWidth/2) + rightWall.getTexture().getHeight());
+        rightWallPos1 = new Vector2(FlyChicken.WIDTH/2 - (width + WALL_X_OFFSET), cam.position.y - cam.viewportHeight/2);
+        rightWallPos2 = new Vector2(FlyChicken.WIDTH/2- (width + WALL_X_OFFSET), (cam.position.x - cam.viewportWidth/2) + height);
     }
 
     public EnumGameLevel getCurrentGameLevel() {
@@ -289,13 +288,13 @@ public class GameMain {
     }
 
     public void updateAwards(int viewportWidth, int viewportHeight) {
-        if (bird.getPosition().y - (viewportHeight / 2) > apple.getPosY() + apple.getAppleTexture().getHeight()) {
+        if (bird.getPosition().y - (viewportHeight / 2) > apple.getPosY() + apple.getHeight()) {
             apple.setPosX(getXRandomAxis(viewportWidth));
             apple.setPosY(getCurrentYAxis());
             apple.getAppleBounds().setPosition(apple.getPosX(), apple.getPosY());
         }
 
-        if(bird.getPosition().y - (viewportHeight / 2) > star.getPosY() + star.getStarTexture().getHeight()) {
+        if(bird.getPosition().y - (viewportHeight / 2) > star.getPosY() + star.getHeight()) {
             star.setPosX(getXRandomAxis(viewportWidth));
             star.setPosY(getCurrentYAxis());
             star.getStarBounds().setPosition(star.getPosX(), star.getPosY());
@@ -304,7 +303,7 @@ public class GameMain {
 
     public void updateBranches(int viewportHeight) {
         for (GameLogic.gameobjects.Branch branch : branches) {
-            if (bird.getPosition().y- (viewportHeight / 2)  > branch.getPosRightBranch().y + branch.getRightBranch().getHeight())
+            if (bird.getPosition().y- (viewportHeight / 2)  > branch.getPosRightBranch().y + branch.getHeight())
                 branch.reposition(branch.getPosRightBranch().y + ((Branch.B_HEIGHT + BRANCH_SPACING) * BRANCH_COUNT));
         }
     }
@@ -328,8 +327,8 @@ public class GameMain {
     }
 
     public int getXRandomAxis(int viewportWidth) {
-        int min = leftWall.getTexture().getWidth();
-        int max = viewportWidth-rightWall.getTexture().getWidth();
+        int min = leftWall.getWidth();
+        int max = viewportWidth-rightWall.getWidth();
         int x = rand.nextInt((max- min)+1)+min;
         return x;
     }
