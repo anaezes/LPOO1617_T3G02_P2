@@ -246,7 +246,6 @@ public class GameMain {
                 return true;
                 }
             }
-
             return false;
     }
 
@@ -346,5 +345,9 @@ public class GameMain {
             score += 1;
             currDist = (int)bird.getPosition().y;
         }
+    }
+
+    public void setTimeSinceCollision(long time){
+        timeSinceCollision = time;
     }
 }

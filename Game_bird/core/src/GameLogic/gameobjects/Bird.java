@@ -103,7 +103,7 @@ public class Bird extends GameObject {
 
     /**
      * Set valid position to consider in bird's movement
-     * @param minX      minimum x postion
+     * @param minX      minimum x position
      * @param maxX      maximum x position
      * @param minY      minimum y position
      */
