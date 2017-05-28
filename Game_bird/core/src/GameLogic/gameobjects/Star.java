@@ -1,6 +1,5 @@
 package GameLogic.gameobjects;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Circle;
 
 /**
@@ -10,28 +9,23 @@ import com.badlogic.gdx.math.Circle;
  */
 public class Star extends GameLogic.gameobjects.Award {
 
-    private Texture star;
+    private int width;
+    private int height;
+
     private Circle starBounds;
 
     /**
      * Class Constructor Star
      * @param x     x-coordinate
      * @param y     y-coordinate
-     * <br>
-     * Create a bird with x and y coordinates, attach it to a texture and a Circle (to detect collisions)
+     * @param w     star's texture width
+     * @param h     star's texture height
      */
-    public Star(int x, int y) {
+    public Star(int x, int y, int w, int h) {
         super(x, y);
-        star = new Texture("star.png");
-        starBounds = new Circle(x+star.getWidth()/2, y+star.getHeight()/2, star.getWidth()/2);
-    }
-
-    /**
-     * Return star Texture
-     * @return Texture that represents a star
-     */
-    public Texture getStarTexture() {
-        return star;
+        width = w;
+        height = h;
+        starBounds = new Circle(x+width/2, y+height/2, width/2);
     }
 
     /**
@@ -40,5 +34,21 @@ public class Star extends GameLogic.gameobjects.Award {
      */
     public Circle getStarBounds() {
         return starBounds;
+    }
+
+    /**
+     * Return star's texture width
+     * @return      star's texture width
+     */
+    public int getWidth() {
+        return width;
+    }
+
+    /**
+     * Return star's texture height
+     * @return       star's texture height
+     */
+    public int getHeight() {
+        return height;
     }
 }

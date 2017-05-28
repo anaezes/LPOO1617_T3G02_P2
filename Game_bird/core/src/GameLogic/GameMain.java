@@ -1,6 +1,4 @@
 package GameLogic;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
@@ -9,9 +7,9 @@ import com.badlogic.gdx.utils.Array;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import GameLogic.gameobjects.*;
 import GameLogic.gameobjects.Bird;
 import GameLogic.gameobjects.Branch;
+import GameLogic.gameobjects.Factory;
 import GameLogic.gameobjects.Star;
 import GameLogic.gameobjects.Wall;
 import GameLogic.gameobjects.Water;
@@ -131,8 +129,8 @@ public class GameMain {
     }
 
     /**
-     *
-     * @return
+     * Return time elapsed since player start the game
+     * @return   time passed
      */
     public long getCurrTime() {
         timeCount = (System.currentTimeMillis() - currTime)/1000;
@@ -140,99 +138,194 @@ public class GameMain {
         return timeCount;
     }
 
-
-    public void createBird(int width) {
-        bird = Factory.createBird(level, 100, width);
+    /**
+     * Create a bird
+     * @param y     y - coordinate
+     * @param textureWidth      texture width
+     * @param textureHeight     texture height
+     */
+    public void createBird(int y, int textureWidth, int textureHeight) {
+        bird = Factory.createBird(level, 100, y, textureWidth, textureHeight);
         currDist = (int)bird.getPosition().y;
     }
 
-    public void createWater() {
-        water = Factory.createWater(level, 0, -478);
+    /**
+     * Create Water
+     * @param w     texture width
+     * @param h     texture height
+     */
+    public void createWater(int w, int h) {
+        water = Factory.createWater(level, 0, -478, w, h);
     }
 
-    public void createApple(int x, int y){
-        this.apple = new GameLogic.gameobjects.Apple(x, y);
+    /**
+     * Create Apple
+     * @param x     x-coordinate
+     * @param y     y-coordinate
+     * @param width     texture width
+     * @param height    texture height
+     */
+    public void createApple(int x, int y, int width, int height){
+        this.apple = new GameLogic.gameobjects.Apple(x, y, width, height);
     }
 
-    public void createStar(int x, int y){
-        this.star = new GameLogic.gameobjects.Star(x, y);
+    /**
+     * Create Star
+     * @param x     x-coordinate
+     * @param y     y-coordinate
+     * @param w     texture width
+     * @param h     texture height
+     */
+    public void createStar(int x, int y, int w, int h){
+        this.star = new GameLogic.gameobjects.Star(x, y, w, h);
     }
 
-    public void createBranchs() {
+    /**
+     * Create Branches
+     * @param w      texture width
+     * @param h      texture height
+     */
+    public void createBranchs(int w, int h) {
         branches = new Array<GameLogic.gameobjects.Branch>();
         for (int i = 1; i < BRANCH_COUNT; i++)
-            branches.add(Factory.createBranch(level, 0, i * (BRANCH_SPACING + GameLogic.gameobjects.Branch.B_HEIGHT) + (int)bird.getPosition().y));
+            branches.add(new Branch(0, i * (BRANCH_SPACING + GameLogic.gameobjects.Branch.B_HEIGHT) + (int)bird.getPosition().y, w, h));
     }
 
-    public void createWalls(OrthographicCamera cam) {
-
-        leftWall = Factory.createLeftWall(level);
-        rightWall = Factory.createRightWall(level);
+    /**
+     * Create Walls
+     * @param cam       camera
+     * @param width      texture width
+     * @param height     texture height
+     */
+    public void createWalls(OrthographicCamera cam, int width, int height) {
+        leftWall = new Wall(WALL_X_OFFSET, (int)(cam.position.y - cam.viewportHeight/2), width, height);
+        rightWall = new Wall(FlyChicken.WIDTH/2 - (width + WALL_X_OFFSET), (int)(cam.position.y - cam.viewportHeight/2),width, height);
 
         leftWallPos1 = new Vector2(WALL_X_OFFSET, cam.position.y - cam.viewportHeight/2);
-        leftWallPos2 = new Vector2(WALL_X_OFFSET, (cam.position.x - cam.viewportWidth/2) + leftWall.getTexture().getHeight());
+        leftWallPos2 = new Vector2(WALL_X_OFFSET, (cam.position.x - cam.viewportWidth/2) + height);
 
-        rightWallPos1 = new Vector2(FlyChicken.WIDTH/2 - (rightWall.getTexture().getWidth() + WALL_X_OFFSET), cam.position.y - cam.viewportHeight/2);
-        rightWallPos2 = new Vector2(FlyChicken.WIDTH/2- (rightWall.getTexture().getWidth() + WALL_X_OFFSET), (cam.position.x - cam.viewportWidth/2) + rightWall.getTexture().getHeight());
+        rightWallPos1 = new Vector2(FlyChicken.WIDTH/2 - (width + WALL_X_OFFSET), cam.position.y - cam.viewportHeight/2);
+        rightWallPos2 = new Vector2(FlyChicken.WIDTH/2- (width + WALL_X_OFFSET), (cam.position.x - cam.viewportWidth/2) + height);
     }
 
+    /**
+     * Return actual game level
+     * @return  game level
+     */
     public EnumGameLevel getCurrentGameLevel() {
         return level;
     }
 
+    /**
+     * Change game level to the new level
+     * @param level     new level
+     */
     public void setGameLevel(EnumGameLevel level) {
         this.level = level;
     }
 
+    /**
+     * Return game's bird
+     * @return      bird
+     */
     public Bird getGameBird() {
         return bird;
     }
 
+    /**
+     * Return game's apples
+     * @return      apple
+     */
     public GameLogic.gameobjects.Apple getApple() {
         return apple;
     }
 
+    /**
+     * Return game's stars
+     * @return      star
+     */
     public Star getStar() {
         return star;
     }
 
+    /**
+     * Destroy apple (when caught by bird)
+     */
     public void disposeApple() {
         this.apple = null;
     }
 
+    /**
+     * Destroy star (when caught by bird)
+     */
     public void disposeStar() {
         this.star = null;
     }
 
+    /**
+     * Return game water
+     * @return  water
+     */
     public Water getWater() {
         return water;
     }
 
+    /**
+     * Return game's left wall
+     * @return      left wall
+     */
     public GameLogic.gameobjects.Wall getLeftWall() {
         return leftWall;
     }
+
+    /**
+     * Return game's right wall
+     * @return      right wall
+     */
     public Wall getRightWall() {
         return rightWall;
     }
 
+    /**
+     * Return game's branches
+     * @return  branches
+     */
     public Array<GameLogic.gameobjects.Branch> getGameBranches() {
         return branches;
     }
 
-    public void updateBirdPos(float delta) {
-        bird.update(delta);
+    /**
+     * Update bird's position
+     * @param delta  delta time
+     * @param ax     delta -x (coordinate)
+     */
+    public void updateBirdPos(float delta, float ax) {
+        bird.update(delta, ax);
         updateDist();
     }
 
+    /**
+     * Check number of lives and update level state
+     */
     public void updateState() {
         if(lives <= 0)
             state = EnumGameState.Lose;
     }
 
+    /**
+     * Return game's state
+     * @return      state
+     */
     public EnumGameState getState() {
         return state;
     }
 
+    /**
+     * Check if bird's circle overlaps with branches's rectangles
+     * <br> Update game's state
+     * <br> Update lives
+     * @return      true if overlaps or false otherwise
+     */
     public boolean checkCollisionsBranchs() {
         long delta_time =(System.nanoTime() - timeSinceCollision)/ 1000000;
         TimeUnit.SECONDS.convert(delta_time, TimeUnit.NANOSECONDS);
@@ -249,10 +342,14 @@ public class GameMain {
                 return true;
                 }
             }
-
             return false;
     }
 
+    /**
+     * Check if bird's circle overlaps with water's rectangle
+     * <br> Update game's state
+     * @return      true if overlaps or false otherwise
+     */
     public boolean checkCollisionsWater() {
         if(Intersector.overlaps(bird.getBounds(), water.getWaterBounds())) {
             state = EnumGameState.Lose;
@@ -261,33 +358,37 @@ public class GameMain {
         return false;
     }
 
-    public void checkScore(final int score) {
-        if (score > FlyChicken.getInstance().scores.get(4).getPlayerPoints()) {
-            Gdx.input.getTextInput(new Input.TextInputListener() {
-                @Override
-                public void input(String text) {
-                    Score playerScore = new Score(text, score);
-                    FlyChicken.getInstance().AddScore(playerScore);
-                }
-
-                @Override
-                public void canceled() {
-                    Score playerScore = new Score("Anonymous", score);
-                    FlyChicken.getInstance().AddScore(playerScore);
-                }
-            }, "New High Score", "", "Your Name");
-
-        }
+    /**
+     * Check if current score is higher than the 4th score saved
+     * @param score     current score
+     * @return      true if is higher or false otherwise
+     */
+    public boolean checkScore(final int score) {
+        return score > FlyChicken.getInstance().scores.get(4).getPlayerPoints();
     }
 
+    /**
+     * Return number of eaten apples in this game
+     * @return number of eaten apples
+     */
     public int getEatenApples() {
         return eatenApples;
     }
 
+    /**
+     * Change number of eaten apples to this new number
+     * @param eatenApples       new number of eaten apples
+     */
     public void setEatenApples(int eatenApples) {
         this.eatenApples = eatenApples;
     }
 
+
+    /**
+     * Check if bird's circle overlaps with apple's circle
+     * * <br> Update eaten apples
+     * @return      true if overlaps or false otherwise
+     */
     public boolean checkAppleCollision(){
        if( Intersector.overlaps(apple.getAppleBounds(), bird.getBounds())) {
            this.eatenApples += 1;
@@ -297,6 +398,11 @@ public class GameMain {
         return false;
     }
 
+    /**
+     * Check if bird's circle overlaps with star's circle
+     * * <br> Update lives
+     * @return      true if overlaps or false otherwise
+     */
     public boolean checkStarCollision(){
         if( Intersector.overlaps(star.getStarBounds(), bird.getBounds())) {
             this.lives += 1;
@@ -305,66 +411,107 @@ public class GameMain {
         return false;
     }
 
-    public void updateAwards(OrthographicCamera cam) {
-        if (cam.position.y - (cam.viewportHeight / 2) > apple.getPosY() + apple.getAppleTexture().getHeight()) {
-            apple.setPosX(getXRandomAxis(cam));
-            apple.setPosY(getCurrentYAxis(cam));
+    /**
+     * Update apple and star's position
+     * @param viewportWidth     - validate if new award's position is in the screen
+     * @param viewportHeight    - validate if new award's position is in the screen
+     */
+    public void updateAwards(int viewportWidth, int viewportHeight) {
+        if (bird.getPosition().y - (viewportHeight / 2) > apple.getPosY() + apple.getHeight()) {
+            apple.setPosX(getXRandomAxis(viewportWidth));
+            apple.setPosY(getCurrentYAxis());
             apple.getAppleBounds().setPosition(apple.getPosX(), apple.getPosY());
         }
 
-        if(cam.position.y - (cam.viewportHeight / 2) > star.getPosY() + star.getStarTexture().getHeight()) {
-            star.setPosX(getXRandomAxis(cam));
-            star.setPosY(getCurrentYAxis(cam));
+        if(bird.getPosition().y - (viewportHeight / 2) > star.getPosY() + star.getHeight()) {
+            star.setPosX(getXRandomAxis(viewportWidth));
+            star.setPosY(getCurrentYAxis());
             star.getStarBounds().setPosition(star.getPosX(), star.getPosY());
         }
     }
 
-    public void updateBranches(OrthographicCamera cam) {
+    /**
+     * Update branche's position
+     * @param viewportHeight     validate if new branches's position is in the screen
+     */
+    public void updateBranches(int viewportHeight) {
         for (GameLogic.gameobjects.Branch branch : branches) {
-            if (cam.position.y - (cam.viewportHeight / 2)  > branch.getPosRightBranch().y + branch.getRightBranch().getHeight())
+            if (bird.getPosition().y- (viewportHeight / 2)  > branch.getPosRightBranch().y + branch.getHeight())
                 branch.reposition(branch.getPosRightBranch().y + ((Branch.B_HEIGHT + BRANCH_SPACING) * BRANCH_COUNT));
         }
     }
 
 
-
+    /**
+     * Returns left wall position
+     * @return      left wall
+     */
     public Vector2 getLeftWallPos1() {
         return leftWallPos1;
     }
 
+    /**
+     * Returns left wall position
+     * @return      left wall
+     */
     public Vector2 getLeftWallPos2() {
         return leftWallPos2;
     }
 
+    /**
+     * Returns right wall position
+     * @return      left wall
+     */
     public Vector2 getRightWallPos1() {
         return rightWallPos1;
     }
 
+    /**
+     * Returns right wall position
+     * @return      left wall
+     */
     public Vector2 getRightWallPos2() {
         return rightWallPos2;
     }
 
-    public int getXRandomAxis(OrthographicCamera cam) {
-        int min = leftWall.getTexture().getWidth();
-        int max = (int)cam.viewportWidth-rightWall.getTexture().getWidth();
+    /**
+     * Return new x calculated randomly
+     * @param viewportWidth     - check if new position is in the screen
+     * @return
+     */
+    public int getXRandomAxis(int viewportWidth) {
+        int min = leftWall.getWidth();
+        int max = viewportWidth-rightWall.getWidth();
         int x = rand.nextInt((max- min)+1)+min;
         return x;
     }
 
-    public int getCurrentYAxis(OrthographicCamera cam) {
-        int min = 0 + (int)cam.position.y;
-        int max = FlyChicken.HEIGHT + (int)cam.position.y;
+    /**
+     * Return new y
+     */
+    public int getCurrentYAxis() {
+        int min = 0 + (int)bird.getPosition().y;
+        int max = FlyChicken.HEIGHT + (int)bird.getPosition().y;
         int y = bird.getPosY() + rand.nextInt((max - min)+1)+min;
         return y;
     }
 
+    /**
+     * Update Distance
+     */
     public void updateDist() {
 
         if((int)bird.getPosition().y - currDist >= 500) {
             score += 1;
             currDist = (int)bird.getPosition().y;
         }
+    }
 
-
+    /**
+     * Set timeSinceCollision to this new time
+     * @param time      new timeSinceCollision
+     */
+    public void setTimeSinceCollision(long time){
+        timeSinceCollision = time;
     }
 }

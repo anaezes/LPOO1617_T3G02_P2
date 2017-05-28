@@ -1,13 +1,7 @@
 package GameLogic.gameobjects;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector3;
-
-import GameLogic.Animation;
 
 /**
  * Class Bird:
@@ -18,31 +12,35 @@ import GameLogic.Animation;
 public class Bird extends GameObject {
 
     protected float weight;
+    protected int textureWidth;
+    protected int textureHeight;
     protected static final int GRAVITY_X = -5;
     protected static final int GRAVITY_Y = -7;
     protected Vector3 position;
     protected Vector3 velocity;
-    protected Texture birdTexture;
-    protected Texture birdStars;
-    protected Animation birdAnimation;
     protected Circle bounds;
 
     protected float birdPosMinX;
     protected float birdPosMaxX;
     protected float birdPosMinY;
 
-    private Sound s;
     /**
-     * Class Constructor Bird
+     *  Class Constructor Bird
      * @param x     x-coordinate
      * @param y     y-coordinate
+     * @param textureW      bird's texture width
+     * @param textureH      bird's texture height
      * <br>
      * Create a bird with x and y coordinates, attach it to a texture and a Circle (to detect collisions)
      */
-    public Bird(int x, int y) {
+    public Bird(int x, int y, int textureW, int textureH) {
         super(x, y);
 
-        birdStars = new Texture("starsbird.png");
+        textureHeight = textureH;
+        textureWidth = textureW;
+
+        bounds = new Circle(getPosX()+textureWidth/2, getPosY()+textureHeight/2, textureHeight/2-3);
+
         position = new Vector3(x, y, 0);
         velocity = new Vector3(0,0,0);
     }
@@ -60,29 +58,25 @@ public class Bird extends GameObject {
      * @param dt    delta time
      *              <br> used  to calculate velocity and bird's position
      */
-    public void update(float dt) {
-        birdAnimation.update(dt);
+    public void update(float dt, float ax) {
 
-        System.out.println("PESO" + weight);
         if (position.y > 15)
             velocity.add(GRAVITY_X, GRAVITY_Y-weight, 0);
 
         velocity.scl(dt);
 
-        if(position.x + (-Gdx.input.getAccelerometerX()) < birdPosMinX ||
-                (position.x + birdAnimation.getFrame().getRegionWidth() + (-Gdx.input.getAccelerometerX()) > birdPosMaxX))
+        if(position.x + (-ax) < birdPosMinX ||
+                (position.x + textureWidth + (-ax) > birdPosMaxX))
             position.add(0, velocity.y, 0);
         else
-            position.add(-Gdx.input.getAccelerometerX()/2, velocity.y, 0);
+            position.add(-ax/2, velocity.y, 0);
 
         if (position.y <= birdPosMinY)
             position.y = birdPosMinY;
 
         velocity.scl(1 / dt);
 
-        bounds.setPosition(position.x+birdAnimation.getFrame().getRegionWidth()/2, position.y+birdAnimation.getFrame().getRegionHeight()/2);
-
-
+        bounds.setPosition(position.x+textureWidth/2, position.y+textureHeight/2);
     }
 
     /**
@@ -91,22 +85,6 @@ public class Bird extends GameObject {
      */
     public Vector3 getPosition() {
         return position;
-    }
-
-    /**
-     * Return bird's frame used in its animation
-     * @return bird's animation
-     */
-    public TextureRegion getBirdTexture() {
-        return birdAnimation.getFrame();
-    }
-
-    /**
-     * Return a special bird's texture (when it collides with a branch)
-     * @return bird's special texture
-     */
-    public Texture getBirdStarsTexture() {
-        return birdStars;
     }
 
     /**
@@ -127,7 +105,7 @@ public class Bird extends GameObject {
 
     /**
      * Set valid position to consider in bird's movement
-     * @param minX      minimum x postion
+     * @param minX      minimum x position
      * @param maxX      maximum x position
      * @param minY      minimum y position
      */
@@ -145,12 +123,19 @@ public class Bird extends GameObject {
         return bounds;
     }
 
-    public void setTexture(Texture texture) {
-        this.birdTexture = texture;
-        birdAnimation = new Animation(new TextureRegion(birdTexture), 3, 0.5f);
-        bounds = new Circle(getPosX()+birdAnimation.getFrame().getRegionWidth()/2, getPosY()+birdAnimation.getFrame().getRegionHeight()/2,
-                birdAnimation.getFrame().getRegionHeight()/2-3);
+    /**
+     * Return bird's texture width
+     * @return      width
+     */
+    public int getWidth() {
+        return textureWidth;
     }
 
-
+    /**
+     * Return bird's texture height
+     * @return      height
+     */
+    public int getHeight() {
+        return textureHeight;
+    }
 }

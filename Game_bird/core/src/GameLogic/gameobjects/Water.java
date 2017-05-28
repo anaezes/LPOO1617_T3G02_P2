@@ -1,6 +1,5 @@
 package GameLogic.gameobjects;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -10,28 +9,23 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public class Water extends GameLogic.gameobjects.Obstacle {
     private Rectangle waterBounds;
-    private Texture waterTexture;
+    private int width;
+    private int height;
     protected int waterIncrement;
+
 
     /**
      * Class Constructor Water
      * @param x     x-coordinate
      * @param y     y-coordinate
-     * <br>
-     * Create water with x and y coordinates, attach it to a texture and a Circle (to detect collisions)
+     * @param w     water's texture width
+     * @param h     water's texture height
      */
-    public Water(int x, int y) {
+    public Water(int x, int y, int w, int h) {
         super(x, y);
-        waterTexture = new Texture("water.png");
-        waterBounds = new Rectangle(x, y, waterTexture.getWidth(), waterTexture.getHeight());
-    }
-
-    /**
-     * Return Water Texture
-     * @return Texture that represents water
-     */
-    public Texture getWaterTexture() {
-        return waterTexture;
+        width = w;
+        height = h;
+        waterBounds = new Rectangle(x, y, width, height);
     }
 
     /**
@@ -59,6 +53,10 @@ public class Water extends GameLogic.gameobjects.Obstacle {
         return waterIncrement;
     }
 
+    /**
+     * Change water's increment to this new increment
+     * @param inc   new increment
+     */
     public void setWaterIncrement(int inc) {
         waterIncrement = inc;
     }

@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import GameInteraction.GameInteraction;
 import GameLogic.EnumGameLevel;
 
 public class GameMenu extends Menu{
@@ -134,13 +135,14 @@ public class GameMenu extends Menu{
 
 
     public void levelOneClick(){
-        game.setScreen(new GameView(game, EnumGameLevel.LevelOne));
+        game.setScreen(new GameView(game, EnumGameLevel.LevelOne, new GameInteraction()));
     }
     public void levelTwoClick(){
-        game.setScreen(new GameView(game, EnumGameLevel.LevelTwo));
+        game.setScreen(new GameView(game, EnumGameLevel.LevelTwo, new GameInteraction()));
     }
+
     public void levelThreeClick(){
-        game.setScreen(new GameView(game, EnumGameLevel.LevelThree));
+        game.setScreen(new GameView(game, EnumGameLevel.LevelThree, new GameInteraction()));
     }
 
     @Override

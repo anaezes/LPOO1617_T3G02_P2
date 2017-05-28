@@ -1,4 +1,4 @@
-package GameLogic;
+package GameView;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
