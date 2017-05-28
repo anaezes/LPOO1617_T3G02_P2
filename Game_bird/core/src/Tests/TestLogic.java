@@ -1,6 +1,8 @@
 package Tests;
 
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,6 +13,7 @@ import GameLogic.EnumGameLevel;
 import GameLogic.EnumGameState;
 import GameLogic.GameMain;
 import GameLogic.Score;
+import GameView.FlyChicken;
 
 public class TestLogic {
      @Test
@@ -20,6 +23,8 @@ public class TestLogic {
          game.getEatenApples();
          Assert.assertEquals(0, game.getEatenApples());
          game.createApple(100, 120, 100, 100);
+         game.setEatenApples(20);
+         Assert.assertEquals(20,game.getEatenApples());
      }
 
      @Test
@@ -111,10 +116,15 @@ public class TestLogic {
         }
         Assert.assertEquals(0, game.getLives());
         Assert.assertEquals(EnumGameState.Lose, game.getState());
+        Assert.assertEquals(EnumGameLevel.LevelOne, game.getCurrentGameLevel());
+        game.setGameLevel(EnumGameLevel.LevelThree);
+        Assert.assertEquals(EnumGameLevel.LevelThree, game.getCurrentGameLevel());
+
     }
 
     @Test
     public void checkOrderOfScores(){
+        GameMain game = new GameMain(EnumGameLevel.LevelOne);
         Score score1 = new Score("ai", 100);
         Score score2 = new Score("ui", 2000);
         Score score3 = new Score("uia", 300);
@@ -129,5 +139,74 @@ public class TestLogic {
         Assert.assertEquals(scores.get(1).getPlayerPoints(), 300);
         Assert.assertEquals(scores.get(2).getPlayerName(), "ai");
         Assert.assertEquals(scores.get(2).getPlayerPoints(), 100);
+        game.setScore(100);
+        Assert.assertEquals(100, game.getScore());
     }
+
+    @Test
+    public void UpdateTime(){
+        GameMain game = new GameMain(EnumGameLevel.LevelOne);
+        game.updateTime(10);
+        Assert.assertEquals(0, game.getCurrTime());
+    }
+
+    @Test
+    public void setLives(){
+        GameMain game = new GameMain(EnumGameLevel.LevelOne);
+        game.setLives(10);
+        Assert.assertEquals(10,game.getLives());
+    }
+
+    @Test
+    public void createWalls(){
+        OrthographicCamera cam = new OrthographicCamera();
+        GameMain game = new GameMain(EnumGameLevel.LevelOne);
+        game.createWalls(cam, 10, 10);
+        Assert.assertEquals(game.getLeftWall().getWidth(), 10);
+        Assert.assertEquals(game.getRightWall().getWidth(), 10);
+    }
+
+
+    @Test
+    public void TestGets(){
+        GameMain game = new GameMain(EnumGameLevel.LevelOne);
+        game.createStar(100, 105, 10, 10);
+        game.createApple(100, 105, 10, 10);
+        Assert.assertEquals(100, game.getStar().getPosX());
+        Assert.assertEquals(100, game.getApple().getPosX());
+        Assert.assertEquals(10, game.getStar().getWidth());
+        Assert.assertEquals(10, game.getApple().getHeight());
+    }
+
+    @Test
+    public void UpdateDistance(){
+        GameMain game = new GameMain(EnumGameLevel.LevelOne);
+        game.createBird(100, 10, 10);
+        game.updateDist();
+        Assert.assertEquals(0, game.getScore());
+    }
+
+    @Test
+    public void UpdateAwards(){
+        OrthographicCamera cam = new OrthographicCamera();
+        GameMain game = new GameMain(EnumGameLevel.LevelOne);
+        game.createBird(200, 10, 10);
+        game.createWalls(cam, 20, 30);
+        game.createStar(100, 105, 10, 10);
+        game.createApple(100, 105, 10, 10);
+        game.updateAwards(40, 50);
+        Assert.assertNotEquals(100, game.getStar().getPosX());
+        Assert.assertNotEquals(100, game.getApple().getPosX());
+    }
+
+    @Test
+    public void UpdateBranches(){
+        GameMain game = new GameMain(EnumGameLevel.LevelOne);
+        game.createBird(200, 10, 10);
+        game.createBranchs(10, 10);
+        game.updateBranches(40);
+        Assert.assertNotEquals(10, game.getGameBranches().get(0).getPosX());
+    }
+
+
 }

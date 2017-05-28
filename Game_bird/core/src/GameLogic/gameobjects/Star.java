@@ -18,8 +18,8 @@ public class Star extends GameLogic.gameobjects.Award {
      * Class Constructor Star
      * @param x     x-coordinate
      * @param y     y-coordinate
-     * <br>
-     * Create a bird with x and y coordinates, attach it to a texture and a Circle (to detect collisions)
+     * @param w     star's texture width
+     * @param h     star's texture height
      */
     public Star(int x, int y, int w, int h) {
         super(x, y);
@@ -36,10 +36,18 @@ public class Star extends GameLogic.gameobjects.Award {
         return starBounds;
     }
 
+    /**
+     * Return star's texture width
+     * @return      star's texture width
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Return star's texture height
+     * @return       star's texture height
+     */
     public int getHeight() {
         return height;
     }

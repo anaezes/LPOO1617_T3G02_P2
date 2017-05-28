@@ -13,12 +13,13 @@ public class Water extends GameLogic.gameobjects.Obstacle {
     private int height;
     protected int waterIncrement;
 
+
     /**
      * Class Constructor Water
      * @param x     x-coordinate
      * @param y     y-coordinate
-     * <br>
-     * Create water with x and y coordinates, attach it to a texture and a Circle (to detect collisions)
+     * @param w     water's texture width
+     * @param h     water's texture height
      */
     public Water(int x, int y, int w, int h) {
         super(x, y);
@@ -52,6 +53,10 @@ public class Water extends GameLogic.gameobjects.Obstacle {
         return waterIncrement;
     }
 
+    /**
+     * Change water's increment to this new increment
+     * @param inc   new increment
+     */
     public void setWaterIncrement(int inc) {
         waterIncrement = inc;
     }

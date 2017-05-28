@@ -3,8 +3,11 @@ package GameLogic.gameobjects;
 
 import GameLogic.EnumGameLevel;
 
+/**
+ * Class Factory
+ * <br> Create bird and water objects according to the games's level
+ */
 public class Factory {
-
     public static Bird createBird(EnumGameLevel level, int x, int y, int textureWidth, int textureHeight) {
         Bird bird = new Bird(x, y, textureWidth, textureHeight);
         switch (level){

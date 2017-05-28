@@ -26,12 +26,13 @@ public class Branch extends Obstacle {
     private int width;
     private int height;
 
+
     /**
      * Class Constructor Branch
      * @param x     x-coordinate
      * @param y     y-coordinate
-     * <br>
-     * Create a branch with x and y coordinates, attach it to a texture and a Circle (to detect collisions)
+     * @param w     brance's texture width
+     * @param h     branche's texture height
      */
     public Branch(int x, int y, int w, int h) {
         super(x, y);
@@ -91,10 +92,18 @@ public class Branch extends Obstacle {
         return boundsLeftBranch;
     }
 
+    /**
+     * Return branche's texture width
+     * @return      branche's texture width
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Return branche's texture height
+     * @return      branche's texture height
+     */
     public int getHeight() {
         return height;
     }

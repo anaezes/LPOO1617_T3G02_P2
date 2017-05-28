@@ -25,9 +25,11 @@ public class Bird extends GameObject {
     protected float birdPosMinY;
 
     /**
-     * Class Constructor Bird
+     *  Class Constructor Bird
      * @param x     x-coordinate
      * @param y     y-coordinate
+     * @param textureW      bird's texture width
+     * @param textureH      bird's texture height
      * <br>
      * Create a bird with x and y coordinates, attach it to a texture and a Circle (to detect collisions)
      */
@@ -121,10 +123,18 @@ public class Bird extends GameObject {
         return bounds;
     }
 
+    /**
+     * Return bird's texture width
+     * @return      width
+     */
     public int getWidth() {
         return textureWidth;
     }
 
+    /**
+     * Return bird's texture height
+     * @return      height
+     */
     public int getHeight() {
         return textureHeight;
     }
