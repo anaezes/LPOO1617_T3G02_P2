@@ -332,7 +332,7 @@ public class GameMain {
             return true;
         }
 
-        for (int i=1; i < branches.size; i++){
+        for (int i = 0; i < branches.size; i++){
             if(Intersector.overlaps(bird.getBounds(), branches.get(i).getBoundsLeftBranch()) ||
                     Intersector.overlaps(bird.getBounds(), branches.get(i).getBoundsRightBranch())) {
                     updateLives(-1);

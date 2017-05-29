@@ -5,11 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.Random;
@@ -35,7 +32,6 @@ public class GameView implements Screen {
     private Sound soundCoin, soundBiting;
     private Music musicGame;
 
-    private ShapeRenderer shapeRenderer;
     private Interaction interaction;
 
     public GameView(FlyChicken mainGame, EnumGameLevel level, Interaction interaction) {
@@ -47,7 +43,6 @@ public class GameView implements Screen {
 
         cam = new OrthographicCamera();
         cam.setToOrtho(false, FlyChicken.WIDTH / 2, FlyChicken.HEIGHT / 2);
-        shapeRenderer = new ShapeRenderer();
 
         hud = new Hud(gameMain.batch);
         gamePort = new FitViewport(FlyChicken.WIDTH/2, FlyChicken.HEIGHT/2, cam);
@@ -95,44 +90,41 @@ public class GameView implements Screen {
         gameMain.batch.setProjectionMatrix(cam.combined);
         gameMain.batch.begin();
 
-        handleinput();
+        if (game.getState() == EnumGameState.Lose)
+           doGameOver();
 
+        handleinput();
         updateObjects(delta);
         drawObjects();
         cam.update();
         checkCollisions();
         updateHud();
 
-        if (game.getState() == EnumGameState.Lose)
-            displayGameOver();
-
         gameMain.batch.end();
         gameMain.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
-
-        //debug
-        //shapeRenderes();
-
-        if (game.getState() == EnumGameState.Lose){
-            int score = game.getScore();
-            if(game.checkScore(score))
-                saveScore(score);
-
-            if(FlyChicken.getInstance().getPrefs().getBoolean("music"))
-                musicGame.stop();
-            gameMain.setScreen(new GameMenu(gameMain));
-            this.dispose();
-        }
     }
 
-    private void displayGameOver() {
-        Texture gameOver = new Texture("gameOver.png");
-        gameMain.batch.draw(gameOver, game.getGameBird().getPosX()-gameOver.getWidth()/2, game.getGameBird().getPosY()-gameOver.getHeight()/2);
+    private void doGameOver() {
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        int score = game.getScore();
+        if(game.checkScore(score))
+            saveScore(score);
+
+        if(FlyChicken.getInstance().getPrefs().getBoolean("music"))
+            musicGame.stop();
+        gameMain.setScreen(new GameMenu(gameMain));
+        this.dispose();
+    }
+
+    private void displayGameOver() {
+        gameMain.batch.draw(gameTextures.gameOver, cam.position.x-gameTextures.gameOver.getWidth()/2,
+                game.getGameBird().getPosition().y + gameTextures.gameOver.getHeight()/2+50);
     }
 
     private void drawObjects() {
@@ -146,13 +138,10 @@ public class GameView implements Screen {
     public void updateObjects(float delta) {
         updateBird(delta);
         gameTextures.birdAnimation.update(delta);
-
         cam.position.y = game.getGameBird().getPosition().y + gameTextures.birdAnimation.getFrame().getRegionHeight()/2;
-
         updateWalls(game.getGameBird().getPosition().y);
         game.updateAwards((int)cam.viewportWidth, (int)cam.viewportHeight);
         game.updateBranches((int)cam.viewportHeight);
-
         updateWater();
     }
 
@@ -169,29 +158,6 @@ public class GameView implements Screen {
         gameMain.batch.draw(gameTextures.birdAnimation.getFrame(), game.getGameBird().getPosition().x, game.getGameBird().getPosition().y);
     }
 
-
-    public void shapeRenderes() {
-
-        cam.update();
-        shapeRenderer.setProjectionMatrix(cam.combined);
-
-        shapeRenderer.setColor(Color.RED);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.circle(game.getGameBird().getBounds().x, game.getGameBird().getBounds().y, game.getGameBird().getBounds().radius);
-        shapeRenderer.rect(game.getWater().getWaterBounds().getX(), game.getWater().getWaterBounds().getY(),
-                game.getWater().getWaterBounds().getWidth(), game.getWater().getWaterBounds().getHeight());
-        shapeRenderer.circle(game.getApple().getAppleBounds().x, game.getApple().getAppleBounds().x, game.getApple().getAppleBounds().radius);
-        shapeRenderer.circle(game.getStar().getStarBounds().x, game.getStar().getStarBounds().x, game.getStar().getStarBounds().radius);
-
-        for (Branch branch : game.getGameBranches()) {
-            shapeRenderer.rect(branch.getBoundsLeftBranch().getX(), branch.getBoundsLeftBranch().y,
-                    branch.getBoundsLeftBranch().getWidth(), branch.getBoundsLeftBranch().getHeight());
-            shapeRenderer.rect(branch.getBoundsRightBranch().getX(), branch.getBoundsRightBranch().y,
-                    branch.getBoundsRightBranch().getWidth(), branch.getBoundsRightBranch().getHeight());
-        }
-
-        shapeRenderer.end();
-    }
 
     public void drawWater(){
         gameMain.batch.draw(gameTextures.waterTexture, game.getWater().getPosX(), game.getWater().getPosY());
@@ -220,9 +186,8 @@ public class GameView implements Screen {
     }
 
     public void handleinput() {
-        if(interaction.screenIsTouched()) {
+        if(interaction.screenIsTouched())
             game.getGameBird().jump();
-        }
 
         if (interaction.backKeyIsPressed()) {
             int score = game.getScore();
@@ -283,30 +248,36 @@ public class GameView implements Screen {
         if(game.checkCollisionsWater()) {
             if(FlyChicken.getInstance().getPrefs().getBoolean("vibration"))
                 interaction.vibrate(500);
-            gameMain.setScreen(new GameMenu(gameMain));
         }
 
         if(game.checkAppleCollision()) {
             if(FlyChicken.getInstance().getPrefs().getBoolean("sound"))
                 soundBiting.play();
-
-            game.disposeApple();
-            int x = game.getXRandomAxis((int)cam.viewportWidth);
-            int y = game.getCurrentYAxis();
-            game.createApple(x, y, gameTextures.appleTexture.getWidth(), gameTextures.appleTexture.getHeight());
-
+            createApple();
         }
 
         if(game.checkStarCollision()) {
             if(FlyChicken.getInstance().getPrefs().getBoolean("sound"))
                 soundCoin.play();
-
-            game.disposeStar();
-            int x = game.getXRandomAxis((int)cam.viewportWidth);
-            int y = game.getCurrentYAxis();
-            game.createStar(x, y, gameTextures.starTexture.getWidth(), gameTextures.starTexture.getHeight());
-
+            createStar();
         }
+
+        if(game.getState() == EnumGameState.Lose)
+            displayGameOver();
+    }
+
+    private void createApple() {
+        game.disposeApple();
+        int x = game.getXRandomAxis((int)cam.viewportWidth);
+        int y = game.getCurrentYAxis();
+        game.createApple(x, y, gameTextures.appleTexture.getWidth(), gameTextures.appleTexture.getHeight());
+    }
+
+    private void createStar() {
+        game.disposeStar();
+        int x = game.getXRandomAxis((int)cam.viewportWidth);
+        int y = game.getCurrentYAxis();
+        game.createStar(x, y, gameTextures.starTexture.getWidth(), gameTextures.starTexture.getHeight());
     }
 
     public void saveScore(final int score) {

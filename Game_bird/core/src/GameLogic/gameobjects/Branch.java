@@ -13,10 +13,13 @@ import java.util.Random;
  */
 public class Branch extends Obstacle {
 
-    public static final int B_HEIGHT = 100;          
-    protected static final int X_FLUCTUATION = 20;
-    protected static final int GAP_BRANCH = 110;
-    protected static final int LOWEST_OPENING = 50;
+    public static final int B_HEIGHT = 80;
+    protected static final int Y_FLUCTUATION = 60;
+    protected static final int X_FLUCTUATION = 80;
+    protected static final int GAP_BRANCH_L = 70;
+    protected static final int GAP_BRANCH_R = 130;
+    protected static final int LOWEST_OPENING_X = 50;
+    protected static final int LOWEST_OPENING_Y = 10;
 
     protected Rectangle boundsRightBranch, boundsLeftBranch;
     protected Vector3 posLeftBranch;
@@ -37,9 +40,8 @@ public class Branch extends Obstacle {
         height = h;
         rand = new Random();
 
-        posLeftBranch = new Vector3(rand.nextInt(X_FLUCTUATION) + GAP_BRANCH + LOWEST_OPENING, getPosY(), 0);
-        posRightBranch = new Vector3(posLeftBranch.x - GAP_BRANCH - LOWEST_OPENING, getPosY() + rand.nextInt(X_FLUCTUATION) + GAP_BRANCH + LOWEST_OPENING, 0);
-
+        posLeftBranch = new Vector3(rand.nextInt(X_FLUCTUATION) + GAP_BRANCH_L + LOWEST_OPENING_X, getPosY() + rand.nextInt(Y_FLUCTUATION), 0);
+        posRightBranch = new Vector3(posLeftBranch.x - GAP_BRANCH_R - LOWEST_OPENING_X, getPosY() + rand.nextInt(Y_FLUCTUATION) + GAP_BRANCH_L + LOWEST_OPENING_Y, 0);
         boundsLeftBranch = new Rectangle(posLeftBranch.x, posLeftBranch.y+3*height/4, width, height/4);
         boundsRightBranch = new Rectangle(posRightBranch.x, posRightBranch.y+3*height/4, width, height/4);
     }
@@ -66,8 +68,8 @@ public class Branch extends Obstacle {
      * @param y     y - coordinate to set next position
      */
     public void reposition(float y){
-        posLeftBranch.set(rand.nextInt(X_FLUCTUATION) + GAP_BRANCH + LOWEST_OPENING, y, 0);
-        posRightBranch.set(posLeftBranch.x - GAP_BRANCH - LOWEST_OPENING, y+rand.nextInt(X_FLUCTUATION) + GAP_BRANCH + LOWEST_OPENING, 0);
+        posLeftBranch.set(rand.nextInt(X_FLUCTUATION) + GAP_BRANCH_L + LOWEST_OPENING_X, y + rand.nextInt(Y_FLUCTUATION), 0);
+        posRightBranch.set(posLeftBranch.x - GAP_BRANCH_R - LOWEST_OPENING_X, y + rand.nextInt(Y_FLUCTUATION) + GAP_BRANCH_L + LOWEST_OPENING_Y, 0);
 
         boundsLeftBranch.setPosition(posLeftBranch.x, posLeftBranch.y+3*height/4);
         boundsRightBranch.setPosition(posRightBranch.x, posRightBranch.y+3*height/4);

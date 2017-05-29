@@ -15,6 +15,7 @@ public class GameTextures {
     public final Texture appleTexture = new Texture("apple.png");
     public final Texture starTexture = new Texture("star.png");
     public final Texture waterTexture = new Texture("water.png");
+    public final Texture gameOver = new Texture("gameOver.png");
     public List<Texture> wallTextures;
     public List<Texture> branchTextures;
 
