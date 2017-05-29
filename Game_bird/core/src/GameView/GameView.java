@@ -18,6 +18,10 @@ import GameLogic.GameMain;
 import GameLogic.Score;
 import GameLogic.gameobjects.Branch;
 
+/**
+ * Class GameView
+ * <br> Class responsible for show and manage the game when user is playing
+ */
 public class GameView implements Screen {
     private GameMain game;
     private GameTextures gameTextures;
@@ -34,6 +38,13 @@ public class GameView implements Screen {
 
     private Interaction interaction;
 
+    /**
+     * Class Constructor GameView
+     * @param mainGame      - instance of main game
+     * @param level     - current game level
+     * @param interaction    - interaction interface
+     * <br> Create game objects
+     */
     public GameView(FlyChicken mainGame, EnumGameLevel level, Interaction interaction) {
         this.interaction = interaction;
         this.gameMain = mainGame;
@@ -68,6 +79,9 @@ public class GameView implements Screen {
         }
     }
 
+    /**
+     * Create game objects
+     */
     private void createObjects() {
         game.createBird(FlyChicken.HEIGHT+400, gameTextures.birdAnimation.getFrame().getRegionWidth(), gameTextures.birdAnimation.getFrame().getRegionHeight());
         game.createWater(gameTextures.waterTexture.getWidth(), gameTextures.waterTexture.getHeight());
@@ -105,6 +119,11 @@ public class GameView implements Screen {
         hud.stage.draw();
     }
 
+    /**
+     * Stop music game
+     * <br> Check final score
+     * <br> Return to main menu
+     */
     private void doGameOver() {
         try {
             Thread.sleep(2000);
@@ -122,11 +141,17 @@ public class GameView implements Screen {
         this.dispose();
     }
 
+    /**
+     * Display image that allow user understand that he loose the game
+     */
     private void displayGameOver() {
         gameMain.batch.draw(gameTextures.gameOver, cam.position.x-gameTextures.gameOver.getWidth()/2,
                 game.getGameBird().getPosition().y + gameTextures.gameOver.getHeight()/2+50);
     }
 
+    /**
+     * Draw game objects
+     */
     private void drawObjects() {
         drawBird();
         drawAwards();
@@ -135,6 +160,10 @@ public class GameView implements Screen {
         drawWalls();
     }
 
+    /**
+     * Update game's objects
+     * @param delta    delta time
+     */
     public void updateObjects(float delta) {
         updateBird(delta);
         gameTextures.birdAnimation.update(delta);
@@ -145,31 +174,54 @@ public class GameView implements Screen {
         updateWater();
     }
 
+    /**
+     * Update header of the game
+     * <br> lives
+     * <br> time passed since starting play
+     * <br> score
+     * <br> eaten apples
+     */
     public void updateHud() {
         hud.updateHud(game.getLives(), game.getCurrTime(), game.getScore(), game.getEatenApples());
     }
 
+    /**
+     * Update bird position and velocity
+     * @param delta - delta time
+     */
     public void updateBird(float delta) {
         game.updateBirdPos(delta, interaction.getAccelerometerX());
     }
 
 
+    /**
+     * Draw bird
+     */
     public void drawBird() {
         gameMain.batch.draw(gameTextures.birdAnimation.getFrame(), game.getGameBird().getPosition().x, game.getGameBird().getPosition().y);
     }
 
 
+    /**
+     * Draw water
+     */
     public void drawWater(){
         gameMain.batch.draw(gameTextures.waterTexture, game.getWater().getPosX(), game.getWater().getPosY());
 
     }
 
+    /**
+     * Draw apples and stars
+     */
     public void drawAwards(){
         gameMain.batch.draw(gameTextures.appleTexture, game.getApple().getPosX(), game.getApple().getPosY());
         gameMain.batch.draw(gameTextures.starTexture, game.getStar().getPosX(), game.getStar().getPosY());
     }
 
 
+    /**
+     * Draw walls
+     */
     public void drawWalls() {
         gameMain.batch.draw(gameTextures.wallTextures.get(0), game.getLeftWallPos1().x, game.getLeftWallPos1().y);
         gameMain.batch.draw(gameTextures.wallTextures.get(0), game.getLeftWallPos2().x, game.getLeftWallPos2().y);
@@ -178,6 +230,9 @@ public class GameView implements Screen {
         gameMain.batch.draw(gameTextures.wallTextures.get(1), game.getRightWallPos2().x, game.getRightWallPos2().y);
     }
 
+    /**
+     * Draw branches
+     */
     public void drawBranches() {
         for (Branch branch : game.getGameBranches()) {
             gameMain.batch.draw(gameTextures.branchTextures.get(1), branch.getPosLeftBranch().x, branch.getPosLeftBranch().y);
@@ -185,6 +240,11 @@ public class GameView implements Screen {
         }
     }
 
+    /**
+     * Handle input from user
+     * <br> touch to bird jump
+     * <br> check if return button was pressed
+     */
     public void handleinput() {
         if(interaction.screenIsTouched())
             game.getGameBird().jump();
@@ -200,6 +260,10 @@ public class GameView implements Screen {
         }
     }
 
+    /**
+     * Update wall's textures
+     * @param currentBirdPosY   bird's y coordinate
+     */
     public void updateWalls(float currentBirdPosY) {
         if(currentBirdPosY > birdPosY)
             updateMovementUp();
@@ -209,6 +273,9 @@ public class GameView implements Screen {
         this.birdPosY = currentBirdPosY;
     }
 
+    /**
+     * Update walls when bird is falling down
+     */
     void updateMovementDown() {
         if (cam.position.y+(cam.viewportHeight / 2) < game.getLeftWallPos1().y)
             game.getLeftWallPos1().add(0, - 2* game.getLeftWall().getHeight());
@@ -223,6 +290,9 @@ public class GameView implements Screen {
             game.getRightWallPos2().add(0, - 2* game.getRightWall().getHeight());
     }
 
+    /**
+     * Update walls when bird is moving up
+     */
     void updateMovementUp() {
             if (cam.position.y - (cam.viewportHeight / 2) > game.getLeftWallPos1().y + game.getLeftWall().getHeight())
                 game.getLeftWallPos1().add(0, game.getLeftWall().getHeight() * 2);
@@ -237,6 +307,10 @@ public class GameView implements Screen {
                 game.getRightWallPos2().add(0, game.getRightWall().getHeight() * 2);
     }
 
+    /**
+     * Check bird's collision with game objects; water, branches, apples and stars
+     * <br> Do alterations like stop music and sound, activate vibration when lose in water
+     */
     public void checkCollisions(){
         if(game.checkCollisionsBranchs()) {
             float posX = game.getGameBird().getPosition().x + game.getGameBird().getWidth()/2-gameTextures.birdStars.getWidth()/2;
@@ -266,6 +340,9 @@ public class GameView implements Screen {
             displayGameOver();
     }
 
+    /**
+     * Create game's apples
+     */
     private void createApple() {
         game.disposeApple();
         int x = game.getXRandomAxis((int)cam.viewportWidth);
@@ -273,6 +350,9 @@ public class GameView implements Screen {
         game.createApple(x, y, gameTextures.appleTexture.getWidth(), gameTextures.appleTexture.getHeight());
     }
 
+    /**
+     * Create game's stars
+     */
     private void createStar() {
         game.disposeStar();
         int x = game.getXRandomAxis((int)cam.viewportWidth);
@@ -280,6 +360,12 @@ public class GameView implements Screen {
         game.createStar(x, y, gameTextures.starTexture.getWidth(), gameTextures.starTexture.getHeight());
     }
 
+    /**
+     * Save scores
+     * <br> Popup to ask user's name
+     * <br> Save scores
+     * @param score     score
+     */
     public void saveScore(final int score) {
         Gdx.input.getTextInput(new Input.TextInputListener() {
             @Override
@@ -296,6 +382,9 @@ public class GameView implements Screen {
         }, "New High Score", "", "Your Name");
     }
 
+    /**
+     * Update water's position
+     */
    public void updateWater(){
         game.getWater().setPosY(game.getWater().getPosY() + game.getWater().getWaterIncrement());
         game.getWater().setWaterBoundsPosition(0, game.getWater().getPosY());

@@ -15,13 +15,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-
+/**
+ * Class OptionsMenu
+ * Allow user change game's settings : music, vibration and vibration
+ */
 public class OptionsMenu extends Menu {
     private Texture backGround, btnreturn, options, rectangle;
     private Texture OnBtn, OffBtn;
     private ImageButton goBack, sound, vibration, music;
     private Label musicLabel, soundLabel, vibrationLabel;
 
+    /**
+     * Class Constructor OptionsMenu
+     * @param game      instance of main game
+     * Handle input user in buttons of music, sound and vibration
+     */
     public OptionsMenu(FlyChicken game) {
         this.game = game;
         gamePort = new FitViewport(FlyChicken.WIDTH, FlyChicken.HEIGHT, new OrthographicCamera());
@@ -83,6 +91,9 @@ public class OptionsMenu extends Menu {
         addListenners();
     }
 
+    /**
+     * Add listeners to options's menu buttons
+     */
     private void addListenners() {
         goBack.addListener(new EventListener() {
             @Override
@@ -131,19 +142,31 @@ public class OptionsMenu extends Menu {
     }
 
 
+    /**
+     * Return to main menu
+     */
     public void onClickBack() {
         game.setScreen(new MainMenu(game));
     }
 
+    /**
+     * Enable/Disable sound
+     */
     public void onClickSound() {
         FlyChicken.getInstance().setPreferences("sound", !FlyChicken.getInstance().getPrefs().getBoolean("sound"));
     }
 
+    /**
+     * Enable/Disable music
+     */
     public void onClickMusic() {
         FlyChicken.getInstance().setPreferences("music", !FlyChicken.getInstance().getPrefs().getBoolean("music"));
 
     }
 
+    /**
+     * Enable/Disable vibration
+     */
     public void onClickVibration() {
         FlyChicken.getInstance().setPreferences("vibration", !FlyChicken.getInstance().getPrefs().getBoolean("vibration"));
     }

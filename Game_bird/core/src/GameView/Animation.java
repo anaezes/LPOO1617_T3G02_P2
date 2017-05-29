@@ -17,9 +17,11 @@ public class Animation {
 
     /**
      * Class Constructor Animation
-     * @param region
-     * @param frameCount
-     * @param cycleTime
+     * @param region        - bird's animated texture
+     * @param frameCount        - counter frame
+     * @param cycleTime     - cycleTime
+     *
+     * <br> Put animation in game's bird texture
      */
     public Animation(TextureRegion region, int frameCount, float cycleTime) {
         frames = new Array<TextureRegion>();
@@ -35,6 +37,10 @@ public class Animation {
 
     }
 
+    /**
+     * Method to update bird's frame animation
+     * @param dt    - delta time
+     */
     public void update(float dt) {
         currentFrameTime += dt;
 
@@ -47,6 +53,10 @@ public class Animation {
             frame = 0;
     }
 
+    /**
+     * Return bird's frame
+     * @return      bird's frame
+     */
     public TextureRegion getFrame() {
         return frames.get(frame);
     }

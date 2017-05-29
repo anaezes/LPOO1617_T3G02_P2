@@ -14,11 +14,19 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 ;
 
-
+/**
+ * Class Main Menu
+ * <br> Show and manage main menu
+ */
 public class MainMenu extends Menu {
 
     private ImageButton playBtn, instructionsBtn, scoresBtn, optionsBtn, exitBtn;
 
+    /**
+     * Class Constructor MainMenu
+     * @param game  instance of main game
+     * Show main menu buttons and listeners to catch events
+     */
     public MainMenu(FlyChicken game) {
         this.game = game;
         gamePort = new FitViewport(FlyChicken.WIDTH, FlyChicken.HEIGHT, new OrthographicCamera());
@@ -123,28 +131,44 @@ public class MainMenu extends Menu {
         });
     }
 
+    /**
+     * Show and start new game
+     */
     public void onClickPlay() {
             this.dispose();
             game.setScreen(new GameMenu(game));
             System.out.println("Play");
     }
 
+    /**
+     * Show Options's Menu
+     */
     public void onClickOptions() {
         this.dispose();
         game.setScreen(new OptionsMenu(game));
         System.out.println("Options");
     }
 
+    /**
+     * Show Instruction's Menu
+     */
     public void onClickOInstructions() {
         this.dispose();
         game.setScreen(new InstructionMenu(game));
         System.out.println("Instructions");
     }
+
+    /**
+     * Show Score's Menu
+     */
     public void onClickScores() {
         this.dispose();
         game.setScreen(new ScoresMenu(game));
         System.out.println("Scores");
     }
+    /**
+     * Exit from menu
+     */
     public void onClickExit() {
         this.dispose();
         System.out.println("Sair");
