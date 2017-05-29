@@ -50,9 +50,6 @@ public class MainMenu extends Menu {
         btnDraw = new TextureRegionDrawable(btnRegion);
         exitBtn = new ImageButton(btnDraw);
 
-
-        stage.setDebugParentUnderMouse(true);
-
         playBtn.setPosition(FlyChicken.WIDTH/2-playBtn.getWidth()/2,
                 FlyChicken.HEIGHT-playBtn.getHeight());
         instructionsBtn.setPosition(FlyChicken.WIDTH/2-playBtn.getWidth()/2,

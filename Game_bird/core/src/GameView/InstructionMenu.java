@@ -39,7 +39,6 @@ public class InstructionMenu extends Menu {
         TextureRegionDrawable returnBtnDraw = new TextureRegionDrawable(returnBtnRegion);
         goBack = new ImageButton(returnBtnDraw);
 
-        stage.setDebugParentUnderMouse(true);
         goBack.setPosition(50,50);
         stage.addActor(goBack);
 

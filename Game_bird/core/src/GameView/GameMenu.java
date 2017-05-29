@@ -34,7 +34,6 @@ public class GameMenu extends Menu{
         TextureRegionDrawable returnBtnDraw = new TextureRegionDrawable(returnBtnRegion);
         goBack = new ImageButton(returnBtnDraw);
 
-        //stage.setDebugParentUnderMouse(true);
         goBack.setPosition(50,50);
         stage.addActor(goBack);
 
@@ -142,6 +141,7 @@ public class GameMenu extends Menu{
     }
 
     public void levelThreeClick(){
+        game.setScreen(new GameView(game, EnumGameLevel.LevelThree, new GameInteraction()));
         game.setScreen(new GameView(game, EnumGameLevel.LevelThree, new GameInteraction()));
     }
 

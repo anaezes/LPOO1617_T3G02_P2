@@ -18,8 +18,8 @@ public class Branch extends Obstacle {
     protected static final int X_FLUCTUATION = 80;
     protected static final int GAP_BRANCH_L = 70;
     protected static final int GAP_BRANCH_R = 130;
-    protected static final int LOWEST_OPENING_X = 50;
-    protected static final int LOWEST_OPENING_Y = 10;
+    protected static final int LOWEST_OPENING_X = 70;
+    protected static final int LOWEST_OPENING_Y = 30;
 
     protected Rectangle boundsRightBranch, boundsLeftBranch;
     protected Vector3 posLeftBranch;
@@ -41,7 +41,7 @@ public class Branch extends Obstacle {
         rand = new Random();
 
         posLeftBranch = new Vector3(rand.nextInt(X_FLUCTUATION) + GAP_BRANCH_L + LOWEST_OPENING_X, getPosY() + rand.nextInt(Y_FLUCTUATION), 0);
-        posRightBranch = new Vector3(posLeftBranch.x - GAP_BRANCH_R - LOWEST_OPENING_X, getPosY() + rand.nextInt(Y_FLUCTUATION) + GAP_BRANCH_L + LOWEST_OPENING_Y, 0);
+        posRightBranch = new Vector3(posLeftBranch.x - GAP_BRANCH_R - LOWEST_OPENING_X, posLeftBranch.y + rand.nextInt(Y_FLUCTUATION) + GAP_BRANCH_L + LOWEST_OPENING_Y, 0);
         boundsLeftBranch = new Rectangle(posLeftBranch.x, posLeftBranch.y+3*height/4, width, height/4);
         boundsRightBranch = new Rectangle(posRightBranch.x, posRightBranch.y+3*height/4, width, height/4);
     }

@@ -71,7 +71,6 @@ public class OptionsMenu extends Menu {
         vibrationLabel.setPosition(FlyChicken.WIDTH/2 - sound.getWidth()/2-100, FlyChicken.HEIGHT-400);
         stage.addActor(vibrationLabel);
 
-        stage.setDebugParentUnderMouse(true);
         goBack.setPosition(50,50);
         stage.addActor(goBack);
         music.setPosition(FlyChicken.WIDTH/2 - sound.getWidth()/2+100, FlyChicken.HEIGHT-200);
