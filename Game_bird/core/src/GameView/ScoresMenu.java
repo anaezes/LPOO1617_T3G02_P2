@@ -76,8 +76,8 @@ public class ScoresMenu extends Menu{
         for(int i = 0; i < total; i++) {
             name = new Label(FlyChicken.getInstance().getScores().get(i).getPlayerName(), new Label.LabelStyle(myfont, Color.WHITE));
             score = new Label(String.format("%01d", FlyChicken.getInstance().getScores().get(i).getPlayerPoints()), new Label.LabelStyle(myfont, Color.WHITE));
-            name.setPosition(FlyChicken.WIDTH / 2 - name.getWidth() / 2 - 75, FlyChicken.HEIGHT - 200 - i * 70);
-            score.setPosition(FlyChicken.WIDTH / 2 - score.getWidth() / 2 + 100, FlyChicken.HEIGHT - 200 - i * 70);
+            name.setPosition(FlyChicken.WIDTH / 2 - name.getWidth() / 2 - 70, FlyChicken.HEIGHT - 200 - i * 70);
+            score.setPosition(FlyChicken.WIDTH / 2 - score.getWidth() / 2 + 110, FlyChicken.HEIGHT - 200 - i * 70);
             stage.addActor(name);
             stage.addActor(score);
         }

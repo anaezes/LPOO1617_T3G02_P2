@@ -70,7 +70,6 @@ public class Branch extends Obstacle {
     public void reposition(float y){
         posLeftBranch.set(rand.nextInt(X_FLUCTUATION) + GAP_BRANCH_L + LOWEST_OPENING_X, y + rand.nextInt(Y_FLUCTUATION), 0);
         posRightBranch.set(posLeftBranch.x - GAP_BRANCH_R - LOWEST_OPENING_X, y + rand.nextInt(Y_FLUCTUATION) + GAP_BRANCH_L + LOWEST_OPENING_Y, 0);
-
         boundsLeftBranch.setPosition(posLeftBranch.x, posLeftBranch.y+3*height/4);
         boundsRightBranch.setPosition(posRightBranch.x, posRightBranch.y+3*height/4);
     }
