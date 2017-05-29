@@ -23,9 +23,6 @@ public class Branch extends Obstacle {
     protected Vector3 posRightBranch;
     protected Random rand;
 
-    private int width;
-    private int height;
-
 
     /**
      * Class Constructor Branch
@@ -90,21 +87,5 @@ public class Branch extends Obstacle {
      */
     public Rectangle getBoundsLeftBranch() {
         return boundsLeftBranch;
-    }
-
-    /**
-     * Return branche's texture width
-     * @return      branche's texture width
-     */
-    public int getWidth() {
-        return width;
-    }
-
-    /**
-     * Return branche's texture height
-     * @return      branche's texture height
-     */
-    public int getHeight() {
-        return height;
     }
 }

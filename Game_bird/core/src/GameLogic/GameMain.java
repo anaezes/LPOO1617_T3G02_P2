@@ -21,9 +21,9 @@ import GameView.FlyChicken;
  */
 public class GameMain {
 
-    private static final int WALL_X_OFFSET = -40;
-    private static final int BRANCH_SPACING = 50;
-    private static final int BRANCH_COUNT = 10;
+    public static final int WALL_X_OFFSET = -40;
+    public static final int BRANCH_SPACING = 50;
+    public static final int BRANCH_COUNT = 10;
 
     private GameLogic.EnumGameLevel level;
     private EnumGameState state;

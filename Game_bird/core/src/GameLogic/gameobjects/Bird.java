@@ -12,17 +12,15 @@ import com.badlogic.gdx.math.Vector3;
 public class Bird extends GameObject {
 
     protected float weight;
-    protected int textureWidth;
-    protected int textureHeight;
     protected static final int GRAVITY_X = -5;
     protected static final int GRAVITY_Y = -7;
     protected Vector3 position;
     protected Vector3 velocity;
     protected Circle bounds;
 
-    protected float birdPosMinX;
-    protected float birdPosMaxX;
-    protected float birdPosMinY;
+    public float birdPosMinX;
+    public float birdPosMaxX;
+    public float birdPosMinY;
 
     /**
      *  Class Constructor Bird
@@ -36,13 +34,17 @@ public class Bird extends GameObject {
     public Bird(int x, int y, int textureW, int textureH) {
         super(x, y);
 
-        textureHeight = textureH;
-        textureWidth = textureW;
+        height = textureH;
+        width = textureW;
 
-        bounds = new Circle(getPosX()+textureWidth/2, getPosY()+textureHeight/2, textureHeight/2-3);
+        bounds = new Circle(getPosX()+width/2, getPosY()+height/2, height/2-3);
 
         position = new Vector3(x, y, 0);
         velocity = new Vector3(0,0,0);
+
+        birdPosMinX = 0;
+        birdPosMaxX = 400;
+        birdPosMinY = 0;
     }
 
     /**
@@ -66,7 +68,7 @@ public class Bird extends GameObject {
         velocity.scl(dt);
 
         if(position.x + (-ax) < birdPosMinX ||
-                (position.x + textureWidth + (-ax) > birdPosMaxX))
+                (position.x + width + (-ax) > birdPosMaxX))
             position.add(0, velocity.y, 0);
         else
             position.add(-ax/2, velocity.y, 0);
@@ -76,7 +78,7 @@ public class Bird extends GameObject {
 
         velocity.scl(1 / dt);
 
-        bounds.setPosition(position.x+textureWidth/2, position.y+textureHeight/2);
+        bounds.setPosition(position.x+width/2, position.y+height/2);
     }
 
     /**
@@ -121,21 +123,5 @@ public class Bird extends GameObject {
      */
     public Circle getBounds() {
         return bounds;
-    }
-
-    /**
-     * Return bird's texture width
-     * @return      width
-     */
-    public int getWidth() {
-        return textureWidth;
-    }
-
-    /**
-     * Return bird's texture height
-     * @return      height
-     */
-    public int getHeight() {
-        return textureHeight;
     }
 }
