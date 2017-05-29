@@ -67,7 +67,7 @@ public class GameView implements Screen {
         if(FlyChicken.getInstance().getPrefs().getBoolean("music")) {
             musicGame = Gdx.audio.newMusic(Gdx.files.internal("musicGame.ogg"));
             musicGame.setLooping(true);
-            musicGame.setVolume(0.05f);
+            musicGame.setVolume(0.1f);
             musicGame.play();
         }
     }
@@ -114,7 +114,7 @@ public class GameView implements Screen {
             int score = game.getScore();
             if(game.checkScore(score))
                 saveScore(score);
-
+            musicGame.stop();
             gameMain.setScreen(new GameMenu(gameMain));
             this.dispose();
         }
@@ -213,7 +213,7 @@ public class GameView implements Screen {
             int score = game.getScore();
             if(game.checkScore(score))
                 saveScore(score);
-
+            musicGame.stop();
             this.dispose();
             gameMain.setScreen(new GameMenu(gameMain));
         }
