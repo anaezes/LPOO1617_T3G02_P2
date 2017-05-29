@@ -8,6 +8,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -102,21 +103,35 @@ public class GameView implements Screen {
         checkCollisions();
         updateHud();
 
-        gameMain.batch.end();
+        if (game.getState() == EnumGameState.Lose)
+            displayGameOver();
 
+        gameMain.batch.end();
         gameMain.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
 
         //debug
-        shapeRenderes();
+        //shapeRenderes();
 
         if (game.getState() == EnumGameState.Lose){
             int score = game.getScore();
             if(game.checkScore(score))
                 saveScore(score);
-            musicGame.stop();
+
+            if(FlyChicken.getInstance().getPrefs().getBoolean("music"))
+                musicGame.stop();
             gameMain.setScreen(new GameMenu(gameMain));
             this.dispose();
+        }
+    }
+
+    private void displayGameOver() {
+        Texture gameOver = new Texture("gameOver.png");
+        gameMain.batch.draw(gameOver, game.getGameBird().getPosX()-gameOver.getWidth()/2, game.getGameBird().getPosY()-gameOver.getHeight()/2);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -213,7 +228,8 @@ public class GameView implements Screen {
             int score = game.getScore();
             if(game.checkScore(score))
                 saveScore(score);
-            musicGame.stop();
+            if(FlyChicken.getInstance().getPrefs().getBoolean("music"))
+                musicGame.stop();
             this.dispose();
             gameMain.setScreen(new GameMenu(gameMain));
         }
