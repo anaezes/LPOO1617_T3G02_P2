@@ -90,8 +90,7 @@ public class GameView implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(54/255f, 204/255f, 253/255f,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        gameMain.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-        hud.stage.draw();
+
         gameMain.batch.setProjectionMatrix(cam.combined);
         gameMain.batch.begin();
 
@@ -104,6 +103,9 @@ public class GameView implements Screen {
         updateHud();
 
         gameMain.batch.end();
+
+        gameMain.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        hud.stage.draw();
 
         //debug
         shapeRenderes();

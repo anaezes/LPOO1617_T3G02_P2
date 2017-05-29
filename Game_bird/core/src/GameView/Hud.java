@@ -38,22 +38,23 @@ public class Hud {
         TextureRegionDrawable appleDraw = new TextureRegionDrawable(appleRegion);
         ImageButton appleBtn = new ImageButton(appleDraw);
 
-
-
         Table table = new Table();
         table.top();
         table.setFillParent(true);
 
-        timeLabel = new Label("Time", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        countTimeLabel = new Label(String.format("%03d", 0), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        BitmapFont myfont = new BitmapFont();
+        myfont.getData().scale(0.5f);
 
-        chickenLabel = new Label("Fly Chicken..Fly", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        scoreLabel = new Label(String.format("%06d", 0), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        timeLabel = new Label("Time", new Label.LabelStyle(myfont, Color.WHITE));
+        countTimeLabel = new Label(String.format("%03d", 0), new Label.LabelStyle(myfont, Color.WHITE));
 
-        livesLabel = new Label(String.format("%01d", 3), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        worldLabel = new Label("Lives", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        chickenLabel = new Label("Fly Chicken..Fly", new Label.LabelStyle(myfont, Color.WHITE));
+        scoreLabel = new Label(String.format("%06d", 0), new Label.LabelStyle(myfont, Color.WHITE));
 
-        applecounterLabel = new Label(String.format("%01d", 3), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        livesLabel = new Label(String.format("%01d", 3), new Label.LabelStyle(myfont, Color.WHITE));
+        worldLabel = new Label("Lives", new Label.LabelStyle(myfont, Color.WHITE));
+
+        applecounterLabel = new Label(String.format("%01d", 3), new Label.LabelStyle(myfont, Color.WHITE));
 
 
 

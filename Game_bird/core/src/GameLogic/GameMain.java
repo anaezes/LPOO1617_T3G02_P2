@@ -134,7 +134,6 @@ public class GameMain {
      */
     public long getCurrTime() {
         timeCount = (System.currentTimeMillis() - currTime)/1000;
-        System.out.println("TIME:"+ timeCount);
         return timeCount;
     }
 
