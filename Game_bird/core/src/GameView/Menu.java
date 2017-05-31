@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+/**
+ * Class Menu
+ */
 public class Menu implements Screen {
     protected Viewport gamePort;
     protected Stage stage;

@@ -16,6 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+/**
+ * Class ScoresMenu
+ */
 public class ScoresMenu extends Menu{
     private Texture btnreturn, tableScore, rectangle;
     private ImageButton goBack;
@@ -24,6 +27,10 @@ public class ScoresMenu extends Menu{
     private Label score;
 
 
+    /**
+     * Class Constructor ScoresMenu
+     * @param game  instance of main game
+     */
     public ScoresMenu(FlyChicken game) {
         this.game=game;
         gamePort = new FitViewport(FlyChicken.WIDTH, FlyChicken.HEIGHT, new OrthographicCamera());
@@ -57,12 +64,18 @@ public class ScoresMenu extends Menu{
         });
     }
 
+    /**
+     * Return to main menu
+     */
     public void onClickBack() {
         System.out.println("GoBack");
         game.setScreen(new MainMenu(game));
 
     }
 
+    /**
+     * Display top 5 scores 
+     */
     public void addTableScores() {
         int total = 5;
         int totalRecords = FlyChicken.getInstance().getScores().size();

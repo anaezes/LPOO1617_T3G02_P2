@@ -16,6 +16,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 
+/**
+ * Class Hud
+ * <br> Display information about the game (lives, scores, time elapsed since user start playing), during the game
+ */
 public class Hud {
     public Stage stage;
     private Viewport viewPort;
@@ -29,6 +33,11 @@ public class Hud {
     Label chickenLabel;
     Label applecounterLabel;
 
+    /**
+     * Class Constructor Hud
+     * @param sb SpriteBatch
+     * <br> Create labels for hud and add them to the stage
+     */
     public Hud(SpriteBatch sb) {
         viewPort = new FitViewport(FlyChicken.WIDTH, FlyChicken.HEIGHT, new OrthographicCamera());
         stage = new Stage(viewPort, sb);
@@ -71,6 +80,13 @@ public class Hud {
         stage.addActor(table);
     }
 
+    /**
+     * Update Hud with current:
+     * @param lives game's lives
+     * @param time  time elapsed since start playing
+     * @param score score
+     * @param eatenApples   eaten apples
+     */
     public void updateHud(int lives, float time, int score, int eatenApples) {
         countTimeLabel.setText(String.format("%03d", (int)Math.round(time)));
         scoreLabel.setText(String.format("%06d", score));
