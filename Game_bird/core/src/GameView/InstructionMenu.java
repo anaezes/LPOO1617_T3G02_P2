@@ -14,7 +14,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import GameLogic.EnumGameLevel;
 
-
+/**
+ * Class InstructionMenu
+ * <br> Class that manage Instructions Menu
+ */
 public class InstructionMenu extends Menu {
     private Texture btnreturn, instructions, rectInstructions;
     private ImageButton goBack;
@@ -29,6 +32,11 @@ public class InstructionMenu extends Menu {
         return instance;
     }
 
+    /**
+     * Class Constructor InstructionMenu
+     * @param game  instance of main game
+     *
+     */
     public InstructionMenu(FlyChicken game) {
         this.game=game;
         gamePort = new FitViewport(FlyChicken.WIDTH, FlyChicken.HEIGHT, new OrthographicCamera());

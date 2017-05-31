@@ -5,8 +5,7 @@ import com.badlogic.gdx.utils.Array;
 
 /**
  * Class Animation
- *  <br>
- * contains methods and values to create an ilusion of bird's movement
+ *  <br>contains methods and values to create an ilusion of bird's movement
  */
 public class Animation {
     private Array<TextureRegion> frames;
