@@ -19,7 +19,7 @@
 # Development documentation
 
  * **UML Diagrams**
-<p align="center"> <img src="LPOO1617_T3G02_P2/doc/uml.jpeg"> </p>
+  <p align="center"> <img src="/doc/uml.jpeg"> </p>
 
  * **Design patterns**:
     * This project includes in its codebase several design patterns:
