@@ -77,6 +77,8 @@
   
   * **Game - level three**
   
+   <p align="center"> <img src="/doc/gameLevelThree.png"> </p>
+
 
    * **Game - game over**
  
