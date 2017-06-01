@@ -9,8 +9,6 @@ import com.badlogic.gdx.math.Circle;
  */
 public class Apple extends Award {
 
-    private int width;
-    private int height;
     private Circle appleBounds;
 
     /**
@@ -36,21 +34,4 @@ public class Apple extends Award {
     public Circle getAppleBounds() {
         return appleBounds;
     }
-
-    /**
-     * Return apple's texture width
-     * @return      width
-     */
-    public int getWidth() {
-        return width;
-    }
-
-    /**
-     * Return apple's texture height
-     * @return      heigth
-     */
-    public int getHeight() {
-        return height;
-    }
-
 }

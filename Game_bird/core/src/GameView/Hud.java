@@ -16,6 +16,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 
+/**
+ * Class Hud
+ * <br> Display information about the game (lives, scores, time elapsed since user start playing), during the game
+ */
 public class Hud {
     public Stage stage;
     private Viewport viewPort;
@@ -29,6 +33,11 @@ public class Hud {
     Label chickenLabel;
     Label applecounterLabel;
 
+    /**
+     * Class Constructor Hud
+     * @param sb SpriteBatch
+     * <br> Create labels for hud and add them to the stage
+     */
     public Hud(SpriteBatch sb) {
         viewPort = new FitViewport(FlyChicken.WIDTH, FlyChicken.HEIGHT, new OrthographicCamera());
         stage = new Stage(viewPort, sb);
@@ -38,22 +47,23 @@ public class Hud {
         TextureRegionDrawable appleDraw = new TextureRegionDrawable(appleRegion);
         ImageButton appleBtn = new ImageButton(appleDraw);
 
-
-
         Table table = new Table();
         table.top();
         table.setFillParent(true);
 
-        timeLabel = new Label("Time", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        countTimeLabel = new Label(String.format("%03d", 0), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        BitmapFont myfont = new BitmapFont();
+        myfont.getData().scale(0.5f);
 
-        chickenLabel = new Label("Fly Chicken..Fly", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        scoreLabel = new Label(String.format("%06d", 0), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        timeLabel = new Label("Time", new Label.LabelStyle(myfont, Color.WHITE));
+        countTimeLabel = new Label(String.format("%03d", 0), new Label.LabelStyle(myfont, Color.WHITE));
 
-        livesLabel = new Label(String.format("%01d", 3), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        worldLabel = new Label("Lives", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        chickenLabel = new Label("Fly Chicken..Fly", new Label.LabelStyle(myfont, Color.WHITE));
+        scoreLabel = new Label(String.format("%06d", 0), new Label.LabelStyle(myfont, Color.WHITE));
 
-        applecounterLabel = new Label(String.format("%01d", 3), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        livesLabel = new Label(String.format("%01d", 3), new Label.LabelStyle(myfont, Color.WHITE));
+        worldLabel = new Label("Lives", new Label.LabelStyle(myfont, Color.WHITE));
+
+        applecounterLabel = new Label(String.format("%01d", 3), new Label.LabelStyle(myfont, Color.WHITE));
 
 
 
@@ -70,6 +80,13 @@ public class Hud {
         stage.addActor(table);
     }
 
+    /**
+     * Update Hud with current:
+     * @param lives game's lives
+     * @param time  time elapsed since start playing
+     * @param score score
+     * @param eatenApples   eaten apples
+     */
     public void updateHud(int lives, float time, int score, int eatenApples) {
         countTimeLabel.setText(String.format("%03d", (int)Math.round(time)));
         scoreLabel.setText(String.format("%06d", score));

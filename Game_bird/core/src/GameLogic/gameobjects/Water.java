@@ -9,8 +9,6 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public class Water extends GameLogic.gameobjects.Obstacle {
     private Rectangle waterBounds;
-    private int width;
-    private int height;
     protected int waterIncrement;
 
 

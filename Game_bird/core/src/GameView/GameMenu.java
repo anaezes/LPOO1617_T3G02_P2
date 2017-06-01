@@ -16,11 +16,20 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import GameInteraction.GameInteraction;
 import GameLogic.EnumGameLevel;
 
+/**
+ * Class that allow user chose game's level
+ */
 public class GameMenu extends Menu{
     private Texture btnreturn, btnLevelOne, btnLevelTwo, btnLevelThree;
     private ImageButton levelOneBtn, levelTwoBtn, levelThreeBtn;
     private ImageButton goBack;
 
+    /**
+     * Class Constructor Game Menu
+     * @param game  - instance of main game
+     * <br> Set background Texture
+     * <br> Display buttons to choose level
+     */
     public GameMenu(FlyChicken game){
 
         this.game = game;
@@ -34,7 +43,6 @@ public class GameMenu extends Menu{
         TextureRegionDrawable returnBtnDraw = new TextureRegionDrawable(returnBtnRegion);
         goBack = new ImageButton(returnBtnDraw);
 
-        //stage.setDebugParentUnderMouse(true);
         goBack.setPosition(50,50);
         stage.addActor(goBack);
 
@@ -53,6 +61,11 @@ public class GameMenu extends Menu{
         addButtonLevelThree();
     }
 
+    /**
+     * Add Level One Button
+     * <br> Set button position
+     * <br> Add listeners to catch button click events
+     */
     private void addButtonLevelOne() {
         btnLevelOne = new Texture(Gdx.files.internal("btnlevel1.png"));
         TextureRegion btn = new TextureRegion(btnLevelOne);
@@ -74,6 +87,11 @@ public class GameMenu extends Menu{
         });
     }
 
+    /**
+     * Add Level Two Button
+     * <br> Set button position
+     * <br> Add listeners to catch button click events
+     */
     private void addButtonLevelTwo() {
         if(FlyChicken.getInstance().getScores().get(0).getPlayerPoints()  >= 1000) {
             btnLevelTwo = new Texture(Gdx.files.internal("btnlevel2.png"));
@@ -104,6 +122,11 @@ public class GameMenu extends Menu{
 
     }
 
+    /**
+     * Add Level One Three
+     * <br> Set button position
+     * <br> Add listeners to catch button click events
+     */
     private void addButtonLevelThree() {
         if(FlyChicken.getInstance().getScores().get(0).getPlayerPoints()  >= 3000) {
             btnLevelThree = new Texture(Gdx.files.internal("btnlevel3.png"));
@@ -134,14 +157,27 @@ public class GameMenu extends Menu{
     }
 
 
+    /**
+     * Change the screen and corresponding level to be performed when user click level one button
+     */
     public void levelOneClick(){
         game.setScreen(new GameView(game, EnumGameLevel.LevelOne, new GameInteraction()));
     }
+
+
+    /**
+     * Change the screen and corresponding level to be performed when user click level two button
+     */
     public void levelTwoClick(){
         game.setScreen(new GameView(game, EnumGameLevel.LevelTwo, new GameInteraction()));
     }
 
+
+    /**
+     * Change the screen and corresponding level to be performed when user click level three button
+     */
     public void levelThreeClick(){
+        game.setScreen(new GameView(game, EnumGameLevel.LevelThree, new GameInteraction()));
         game.setScreen(new GameView(game, EnumGameLevel.LevelThree, new GameInteraction()));
     }
 
@@ -157,12 +193,18 @@ public class GameMenu extends Menu{
         handleinput();
     }
 
+    /**
+     * Check if return button was pressed - go to main menu
+     */
     public void handleinput() {
        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
            game.setScreen(new MainMenu(game));
        }
     }
 
+    /**
+     * Check if return button's texture was pressed - go to main menu
+     */
     public void onClickBack() {
         System.out.println("GoBack");
         game.setScreen(new MainMenu(game));

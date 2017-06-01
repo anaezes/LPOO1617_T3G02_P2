@@ -16,6 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+/**
+ * Class ScoresMenu
+ */
 public class ScoresMenu extends Menu{
     private Texture btnreturn, tableScore, rectangle;
     private ImageButton goBack;
@@ -24,6 +27,10 @@ public class ScoresMenu extends Menu{
     private Label score;
 
 
+    /**
+     * Class Constructor ScoresMenu
+     * @param game  instance of main game
+     */
     public ScoresMenu(FlyChicken game) {
         this.game=game;
         gamePort = new FitViewport(FlyChicken.WIDTH, FlyChicken.HEIGHT, new OrthographicCamera());
@@ -37,7 +44,6 @@ public class ScoresMenu extends Menu{
         TextureRegionDrawable returnBtnDraw = new TextureRegionDrawable(returnBtnRegion);
         goBack = new ImageButton(returnBtnDraw);
 
-        stage.setDebugParentUnderMouse(true);
         goBack.setPosition(50,50);
         stage.addActor(goBack);
         btnAddListener();
@@ -58,12 +64,18 @@ public class ScoresMenu extends Menu{
         });
     }
 
+    /**
+     * Return to main menu
+     */
     public void onClickBack() {
         System.out.println("GoBack");
         game.setScreen(new MainMenu(game));
 
     }
 
+    /**
+     * Display top 5 scores 
+     */
     public void addTableScores() {
         int total = 5;
         int totalRecords = FlyChicken.getInstance().getScores().size();
@@ -77,8 +89,8 @@ public class ScoresMenu extends Menu{
         for(int i = 0; i < total; i++) {
             name = new Label(FlyChicken.getInstance().getScores().get(i).getPlayerName(), new Label.LabelStyle(myfont, Color.WHITE));
             score = new Label(String.format("%01d", FlyChicken.getInstance().getScores().get(i).getPlayerPoints()), new Label.LabelStyle(myfont, Color.WHITE));
-            name.setPosition(FlyChicken.WIDTH / 2 - name.getWidth() / 2 - 75, FlyChicken.HEIGHT - 200 - i * 70);
-            score.setPosition(FlyChicken.WIDTH / 2 - score.getWidth() / 2 + 100, FlyChicken.HEIGHT - 200 - i * 70);
+            name.setPosition(FlyChicken.WIDTH / 2 - name.getWidth() / 2 - 70, FlyChicken.HEIGHT - 200 - i * 70);
+            score.setPosition(FlyChicken.WIDTH / 2 - score.getWidth() / 2 + 110, FlyChicken.HEIGHT - 200 - i * 70);
             stage.addActor(name);
             stage.addActor(score);
         }

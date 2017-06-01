@@ -7,8 +7,10 @@ package GameLogic.gameobjects;
  * contains methods and values for element's coordinates
  */
 public class GameObject {
-    private int posX;
-    private int posY;
+    protected int width;
+    protected int height;
+    protected int posX;
+    protected int posY;
 
     /**
      * Class Constructor Game Object
@@ -51,5 +53,21 @@ public class GameObject {
      */
     public void setPosY(int posY) {
         this.posY = posY;
+    }
+
+    /**
+     * Return texture width
+     * @return      width
+     */
+    public int getWidth() {
+        return width;
+    }
+
+    /**
+     * Return texture height
+     * @return      heigth
+     */
+    public int getHeight() {
+        return height;
     }
 }

@@ -9,9 +9,6 @@ import com.badlogic.gdx.math.Circle;
  */
 public class Star extends GameLogic.gameobjects.Award {
 
-    private int width;
-    private int height;
-
     private Circle starBounds;
 
     /**
@@ -34,21 +31,5 @@ public class Star extends GameLogic.gameobjects.Award {
      */
     public Circle getStarBounds() {
         return starBounds;
-    }
-
-    /**
-     * Return star's texture width
-     * @return      star's texture width
-     */
-    public int getWidth() {
-        return width;
-    }
-
-    /**
-     * Return star's texture height
-     * @return       star's texture height
-     */
-    public int getHeight() {
-        return height;
     }
 }

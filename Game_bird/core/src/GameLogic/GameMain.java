@@ -21,9 +21,9 @@ import GameView.FlyChicken;
  */
 public class GameMain {
 
-    private static final int WALL_X_OFFSET = -40;
-    private static final int BRANCH_SPACING = 50;
-    private static final int BRANCH_COUNT = 10;
+    public static final int WALL_X_OFFSET = -40;
+    public static final int BRANCH_SPACING = 50;
+    public static final int BRANCH_COUNT = 10;
 
     private GameLogic.EnumGameLevel level;
     private EnumGameState state;
@@ -134,7 +134,6 @@ public class GameMain {
      */
     public long getCurrTime() {
         timeCount = (System.currentTimeMillis() - currTime)/1000;
-        System.out.println("TIME:"+ timeCount);
         return timeCount;
     }
 
@@ -333,7 +332,7 @@ public class GameMain {
             return true;
         }
 
-        for (int i=1; i < branches.size; i++){
+        for (int i = 0; i < branches.size; i++){
             if(Intersector.overlaps(bird.getBounds(), branches.get(i).getBoundsLeftBranch()) ||
                     Intersector.overlaps(bird.getBounds(), branches.get(i).getBoundsRightBranch())) {
                     updateLives(-1);

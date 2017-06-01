@@ -8,6 +8,9 @@ import java.util.List;
 
 import GameLogic.EnumGameLevel;
 
+/**
+ * Class to store game's textures
+ */
 public class GameTextures {
     public Texture birdTexture;
     public Animation birdAnimation;
@@ -15,9 +18,14 @@ public class GameTextures {
     public final Texture appleTexture = new Texture("apple.png");
     public final Texture starTexture = new Texture("star.png");
     public final Texture waterTexture = new Texture("water.png");
+    public final Texture gameOver = new Texture("gameOver.png");
     public List<Texture> wallTextures;
     public List<Texture> branchTextures;
 
+    /**
+     * Create textures according to game's level
+     * @param level  level
+     */
     public GameTextures(EnumGameLevel level){
         birdTexture = getBirdTexture(level);
         wallTextures = getWallTextures(level);
@@ -25,6 +33,11 @@ public class GameTextures {
         birdAnimation = new Animation(new TextureRegion(birdTexture), 3, 0.5f);
     }
 
+    /**
+     * Return game's bird texture according to game's level
+     * @param level     - level's game
+     * @return
+     */
     private Texture getBirdTexture(EnumGameLevel level) {
         Texture texture;
         switch (level){
@@ -45,6 +58,11 @@ public class GameTextures {
         return texture;
     }
 
+    /**
+     * Return branches's textures according to game's level
+     * @param level   game's level
+     * @return
+     */
     private List<Texture> getBranchTextures(EnumGameLevel level) {
        List<Texture> textures = new ArrayList<Texture>(2);
         Texture textureRightBranch, textureLeftBranch;
@@ -72,6 +90,11 @@ public class GameTextures {
         return textures;
     }
 
+    /**
+     * Return wall's textures according to game's level
+     * @param level   game's level
+     * @return
+     */
     private  List<Texture> getWallTextures(EnumGameLevel level) {
         List<Texture> textures = new ArrayList<Texture>(2);
         Texture textureRightWall, textureLeftWall;

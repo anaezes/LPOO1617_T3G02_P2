@@ -2,9 +2,6 @@ package GameLogic.gameobjects;
 
 public class Wall extends GameLogic.gameobjects.GameObject {
 
-    private int width;
-    private int height;
-
     /**
      * Class Constructor Game Object
      * <br> Create an Object with the following coordinates:
@@ -18,22 +15,5 @@ public class Wall extends GameLogic.gameobjects.GameObject {
         width = w;
         height = h;
     }
-
-    /**
-     * Return Wall's texture width
-     * @return       Wall's texture width
-     */
-    public int getWidth() {
-        return width;
-    }
-
-    /**
-     * Return Wall's texture height
-     * @return       Wall's texture height
-     */
-    public int getHeight() {
-        return height;
-    }
-
 
 }
