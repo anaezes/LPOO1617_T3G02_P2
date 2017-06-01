@@ -1,6 +1,8 @@
 # LPOO1617_T3G02_P2
 ## Final Project LPOO class
 
+[![BCH compliance](https://bettercodehub.com/edge/badge/anaezes/LPOO1617_T3G02_P2?branch=master&token=1972afbc151249c338f38c15c56831221dd277cd)](https://bettercodehub.com/)
+
 * **Team members**:
    * [Ana Claudia Fonseca Santos](https://github.com/anaezes) 
       * up200700742 (up200700742@fe.up.pt)
