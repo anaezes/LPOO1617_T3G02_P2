@@ -14,8 +14,14 @@
 # Setup
 
  * **Project installation**
+    1. In Android Studio import project as a Gradle project.
+    2. Installing all LibGDX libraries needed.
+ 
 
  * **App installation**
+    1. Download, from this repository, the .apk file to the device.
+    2. Open it in the device using a file explorer. 
+    3. Install the aplication.
 
 
 # Development documentation
@@ -29,7 +35,12 @@
       * Factory
       * Model-View-Controller
    
- * **Difficulties and lessons**
+ * **Difficulties**
+    * Determine which LibGDX features to use (because there's so many).
+    * Respect the MVC pattern while implementing the code.
+    
+ * **Lessons**
+    * Discuss better the code implementation so to respect the software design decided in the beggining.
 
  * **Time spent developing**
     * 150 hours 
